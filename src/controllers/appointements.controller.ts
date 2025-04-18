@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma";
 import { CreateAppointmentInput } from "../schemas/appointement.schema";
+import "../types/express-ext";
 
 export const getAllAppointments = async (
   req: Request,
@@ -8,7 +9,15 @@ export const getAllAppointments = async (
   next: NextFunction
 ) => {
   try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      res.status(401).json({ error: "Non authentifié" });
+      return;
+    }
+
     const appointments = await prisma.appointment.findMany({
+      where: { userId },
       orderBy: { date: "asc" },
     });
 
@@ -22,17 +31,17 @@ export const createAppointment = async (
   req: Request<{}, {}, CreateAppointmentInput>,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const { date, client } = req.body;
     const userId = req.user?.id;
 
     if (!userId) {
-      res.status(401).json({ error: "Not authenticated" });
+      res.status(401).json({ error: "Non authentifié" });
       return;
     }
 
-    const newAppointment = await prisma.appointment.create({
+    const appointment = await prisma.appointment.create({
       data: {
         date: new Date(date),
         client,
@@ -40,7 +49,7 @@ export const createAppointment = async (
       },
     });
 
-    res.status(201).json(newAppointment);
+    res.status(201).json(appointment);
   } catch (error) {
     next(error);
   }
@@ -53,15 +62,25 @@ export const getAppointmentById = async (
 ) => {
   try {
     const id = parseInt(req.params.id);
+    const userId = req.user?.id;
+
+    if (!userId) {
+      res.status(401).json({ error: "Non authentifié" });
+      return;
+    }
 
     if (isNaN(id)) {
       res.status(400).json({ error: "Invalid appointment ID" });
       return;
     }
-    const appointment = await prisma.appointment.findUnique({ where: { id } });
 
-    if (!appointment) {
-      res.status(404).json({ error: "Appointment not found" });
+    const appointment = await prisma.appointment.findUnique({
+      where: { id },
+    });
+    console.log("test");
+
+    if (!appointment || appointment.userId !== userId) {
+      res.status(404).json({ error: "Rendez-vous introuvable" });
       return;
     }
 
@@ -70,7 +89,6 @@ export const getAppointmentById = async (
     next(error);
   }
 };
-
 export const deleteAppointment = async (
   req: Request,
   res: Response,
@@ -78,52 +96,39 @@ export const deleteAppointment = async (
 ) => {
   try {
     const id = parseInt(req.params.id);
+    const userId = req.user?.id;
+
+    if (!userId) {
+      res.status(401).json({ error: "Non authentifié" });
+      return;
+    }
 
     if (isNaN(id)) {
       res.status(400).json({ error: "Invalid appointment ID" });
       return;
     }
 
-    const deleted = await prisma.appointment.delete({
+    const appointment = await prisma.appointment.findUnique({
       where: { id },
     });
 
+    if (!appointment || appointment.userId !== userId) {
+      res.status(404).json({ error: "Rendez-vous introuvable" });
+      return;
+    }
+
+    const deleted = await prisma.appointment.delete({ where: { id } });
+
     res.status(200).json({
-      message: `Appointment with ID ${id} deleted.`,
+      message: `Rendez-vous ${id} supprimé.`,
       deleted,
     });
   } catch (error: any) {
     if (error.code === "P2025") {
-      res.status(404).json({ error: "Appointment not found" });
+      res.status(404).json({ error: "Rendez-vous introuvable" });
       return;
     }
 
-    next(error);
-  }
-};
-
-export const getAppointmentsByUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const userId = parseInt(req.params.userId);
-
-    if (isNaN(userId)) {
-      res.status(400).json({ error: "Invalid user ID" });
-      return;
-    }
-
-    const appointments = await prisma.appointment.findMany({
-      where: {
-        userId: userId,
-      },
-      orderBy: { date: "asc" },
-    });
-
-    res.status(200).json(appointments);
-  } catch (error) {
     next(error);
   }
 };

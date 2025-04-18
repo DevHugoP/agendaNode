@@ -4,21 +4,21 @@ import {
   deleteAppointment,
   getAllAppointments,
   getAppointmentById,
-  getAppointmentsByUser,
 } from "../controllers/appointements.controller";
+import { authenticate } from "../middlewares/auth";
 import validate from "../middlewares/validate";
 import { createAppointmentSchema } from "../schemas/appointement.schema";
 
 const router = express.Router();
 
-router.get("/", getAllAppointments);
-
-router.get("/:id", getAppointmentById);
-
-router.post("/", validate(createAppointmentSchema), createAppointment);
-
-router.delete("/:id", deleteAppointment);
-
-router.get("/user/:userId", getAppointmentsByUser);
+router.post(
+  "/",
+  authenticate,
+  validate(createAppointmentSchema),
+  createAppointment
+);
+router.get("/", authenticate, getAllAppointments);
+router.get("/:id", authenticate, getAppointmentById);
+router.delete("/:id", authenticate, deleteAppointment);
 
 export default router;

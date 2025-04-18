@@ -1,21 +1,17 @@
 import { NextFunction, Request, Response } from "express";
-import prisma from "../prisma";
-import { CreateUserInput } from "../schemas/user.schema";
 
-export const createUser = async (
-  req: Request<{}, {}, CreateUserInput>,
+export const getCurrentUser = (
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const { email, name, phone } = req.body;
-
-    const user = await prisma.user.create({
-      data: { email, name, phone },
-    });
-
-    res.status(201).json(user);
-  } catch (error) {
-    next(error);
+  if (!req.user?.id) {
+    res.status(401).json({ error: "Non authentifié" });
+    return;
   }
+
+  res.status(200).json({
+    message: "Utilisateur connecté",
+    userId: req.user.id,
+  });
 };

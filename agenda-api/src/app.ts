@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import errorHandler from "./middlewares/errorHandler";
@@ -8,6 +9,13 @@ import userRouter from "./routes/users";
 
 dotenv.config();
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, // au cas où tu utilises des cookies plus tard
+  })
+);
 
 app.use(express.json());
 app.use(setCurrentUser);

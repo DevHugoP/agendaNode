@@ -1,0 +1,268 @@
+/* Styles personnalisés pour le calendrier */
+
+/* -------- Global styles -------- */
+.fc {
+  --fc-border-color: #edf2f7;
+  --fc-today-bg-color: #f3e8ff;
+  --fc-event-border-color: transparent;
+  --fc-page-bg-color: white;
+  --fc-now-indicator-color: #e53e3e;
+  
+  font-family: 'Roboto', sans-serif;
+}
+
+/* -------- Couleurs et arrondis -------- */
+.fc .fc-toolbar button {
+  border-radius: 9999px;
+}
+
+.fc .fc-scrollgrid {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: none;
+}
+
+.fc .fc-scrollgrid-section > td {
+  border: 1px solid var(--fc-border-color);
+}
+
+.fc-theme-standard th {
+  border-color: var(--fc-border-color);
+}
+
+.fc .fc-scrollgrid-section-header > th {
+  border-bottom-width: 2px;
+}
+
+/* -------- En-têtes de jour -------- */
+.calendar-day-header {
+  font-weight: 600;
+  padding: 10px 0;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  background-color: #f7fafc;
+}
+
+.fc .fc-col-header-cell-cushion {
+  padding: 8px 4px;
+  color: #2d3748;
+}
+
+/* -------- Cellules -------- */
+.calendar-day-cell {
+  transition: background-color 0.2s;
+}
+
+.calendar-day-cell:hover {
+  background-color: #f7fafc;
+}
+
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
+  background-color: #f3e8ff;
+  background-image: linear-gradient(to bottom right, rgba(167, 139, 250, 0.05), rgba(139, 92, 246, 0.05));
+}
+
+/* -------- Timeline et slots -------- */
+.calendar-slot-label {
+  font-size: 0.7rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.calendar-slot-lane {
+  border-color: #edf2f7 !important;
+}
+
+.fc .fc-timegrid-slot {
+  height: 3rem;
+  border-bottom: 1px dashed #edf2f7;
+}
+
+.fc .fc-timegrid-slot-lane {
+  border-bottom: 1px dashed #edf2f7;
+}
+
+.fc .fc-timegrid-slot-minor {
+  border-bottom-color: #f7fafc;
+}
+
+/* -------- Événements -------- */
+.calendar-event {
+  border-radius: 0.5rem;
+  padding: 2px 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.1s, box-shadow 0.1s;
+  border-left-width: 4px;
+  overflow: hidden;
+}
+
+.fc-event.calendar-event {
+  border-color: inherit;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-bottom-width: 0;
+}
+
+.fc-h-event {
+  background-color: transparent;
+  border: none;
+}
+
+.calendar-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+}
+
+.fc-event-main {
+  padding: 4px;
+}
+
+.fc-event-time {
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.fc-event-title {
+  font-weight: 500;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* -------- Indicateur de l'heure actuelle -------- */
+.fc .fc-timegrid-now-indicator-line {
+  border-color: var(--fc-now-indicator-color);
+  border-width: 2px;
+}
+
+.fc .fc-timegrid-now-indicator-arrow {
+  border-color: var(--fc-now-indicator-color);
+  border-width: 5px;
+}
+
+/* -------- Sélection -------- */
+.fc-highlight {
+  background-color: rgba(124, 58, 237, 0.15) !important;
+  border: 2px dashed #7c3aed !important;
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+.fc .fc-timegrid-col-bg .fc-highlight {
+  z-index: 4;
+}
+
+/* -------- Mode liste -------- */
+.fc-list-day-cushion {
+  background-color: #f7fafc !important;
+  padding: 8px 14px !important;
+}
+
+.fc-list-event:hover td {
+  background-color: #312e81 !important; /* Indigo très foncé */
+  color: #fff !important;
+}
+
+
+.fc-list-event-dot {
+  border-color: #7c3aed !important;
+}
+
+/* -------- Styles responsives -------- */
+@media (max-width: 768px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .fc .fc-toolbar-title {
+    font-size: 1.1rem;
+  }
+  
+  .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+    margin-left: 0.25rem;
+  }
+}
+
+/* -------- Weekends -------- */
+.fc .fc-day-sat,
+.fc .fc-day-sun {
+  background-color: #f9fafb;
+}
+
+/* -------- Event status colors -------- */
+.calendar-event-status-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 0.95em;
+  font-weight: 500;
+  padding: 1px 6px 1px 2px;
+  background: transparent;
+  margin-right: 6px;
+  gap: 3px;
+  vertical-align: middle;
+}
+
+/* Vue liste : badge icône seule, plus grand, aligné à droite */
+.calendar-event-status-badge--list {
+  font-size: 1.15em;
+  margin-left: 10px;
+  margin-right: 0;
+  padding: 0;
+  background: none;
+  align-items: center;
+  justify-content: flex-end;
+}
+.calendar-event-status-badge--list svg {
+  width: 22px !important;
+  height: 22px !important;
+  display: block;
+}
+
+/* Vue mois : badge icône seule, taille moyenne, aligné à droite */
+.calendar-event-status-badge--month {
+  font-size: 1em;
+  margin-left: 8px;
+  margin-right: 0;
+  padding: 0;
+  background: none;
+  align-items: center;
+  justify-content: flex-end;
+}
+.calendar-event-status-badge--month svg {
+  width: 18px !important;
+  height: 18px !important;
+  display: block;
+}
+
+/* Badge avec texte (vue classique) */
+.calendar-event-status-badge span {
+  margin-left: 4px;
+  font-weight: 500;
+  font-size: 0.98em;
+}
+
+.calendar-event--cancelled {
+  text-decoration: line-through !important;
+  opacity: 0.7;
+}
+
+.calendar-event {
+  color: #fff !important;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+/* -------- Animations -------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fc .fc-view-harness {
+  animation: fadeIn 0.3s ease-out;
+}

@@ -1,0 +1,66 @@
+.clients-page {
+  padding: 2rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.clients-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #6c3fc5;
+  margin-bottom: 1.5rem;
+}
+.clients-table-container {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(60,40,120,0.06);
+  padding: 1rem;
+}
+.clients-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+}
+.clients-table th, .clients-table td {
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+}
+.clients-table th {
+  background: #f7f5fb;
+  color: #6c3fc5;
+  font-weight: 600;
+  border-bottom: 2px solid #ece6fa;
+}
+.clients-table tr {
+  transition: background 0.15s;
+}
+.clients-table tr:hover {
+  background: #f5f3fa;
+}
+.clients-btn {
+  display: inline-block;
+  padding: 0.4em 1em;
+  border-radius: 6px;
+  background: #fff;
+  color: #6c3fc5;
+  border: 1px solid #6c3fc5;
+  font-weight: 500;
+  font-size: 0.95em;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.clients-btn:hover {
+  background: #6c3fc5;
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .clients-page {
+    padding: 1rem 0.3rem;
+  }
+  .clients-title {
+    font-size: 1.3rem;
+  }
+  .clients-table {
+    font-size: 0.95em;
+  }
+}

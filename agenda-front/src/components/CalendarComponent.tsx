@@ -6,7 +6,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import frLocale from "@fullcalendar/core/locales/fr";
+import enLocale from "@fullcalendar/core/locales/en-gb";
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 import {
   ChevronLeft,
   ChevronRight,
@@ -54,6 +56,7 @@ const CalendarComponent = ({
   onNextClick,
   onEventDrop,
 }: CalendarComponentProps) => {
+  const { t, i18n } = useTranslation();
   const [viewType, setViewType] = useState<
     "dayGridMonth" | "timeGridWeek" | "timeGridDay" | "listWeek"
   >("timeGridWeek");
@@ -331,7 +334,7 @@ const CalendarComponent = ({
             <button
               onClick={goToToday}
               className='text-sm font-medium px-3 py-1.5 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-agenda-purple focus:ring-opacity-50 transition-all'>
-              Aujourd'hui
+              {t('calendar.today')}
             </button>
             <button
               onClick={handleNext}
@@ -351,7 +354,7 @@ const CalendarComponent = ({
                   ? "bg-agenda-purple text-white shadow-sm"
                   : "text-gray-700 hover:bg-gray-100"
               }`}>
-              Jour
+              {t('calendar.day')}
             </button>
             <button
               onClick={() => changeView("timeGridWeek")}
@@ -360,7 +363,7 @@ const CalendarComponent = ({
                   ? "bg-agenda-purple text-white shadow-sm"
                   : "text-gray-700 hover:bg-gray-100"
               }`}>
-              Semaine
+              {t('calendar.week')}
             </button>
             <button
               onClick={() => changeView("dayGridMonth")}
@@ -369,7 +372,7 @@ const CalendarComponent = ({
                   ? "bg-agenda-purple text-white shadow-sm"
                   : "text-gray-700 hover:bg-gray-100"
               }`}>
-              Mois
+              {t('calendar.month')}
             </button>
             <button
               onClick={() => changeView("listWeek")}
@@ -378,7 +381,7 @@ const CalendarComponent = ({
                   ? "bg-agenda-purple text-white shadow-sm"
                   : "text-gray-700 hover:bg-gray-100"
               }`}>
-              Liste
+              {t('calendar.list')}
             </button>
           </div>
 
@@ -386,7 +389,7 @@ const CalendarComponent = ({
             onClick={onNewAppointmentClick}
             className='px-3 py-1.5 text-sm bg-agenda-purple text-white rounded-full shadow-sm hover:bg-agenda-light-purple focus:outline-none focus:ring-2 focus:ring-agenda-purple focus:ring-opacity-50 flex items-center transition-all'>
             <Plus size={16} className='mr-1' />
-            <span>Nouveau RDV</span>
+            <span>{t('calendar.newAppointment')}</span>
           </button>
         </div>
       </motion.div>
@@ -406,7 +409,7 @@ const CalendarComponent = ({
           ]}
           headerToolbar={false}
           initialView={viewType}
-          locale={frLocale}
+          locale={i18n.language === "en" ? enLocale : frLocale}
           events={events}
           height='auto'
           editable={true}

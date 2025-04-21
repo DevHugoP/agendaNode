@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
@@ -6,6 +7,7 @@ import { registerUser } from '../services/auth';
 import axios from 'axios';
 
 const RegisterForm = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,7 +26,7 @@ const RegisterForm = () => {
 
     // Vérification que les mots de passe correspondent
     if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas");
+      setError(t('register.passwordsDontMatch'));
       setIsLoading(false);
       return;
     }
@@ -37,11 +39,11 @@ const RegisterForm = () => {
       }, 2000);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "Erreur lors de l'inscription");
+        setError(err.response?.data?.message || t('register.error'));
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("Une erreur inconnue est survenue");
+        setError(t('register.unknownError'));
       }
     } finally {
       setIsLoading(false);
@@ -56,7 +58,7 @@ const RegisterForm = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-800">Créer un compte</h2>
+        <h2 className="text-2xl font-bold text-gray-800">{t('register.createAccountTitle')}</h2>
       </div>
       
       {error && (
@@ -77,14 +79,14 @@ const RegisterForm = () => {
           animate={{ opacity: 1, height: 'auto' }}
           transition={{ duration: 0.3 }}
         >
-          <p>Compte créé avec succès ! Redirection vers la page de connexion...</p>
+          <p>{t('register.success')}</p>
         </motion.div>
       )}
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="form-control">
           <label htmlFor="name" className="form-label">
-            Nom complet
+            {t('register.name')}
           </label>
           <input
             id="name"
@@ -92,14 +94,14 @@ const RegisterForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="form-input"
-            placeholder="Jean Dupont"
+            placeholder={t('register.namePlaceholder')}
             required
           />
         </div>
         
         <div className="form-control">
           <label htmlFor="email" className="form-label">
-            Email
+            {t('login.email')}
           </label>
           <input
             id="email"
@@ -107,14 +109,14 @@ const RegisterForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="form-input"
-            placeholder="votre@email.com"
+            placeholder={t('login.emailPlaceholder')}
             required
           />
         </div>
         
         <div className="form-control">
           <label htmlFor="password" className="form-label">
-            Mot de passe
+            {t('login.password')}
           </label>
           <div className="relative">
             <input
@@ -142,7 +144,7 @@ const RegisterForm = () => {
         
         <div className="form-control">
           <label htmlFor="confirmPassword" className="form-label">
-            Confirmer le mot de passe
+            {t('register.confirmPassword')}
           </label>
           <div className="relative">
             <input
@@ -179,19 +181,19 @@ const RegisterForm = () => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Inscription en cours...
+              {t('register.loading')}
             </span>
           ) : (
-            'Créer mon compte'
+            t('register.submit')
           )}
         </button>
       </form>
       
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
-          Déjà un compte ?{' '}
+          {t('register.alreadyAccount')}{' '}
           <Link to="/login" className="text-agenda-purple hover:text-agenda-light-purple">
-            Se connecter
+            {t('login.loginButton')}
           </Link>
         </p>
       </div>

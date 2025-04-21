@@ -1,5 +1,5 @@
 import MainLayout from "../layouts/MainLayout";
-import { CalendarDays, CheckCircle, Clock, User, Phone } from "lucide-react";
+import { MessageSquare, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 // Fausse data inspirée du screenshot
@@ -64,7 +64,14 @@ function formatDate(dateStr: string) {
   return `${d}/${m}/${y}` + (time ? ` ${time}` : '');
 }
 
+import { useNavigate } from "react-router-dom";
+import { mockClients } from "../features/clients/mockClients";
+
+import { useTranslation } from 'react-i18next';
+
 export default function SmsHistory() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   return (
     <MainLayout>
       <div className="max-w-7xl mx-auto py-0 px-0">
@@ -74,8 +81,8 @@ export default function SmsHistory() {
   transition={{ duration: 0.5 }}
 >
   <h1 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-    <Clock className="h-6 w-6 text-agenda-purple" />
-    Historique SMS
+    <MessageSquare className="h-6 w-6 text-agenda-purple" />
+    {t('smsHistory.title')}
   </h1>
 </motion.div>
 
@@ -85,9 +92,9 @@ export default function SmsHistory() {
   animate={{ opacity: 1, y: 0 }}
   transition={{ delay: 0.2, duration: 0.5 }}
 >
-  <h2 className="text-lg font-semibold text-agenda-purple mb-2">Rappels</h2>
+  <h2 className="text-lg font-semibold text-agenda-purple mb-2">{t('smsHistory.reminders')}</h2>
   <div className="text-sm text-gray-500 mb-4 flex items-center gap-2">
-    <span>3 rappels SMS envoyés entre le 19.04.2025 et le 21.04.2025</span>
+    <span>{t('smsHistory.remindersCount', { count: 3, start: '19.04.2025', end: '21.04.2025' })}</span>
   </div>
   {/* Table des rappels SMS */}
   <div className="bg-white rounded-xl shadow mb-8 overflow-visible">
@@ -95,11 +102,11 @@ export default function SmsHistory() {
             <thead className="bg-gray-50 border-b">
               <tr>
                 <th className="px-4 py-2 font-semibold text-left">#</th>
-                <th className="px-4 py-2 font-semibold text-left">Envoyé le</th>
-                <th className="px-4 py-2 font-semibold text-left">Patient</th>
-                <th className="px-4 py-2 font-semibold text-left">Rendez-vous</th>
-                <th className="px-4 py-2 font-semibold text-left">Message</th>
-                <th className="px-4 py-2 font-semibold text-left">Statut</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.sent')}</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.patient')}</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.appointment')}</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.message')}</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.status')}</th>
               </tr>
             </thead>
             <tbody>
@@ -109,7 +116,22 @@ export default function SmsHistory() {
                   <td className="px-4 py-2 whitespace-nowrap">{formatDate(rappel.sentAt)}</td>
                   <td className="px-4 py-2">
                     <div className="flex flex-col">
-                      <span className="font-medium text-agenda-purple hover:underline cursor-pointer">{rappel.patient.name}</span>
+                      {(() => {
+  const client = mockClients.find(c => `${c.firstName} ${c.lastName}`.toLowerCase() === rappel.patient.name.toLowerCase());
+  return client ? (
+    <span
+      className="font-medium text-agenda-purple hover:underline cursor-pointer"
+      onClick={() => navigate(`/clients/${client.id}`)}
+      tabIndex={0}
+      role="button"
+      onKeyDown={e => { if (e.key === 'Enter') navigate(`/clients/${client.id}`); }}
+    >
+      {rappel.patient.name}
+    </span>
+  ) : (
+    <span className="font-medium text-gray-400 cursor-not-allowed">{rappel.patient.name}</span>
+  );
+})()}
                       <span className="text-xs text-gray-500">{rappel.patient.phone}</span>
                     </div>
                   </td>
@@ -140,9 +162,9 @@ export default function SmsHistory() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
-        <h2 className="text-lg font-semibold text-agenda-purple mb-2">Notifications</h2>
+        <h2 className="text-lg font-semibold text-agenda-purple mb-2">{t('smsHistory.notifications')}</h2>
         <div className="text-sm text-gray-500 mb-4 flex items-center gap-2">
-          <span>3 notifications SMS envoyées entre le 19.04.2025 et le 21.04.2025</span>
+          <span>{t('smsHistory.notificationsCount', { count: 3, start: '19.04.2025', end: '21.04.2025' })}</span>
         </div>
         {/* Table des notifications SMS */}
         <div className="bg-white rounded-xl shadow overflow-visible">
@@ -150,10 +172,10 @@ export default function SmsHistory() {
             <thead className="bg-gray-50 border-b">
               <tr>
                 <th className="px-4 py-2 font-semibold text-left">#</th>
-                <th className="px-4 py-2 font-semibold text-left">Envoyé le</th>
-                <th className="px-4 py-2 font-semibold text-left">Téléphone</th>
-                <th className="px-4 py-2 font-semibold text-left">Rendez-vous</th>
-                <th className="px-4 py-2 font-semibold text-left">Message</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.sent')}</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.phone')}</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.appointment')}</th>
+                <th className="px-4 py-2 font-semibold text-left">{t('smsHistory.message')}</th>
                 <th className="px-4 py-2 font-semibold text-left">Statut</th>
               </tr>
             </thead>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Pencil, Mail, Phone, MapPin, Building2, CalendarDays, CreditCard, ShieldCheck, LogOut, Link2, UserRound } from "lucide-react";
 import MainLayout from "../layouts/MainLayout";
 import EditProfileForm from '../features/user/EditProfileForm';
@@ -29,7 +28,10 @@ const mockUser = {
 import { useAuth } from '../store/auth';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
+
 const UserProfile = () => {
+  const { t } = useTranslation();
   const { setToken } = useAuth();
   const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
@@ -46,7 +48,7 @@ const UserProfile = () => {
     setEditing(false); // Toujours revenir à la vue profil
     if (!hasChanged) return; // Pas de toast ni update
     setProfile((p) => ({ ...p, ...values }));
-    toast.success('Profil mis à jour avec succès !');
+    toast.success(t('userProfile.success'));
   };
 
   return (
@@ -75,7 +77,7 @@ const UserProfile = () => {
                 onClick={() => setEditing(true)}
               >
                 <Pencil className="h-4 w-4 mr-2" />
-                Éditer le profil
+                {t('userProfile.edit')}
               </button>
             )}
 
@@ -96,28 +98,28 @@ const UserProfile = () => {
             <CalendarDays className="h-6 w-6 text-agenda-purple" />
             <div>
               <div className="text-lg font-bold text-gray-900">{profile.stats.totalAppointments}</div>
-              <div className="text-sm text-gray-500">Rendez-vous</div>
+              <div className="text-sm text-gray-500">{t('userProfile.stats.appointments')}</div>
             </div>
           </div>
           <div className="bg-white shadow rounded-lg p-5 flex items-center gap-4">
             <UserRound className="h-6 w-6 text-agenda-purple" />
             <div>
               <div className="text-lg font-bold text-gray-900">{profile.stats.clients}</div>
-              <div className="text-sm text-gray-500">Clients</div>
+              <div className="text-sm text-gray-500">{t('userProfile.stats.clients')}</div>
             </div>
           </div>
           <div className="bg-white shadow rounded-lg p-5 flex items-center gap-4">
             <CreditCard className="h-6 w-6 text-agenda-purple" />
             <div>
               <div className="text-lg font-bold text-gray-900">{profile.stats.revenue.toLocaleString()} €</div>
-              <div className="text-sm text-gray-500">Revenus générés</div>
+              <div className="text-sm text-gray-500">{t('userProfile.stats.revenue')}</div>
             </div>
           </div>
           <div className="bg-white shadow rounded-lg p-5 flex items-center gap-4">
             <CalendarDays className="h-6 w-6 text-agenda-purple" />
             <div>
               <div className="text-lg font-bold text-gray-900">{profile.stats.upcoming}</div>
-              <div className="text-sm text-gray-500">À venir</div>
+              <div className="text-sm text-gray-500">{t('userProfile.stats.upcoming')}</div>
             </div>
           </div>
         </div>
@@ -153,11 +155,11 @@ const UserProfile = () => {
           <div className="bg-white rounded-xl shadow p-6 space-y-4">
             <div className="flex items-center gap-3 text-gray-700">
               <ShieldCheck className={profile.stripeConnected ? 'text-green-500' : 'text-gray-400'} />
-              <span>{profile.stripeConnected ? 'Stripe connecté' : 'Stripe non connecté'}</span>
+              <span>{profile.stripeConnected ? t('userProfile.stripe.connected') : t('userProfile.stripe.notConnected')}</span>
             </div>
             <div className="flex items-center gap-3 text-gray-700">
               <CalendarDays className={profile.googleCalendarSync ? 'text-green-500' : 'text-gray-400'} />
-              <span>{profile.googleCalendarSync ? 'Google Agenda synchronisé' : 'Non synchronisé'}</span>
+              <span>{profile.googleCalendarSync ? t('userProfile.googleCalendar.synced') : t('userProfile.googleCalendar.notSynced')}</span>
             </div>
           </div>
         </div>
@@ -166,7 +168,7 @@ const UserProfile = () => {
         {/* Bio */}
         {!editing && (
         <div className="bg-white rounded-xl shadow p-6 mb-8">
-          <h3 className="font-semibold text-lg text-gray-900 mb-2">À propos</h3>
+          <h3 className="font-semibold text-lg text-gray-900 mb-2">{t('userProfile.about')}</h3>
           <p className="text-gray-700">{profile.bio}</p>
         </div>
         )}

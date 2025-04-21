@@ -1,0 +1,221 @@
+{
+  "clientDetails": {
+    "notFound": "Client introuvable.",
+    "backToList": "Retour à la liste",
+    "personalInfo": "Informations personnelles",
+    "documents": "Documents",
+    "addPdf": "Ajouter un PDF",
+    "noDocument": "Aucun document.",
+    "preview": "Aperçu",
+    "download": "Télécharger",
+    "invoices": "Factures",
+    "date": "Date",
+    "amount": "Montant",
+    "status": "Statut",
+    "actions": "Actions",
+    "noInvoice": "Aucune facture.",
+    "paid": "Payée",
+    "pending": "En attente",
+    "pastConsultations": "Consultations passées",
+    "noPastConsult": "Aucune consultation passée.",
+    "upcomingConsultations": "Consultations à venir",
+    "noUpcomingConsult": "Aucune consultation prévue.",
+    "duration": "Durée",
+    "practitioner": "Praticien",
+    "notes": "Notes",
+    "time": "Heure",
+    "location": "Lieu",
+    "documentPreview": "Aperçu du document",
+    "closeModal": "Fermer la modal",
+    "pdfPreview": "Aperçu PDF",
+    "none": "—"
+  },
+  "button": {
+    "addPdf": "Ajouter un PDF"
+  },
+  "smsHistory": {
+    "title": "Historique SMS",
+    "reminders": "Rappels",
+    "remindersCount": "{{count}} rappels SMS envoyés entre le {{start}} et le {{end}}",
+    "notifications": "Notifications",
+    "notificationsCount": "{{count}} notifications SMS envoyées entre le {{start}} et le {{end}}",
+    "sent": "Envoyé le",
+    "patient": "Patient",
+    "appointment": "Rendez-vous",
+    "message": "Message",
+    "status": "Statut",
+    "phone": "Téléphone"
+  },
+  "sidebar": {
+    "brand": "agenda.ch",
+    "dashboard": "Tableau de bord",
+    "calendar": "Calendrier",
+    "clients": "Clients",
+    "smsHistory": "Historique SMS",
+    "vouchers": "Bons cadeaux",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "help": "Aide",
+    "logout": "Se déconnecter"
+  },
+  "login": {
+    "error": "Erreur de connexion",
+    "unknownError": "Une erreur inconnue est survenue",
+    "welcome": "Bienvenue sur Agenda",
+    "email": "Email",
+    "emailPlaceholder": "votre@email.com",
+    "password": "Mot de passe",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié?",
+    "loginButton": "Se connecter",
+    "noAccount": "Pas encore de compte?",
+    "createAccount": "Créer un compte"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "greeting": {
+      "morning": "Bonjour",
+      "afternoon": "Bon après-midi",
+      "evening": "Bonsoir"
+    },
+    "todayAppointments": "Rendez-vous aujourd'hui",
+    "newClients": "Nouveaux clients",
+    "hoursWorked": "Heures travaillées",
+    "todayRevenue": "Revenu du jour",
+    "upcomingAppointments": "Prochains rendez-vous",
+    "col": {
+      "appointment": "Rendez-vous",
+      "client": "Client",
+      "date": "Date",
+      "time": "Heure",
+      "actions": "Actions"
+    },
+    "details": "Détails"
+  },
+  "calendar": {
+    "title": "Calendrier",
+    "subtitle": "Gérez vos rendez-vous et votre planning",
+    "services": "Services",
+    "today": "Aujourd'hui",
+    "week": "Semaine",
+    "day": "Jour",
+    "month": "Mois",
+    "list": "Liste",
+    "newAppointment": "Nouveau RDV",
+    "appointmentTypes": {
+      "consultation": "Consultation",
+      "massage": "Massage",
+      "coaching": "Coaching",
+      "therapie": "Thérapie",
+      "formation": "Formation"
+    },
+    "status": {
+      "confirmed": "Confirmé",
+      "pending": "En attente",
+      "cancelled": "Annulé"
+    },
+    "filters": {
+      "types": "Types de rendez-vous",
+      "status": "Statut"
+    },
+    "types": {
+      "consultation": "Consultation",
+      "massage": "Massage",
+      "coaching": "Coaching",
+      "therapie": "Thérapie",
+      "formation": "Formation"
+    }
+  },
+  "clientsList": {
+    "title": "Liste des clients",
+    "name": "Nom",
+    "lastName": "Nom",
+    "firstName": "Prénom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "seeDetails": "Voir la fiche"
+  },
+  "register": {
+    "title": "Créer un compte professionnel",
+    "subtitle": "Inscrivez-vous pour permettre à vos clients de réserver en ligne.",
+    "createAccountTitle": "Créer un compte",
+    "name": "Nom complet",
+    "namePlaceholder": "Jean Dupont",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmer le mot de passe",
+    "success": "Compte créé avec succès ! Redirection vers la page de connexion...",
+    "passwordsDontMatch": "Les mots de passe ne correspondent pas",
+    "error": "Erreur lors de l'inscription",
+    "unknownError": "Une erreur inconnue est survenue",
+    "loading": "Inscription en cours...",
+    "submit": "Créer mon compte",
+    "alreadyAccount": "Déjà un compte ?"
+  },
+  "userProfile": {
+    "edit": "Éditer le profil",
+    "success": "Profil mis à jour avec succès !",
+    "about": "À propos",
+    "stripe": {
+      "connected": "Stripe connecté",
+      "notConnected": "Stripe non connecté"
+    },
+    "googleCalendar": {
+      "synced": "Google Agenda synchronisé",
+      "notSynced": "Non synchronisé"
+    },
+    "stats": {
+      "appointments": "Rendez-vous",
+      "clients": "Clients",
+      "revenue": "Revenus générés",
+      "upcoming": "Rendez-vous à venir"
+    }
+  },
+  "stats": {
+    "appointments": "Rendez-vous",
+    "clients": "Clients",
+    "revenue": "Revenus générés",
+    "upcoming": "À venir"
+  },
+  "stripe": {
+    "connected": "Stripe connecté",
+    "notConnected": "Stripe non connecté"
+  },
+  "googleCalendar": {
+    "synced": "Google Agenda synchronisé",
+    "notSynced": "Non synchronisé"
+  },
+  "appointmentModal": {
+    "editTitle": "Modifier le rendez-vous",
+    "newTitle": "Nouveau rendez-vous",
+    "types": {
+      "consultation": "Consultation",
+      "massage": "Massage",
+      "coaching": "Coaching",
+      "therapie": "Thérapie",
+      "formation": "Formation"
+    },
+    "serviceLabel": "Prestation",
+    "titleLabel": "Titre du rendez-vous",
+    "titlePlaceholder": "Saisissez un titre (optionnel)",
+    "clientLabel": "Nom du client",
+    "clientPlaceholder": "Ex : Jean Dupont",
+    "startLabel": "Début",
+    "endLabel": "Fin",
+    "durationLabel": "Durée : {{duration}}",
+    "statusLabel": "Statut",
+    "statusConfirmed": "Confirmé",
+    "statusPending": "En attente",
+    "statusCancelled": "Annulé",
+    "notesLabel": "Notes",
+    "notesPlaceholder": "Ajouter une note (optionnel)",
+    "deleteButton": "Supprimer",
+    "cancelButton": "Annuler",
+    "createButton": "Créer",
+    "updateButton": "Mettre à jour"
+  },
+  "toast": {
+    "appointmentCreated": "Rendez-vous créé avec succès",
+    "appointmentUpdated": "Rendez-vous modifié avec succès",
+    "appointmentDeleted": "Rendez-vous supprimé avec succès"
+  }
+}

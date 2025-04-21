@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { Home } from "lucide-react";
 import { Calendar, Users, Clock, CreditCard } from 'lucide-react';
 import MainLayout from '../layouts/MainLayout';
 
@@ -12,6 +14,7 @@ interface AppointmentType {
 }
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const [greeting, setGreeting] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [upcomingAppointments, setUpcomingAppointments] = useState<AppointmentType[]>([]);
@@ -20,9 +23,9 @@ const Dashboard = () => {
     // Définir le message de salutation en fonction de l'heure
     const getGreeting = () => {
       const hour = new Date().getHours();
-      if (hour < 12) return 'Bonjour';
-      if (hour < 18) return 'Bon après-midi';
-      return 'Bonsoir';
+      if (hour < 12) return t('dashboard.greeting.morning');
+      if (hour < 18) return t('dashboard.greeting.afternoon');
+      return t('dashboard.greeting.evening');
     };
     
     setGreeting(getGreeting());
@@ -89,8 +92,11 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-2xl font-bold text-gray-900">{greeting}, Dr. Dupont</h1>
-          <p className="mt-1 text-gray-600">Voici votre activité du jour</p>
+          <div className="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-2">
+            <Home className="h-6 w-6 text-agenda-purple" />
+            {t('dashboard.title')}
+          </div>
+          <p className="mt-1 text-gray-600">{greeting}, Dr. Dupont</p> {/* TODO: remplacer Dr. Dupont par le nom du pro connecté */}
         </motion.div>
 
         {/* Résumé statistiques */}
@@ -108,7 +114,7 @@ const Dashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Rendez-vous aujourd'hui</dt>
+                    <dt className="text-sm font-medium text-gray-500 truncate">{t('dashboard.todayAppointments')}</dt>
                     <dd>
                       <div className="text-lg font-semibold text-gray-900">6</div>
                     </dd>
@@ -126,7 +132,7 @@ const Dashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Nouveaux clients</dt>
+                    <dt className="text-sm font-medium text-gray-500 truncate">{t('dashboard.newClients')}</dt>
                     <dd>
                       <div className="text-lg font-semibold text-gray-900">2</div>
                     </dd>
@@ -144,7 +150,7 @@ const Dashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Heures travaillées</dt>
+                    <dt className="text-sm font-medium text-gray-500 truncate">{t('dashboard.hoursWorked')}</dt>
                     <dd>
                       <div className="text-lg font-semibold text-gray-900">5.5 h</div>
                     </dd>
@@ -162,7 +168,7 @@ const Dashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Revenu du jour</dt>
+                    <dt className="text-sm font-medium text-gray-500 truncate">{t('dashboard.todayRevenue')}</dt>
                     <dd>
                       <div className="text-lg font-semibold text-gray-900">450 CHF</div>
                     </dd>
@@ -180,7 +186,7 @@ const Dashboard = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <h2 className="text-lg font-medium text-gray-900">Prochains rendez-vous</h2>
+          <h2 className="text-lg font-medium text-gray-900">{t('dashboard.upcomingAppointments')}</h2>
           
           {isLoading ? (
             <div className="mt-4 flex justify-center">
@@ -191,12 +197,12 @@ const Dashboard = () => {
               <table className="min-w-full divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Rendez-vous</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Client</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Heure</th>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">{t('dashboard.col.appointment')}</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{t('dashboard.col.client')}</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{t('dashboard.col.date')}</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{t('dashboard.col.time')}</th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                      <span className="sr-only">Actions</span>
+                      <span className="sr-only">{t('dashboard.col.actions')}</span>
                     </th>
                   </tr>
                 </thead>
@@ -212,7 +218,7 @@ const Dashboard = () => {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatDate(appointment.date)}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{appointment.time}</td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="#" className="text-agenda-purple hover:text-agenda-light-purple">Détails</a>
+                        <a href="#" className="text-agenda-purple hover:text-agenda-light-purple">{t('dashboard.details')}</a>
                       </td>
                     </motion.tr>
                   ))}

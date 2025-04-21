@@ -6,6 +6,8 @@ interface AuthLayoutProps {
   title: string;
 }
 
+import LanguageSelector from '../components/LanguageSelector';
+
 const AuthLayout = ({ children, title }: AuthLayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
@@ -15,14 +17,19 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
         transition={{ duration: 0.5 }}
         className="sm:mx-auto sm:w-full sm:max-w-md"
       >
-        <motion.h2 
-          className="text-center text-3xl font-bold text-gray-900 mb-3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          {title}
-        </motion.h2>
+        <div className="flex items-center justify-between mb-3">
+          <motion.h2 
+            className="text-center text-3xl font-bold text-gray-900"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            {title}
+          </motion.h2>
+          <div className="ml-2">
+            <LanguageSelector />
+          </div>
+        </div>
         <motion.div
           className="h-1 w-20 bg-primary-500 mx-auto rounded-full mb-8"
           initial={{ width: 0 }}

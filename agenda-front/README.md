@@ -1,4 +1,58 @@
-# React + TypeScript + Vite
+# AgendaNode Frontend
+
+Application front-end du projet SaaS AgendaNode (prise de rendez-vous en ligne pour professionnels).
+
+## 🚀 Stack technique
+- **React 18** + **TypeScript**
+- **Vite** (bundler)
+- **Chakra UI** (UI kit)
+- **React Router** (navigation)
+- **Zustand** (état global)
+- **React Query** (requêtes API/cache)
+- **React Hook Form** + **Zod** (formulaires et validation)
+- **Radix UI / Shadcn** (composants UI)
+
+## 📁 Structure du dossier
+```
+agenda-front/
+├── src/
+│   ├── pages/        # Pages principales (Dashboard, Login, etc.)
+│   ├── features/     # Fonctionnalités (auth, booking, calendar...)
+│   ├── components/   # Composants réutilisables
+│   ├── services/     # Appels API (axios)
+│   ├── hooks/        # Custom hooks
+│   ├── store/        # Zustand (état global)
+│   └── utils/        # Fonctions utilitaires
+```
+
+## 🛠️ Commandes utiles
+- `npm install` — Installer les dépendances
+- `npm run dev` — Lancer le serveur de dev (Vite)
+- `npm run build` — Build production
+- `npm run lint` — Linter le code
+
+## 🔗 Lien vers le backend
+Voir le dossier `../backend` (NestJS + Prisma + PostgreSQL)
+
+## ✨ Fonctionnalités principales
+- Authentification pro (JWT)
+- Configuration des services
+- Définition des dispos récurrentes
+- Réservation publique sans compte
+- Paiement Stripe
+- Dashboard agenda (jour/semaine/mois)
+- Rappels email automatisés
+- Sync Google Calendar
+
+## 🤝 Contribuer
+1. Fork/clone le repo
+2. Crée une branche (`feat/ma-feature`)
+3. Fais tes modifs puis PR !
+
+---
+
+Pour toute question ou bug, ouvre une issue ou contacte le mainteneur du projet.
+
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

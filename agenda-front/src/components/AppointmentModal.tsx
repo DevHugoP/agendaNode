@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, User, FileText, Tag, Check, CalendarClock, CalendarDays, CalendarCheck } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { enGB } from 'date-fns/locale';
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -28,11 +30,11 @@ export interface AppointmentFormData {
 
 // Configuration des types de rendez-vous
 const appointmentTypes = [
-  { id: 'consultation', name: 'Consultation', color: '#4285F4' },
-  { id: 'massage', name: 'Massage', color: '#0F9D58' },
-  { id: 'coaching', name: 'Coaching', color: '#DB4437' },
-  { id: 'therapie', name: 'Thérapie', color: '#F4B400' },
-  { id: 'formation', name: 'Formation', color: '#7986CB' }
+  { id: 'consultation', color: '#4285F4' },
+  { id: 'massage', color: '#0F9D58' },
+  { id: 'coaching', color: '#DB4437' },
+  { id: 'therapie', color: '#F4B400' },
+  { id: 'formation', color: '#7986CB' }
 ];
 
 function formatLocalDateTimeInput(date: Date) {
@@ -59,6 +61,7 @@ const AppointmentModal = ({
   editMode = false,
   initialData 
 }: AppointmentModalProps) => {
+  const { t, i18n } = useTranslation();
   // État du formulaire
   const [formData, setFormData] = useState<AppointmentFormData>({
     id: initialData?.id,
@@ -146,8 +149,10 @@ const AppointmentModal = ({
 
   // Formater la date pour l'affichage
   const formatDate = (date: Date) => {
-    return format(date, "EEEE d MMMM yyyy", { locale: fr });
+    const locale = i18n.language === 'en' ? enGB : fr;
+    return format(date, "EEEE d MMMM yyyy", { locale });
   };
+
 
   // Animations
   const overlayVariants = {
@@ -195,7 +200,7 @@ const AppointmentModal = ({
             {/* Header */}
             <div className="flex items-center justify-between px-6 pt-6 pb-3 border-b bg-white/90 backdrop-blur-md">
               <h2 className="text-xl font-bold text-agenda-purple tracking-tight">
-                {editMode ? 'Modifier le rendez-vous' : 'Nouveau rendez-vous'}
+                {editMode ? t('appointmentModal.editTitle') : t('appointmentModal.newTitle')}
               </h2>
               <button
                 onClick={onClose}
@@ -221,41 +226,41 @@ const AppointmentModal = ({
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                     <Tag size={18} className="mr-2 text-agenda-purple" />
-                    Prestation
+                    {t('appointmentModal.serviceLabel')}
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {appointmentTypes.map((type) => (
-                      <button
-                        type="button"
-                        key={type.id}
-                        onClick={() => handleTypeChange(type.id)}
-                        className={`flex items-center px-3 py-1.5 rounded-xl border-2 transition-all text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-agenda-purple/60 focus:border-agenda-purple/60 
-                          ${formData.appointmentType === type.id
-                            ? 'border-agenda-purple bg-agenda-purple/10 text-agenda-purple'
-                            : 'border-gray-200 bg-white text-gray-700 hover:border-agenda-purple/50'}
-                        `}
-                        aria-pressed={formData.appointmentType === type.id}
-                      >
-                        <span className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: type.color }}></span>
-                        {type.name}
-                      </button>
-                    ))}
+  <button
+    type="button"
+    key={type.id}
+    onClick={() => handleTypeChange(type.id)}
+    className={`flex items-center px-3 py-1.5 rounded-xl border-2 transition-all text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-agenda-purple/60 focus:border-agenda-purple/60 
+      ${formData.appointmentType === type.id
+        ? 'border-agenda-purple bg-agenda-purple/10 text-agenda-purple'
+        : 'border-gray-200 bg-white text-gray-700 hover:border-agenda-purple/50'}
+    `}
+    aria-pressed={formData.appointmentType === type.id}
+  >
+    <span className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: type.color }}></span>
+    {t(`appointmentModal.types.${type.id}`)}
+  </button>
+))}
                   </div>
                 </div>
 
                 {/* Titre */}
                 <div>
                   <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <CalendarCheck size={18} className="mr-2 text-agenda-purple" />
-                    Titre du rendez-vous
-                  </label>
+  <CalendarCheck size={18} className="mr-2 text-agenda-purple" />
+  {t('appointmentModal.titleLabel')}
+</label>
                   <input
                     id="title"
                     name="title"
                     type="text"
                     value={formData.title}
                     onChange={handleChange}
-                    placeholder="Ex : Bilan, Massage, Coaching..."
+                    placeholder={t('appointmentModal.titlePlaceholder')}
                     className="w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all hover:border-gray-300"
                     required
                   />
@@ -264,16 +269,16 @@ const AppointmentModal = ({
                 {/* Client */}
                 <div>
                   <label htmlFor="clientName" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <User size={18} className="mr-2 text-agenda-purple" />
-                    Nom du client
-                  </label>
+  <User size={18} className="mr-2 text-agenda-purple" />
+  {t('appointmentModal.clientLabel')}
+</label>
                   <input
                     id="clientName"
                     name="clientName"
                     type="text"
                     value={formData.clientName}
                     onChange={handleChange}
-                    placeholder="Nom et prénom du client"
+                    placeholder={t('appointmentModal.clientPlaceholder')}
                     className="w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all hover:border-gray-300"
                     required
                   />
@@ -283,9 +288,9 @@ const AppointmentModal = ({
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
                     <label htmlFor="start" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                      <Clock size={18} className="mr-2 text-agenda-purple" />
-                      Début
-                    </label>
+  <Clock size={18} className="mr-2 text-agenda-purple" />
+  {t('appointmentModal.startLabel')}
+</label>
                     <input
                       id="start"
                       name="start"
@@ -298,9 +303,9 @@ const AppointmentModal = ({
                   </div>
                   <div className="flex-1">
                     <label htmlFor="end" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                      <Clock size={18} className="mr-2 text-agenda-purple" />
-                      Fin
-                    </label>
+  <Clock size={18} className="mr-2 text-agenda-purple" />
+  {t('appointmentModal.endLabel')}
+</label>
                     <input
                       id="end"
                       name="end"
@@ -317,16 +322,16 @@ const AppointmentModal = ({
                 <div className="flex justify-center mt-2">
                   <span className="inline-flex items-center px-4 py-2 bg-agenda-purple/10 text-agenda-purple font-medium rounded-full">
                     <CalendarClock className="mr-2 h-4 w-4" />
-                    Durée : {getDurationFormatted()}
+                    {t('appointmentModal.durationLabel', { duration: getDurationFormatted() })}
                   </span>
                 </div>
 
                 {/* Statut */}
                 <div>
                   <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <Check size={18} className="mr-2 text-agenda-purple" />
-                    Statut
-                  </label>
+  <Check size={18} className="mr-2 text-agenda-purple" />
+  {t('appointmentModal.statusLabel')}
+</label>
                   <div className="relative">
                     <select
                       id="status"
@@ -335,9 +340,9 @@ const AppointmentModal = ({
                       onChange={handleChange}
                       className="w-full appearance-none px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all hover:border-gray-300 pr-10"
                     >
-                      <option value="confirmed">Confirmé</option>
-                      <option value="pending">En attente</option>
-                      <option value="cancelled">Annulé</option>
+                      <option value="confirmed">{t('appointmentModal.statusConfirmed')}</option>
+<option value="pending">{t('appointmentModal.statusPending')}</option>
+<option value="cancelled">{t('appointmentModal.statusCancelled')}</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -350,15 +355,15 @@ const AppointmentModal = ({
                 {/* Notes */}
                 <div>
                   <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FileText size={18} className="mr-2 text-agenda-purple" />
-                    Notes
-                  </label>
+  <FileText size={18} className="mr-2 text-agenda-purple" />
+  {t('appointmentModal.notesLabel')}
+</label>
                   <textarea
                     id="notes"
                     name="notes"
                     value={formData.notes || ''}
                     onChange={handleChange}
-                    placeholder="Notes additionnelles..."
+                    placeholder={t('appointmentModal.notesPlaceholder')}
                     rows={3}
                     className="w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all hover:border-gray-300"
                   />
@@ -368,27 +373,27 @@ const AppointmentModal = ({
                 <div className="flex justify-end space-x-3 pt-6 mt-6 border-t">
                   {editMode && onDelete && (
                     <button
-                      type="button"
-                      onClick={onDelete}
-                      className="px-5 py-2.5 border border-red-200 text-red-600 bg-white rounded-xl hover:bg-red-50 transition-colors shadow-sm font-medium"
-                    >
-                      Supprimer
-                    </button>
+  type="button"
+  onClick={onDelete}
+  className="px-5 py-2.5 border border-red-200 text-red-600 bg-white rounded-xl hover:bg-red-50 transition-colors shadow-sm font-medium"
+>
+  {t('appointmentModal.deleteButton')}
+</button>
                   )}
                   <button
-                    type="button"
-                    onClick={onClose}
-                    className="px-5 py-2.5 border border-gray-200 text-gray-700 bg-white rounded-xl hover:bg-gray-50 transition-colors shadow-sm font-medium"
-                  >
-                    Annuler
-                  </button>
+  type="button"
+  onClick={onClose}
+  className="px-5 py-2.5 border border-gray-200 text-gray-700 bg-white rounded-xl hover:bg-gray-50 transition-colors shadow-sm font-medium"
+>
+  {t('appointmentModal.cancelButton')}
+</button>
                   <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-gradient-to-r from-agenda-purple to-agenda-light-purple text-white rounded-xl hover:opacity-90 transition-all shadow-md font-medium flex items-center"
-                  >
-                    <Check className="mr-2 h-4 w-4" />
-                    {editMode ? 'Mettre à jour' : 'Créer le rendez-vous'}
-                  </button>
+  type="submit"
+  className="px-5 py-2.5 bg-gradient-to-r from-agenda-purple to-agenda-light-purple text-white rounded-xl hover:opacity-90 transition-all shadow-md font-medium flex items-center"
+>
+  <Check className="mr-2 h-4 w-4" />
+  {editMode ? t('appointmentModal.updateButton') : t('appointmentModal.createButton')}
+</button>
                 </div>
               </form>
             </div>

@@ -4,6 +4,7 @@ import { Bell, Search, Menu, X, User, LogOut } from "lucide-react";
 
 import { useAuth } from '../store/auth';
 import { useNavigate } from 'react-router-dom';
+import LanguageSelector from './LanguageSelector';
 
 const AppHeader = () => {
   const { setToken } = useAuth();
@@ -50,15 +51,17 @@ const AppHeader = () => {
           </button>
 
           <div className='ml-3 relative'>
-            <div>
-              <button className='bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-0'>
-                <span className='sr-only'>Ouvrir le menu utilisateur</span>
-                <div className='h-8 w-8 rounded-full bg-agenda-light-purple flex items-center justify-center text-white'>
-                  <User className='h-5 w-5' aria-hidden='true' />
-                </div>
-              </button>
-            </div>
-            
+            <button className='bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-0'>
+              <span className='sr-only'>Ouvrir le menu utilisateur</span>
+              <div className='h-8 w-8 rounded-full bg-agenda-light-purple flex items-center justify-center text-white'>
+                <User className='h-5 w-5' aria-hidden='true' />
+              </div>
+            </button>
+          </div>
+
+          {/* Sélecteur de langue */}
+          <div className="ml-2">
+            <LanguageSelector />
           </div>
         </div>
       </div>

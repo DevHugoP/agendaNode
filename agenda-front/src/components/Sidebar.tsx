@@ -7,6 +7,7 @@ import {
   Home, 
   MessageSquare, 
   CreditCard,
+  Users,
   User,
   Settings,
   HelpCircle,
@@ -18,7 +19,10 @@ import {
 import { useAuth } from '../store/auth';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
+
 const Sidebar = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const { isCollapsed, setCollapsed } = useSidebarStore();
   const { setToken } = useAuth();
@@ -27,16 +31,17 @@ const Sidebar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { name: 'Tableau de bord', path: '/dashboard', icon: Home },
-    { name: 'Calendrier', path: '/calendar', icon: Calendar },
-    { name: 'Historique SMS', path: '/sms', icon: MessageSquare },
-    { name: 'Bons cadeaux', path: '/vouchers', icon: CreditCard },
+    { name: t('sidebar.dashboard'), path: '/dashboard', icon: Home },
+    { name: t('sidebar.calendar'), path: '/calendar', icon: Calendar },
+    { name: t('sidebar.clients'), path: '/clients', icon: Users },
+    { name: t('sidebar.smsHistory'), path: '/sms', icon: MessageSquare },
+    { name: t('sidebar.vouchers'), path: '/vouchers', icon: CreditCard },
   ];
 
   const secondaryNavItems = [
-    { name: 'Profil', path: '/profile', icon: User },
-    { name: 'Paramètres', path: '/settings', icon: Settings },
-    { name: 'Aide', path: '/help', icon: HelpCircle },
+    { name: t('sidebar.profile'), path: '/profile', icon: User },
+    { name: t('sidebar.settings'), path: '/settings', icon: Settings },
+    { name: t('sidebar.help'), path: '/help', icon: HelpCircle },
   ];
 
   const toggleSidebar = () => {
@@ -52,7 +57,7 @@ const Sidebar = () => {
       >
         <div className="flex items-center justify-between h-16 px-4">
           <div className={`font-bold text-xl ${isCollapsed ? 'hidden' : 'block'}`}>
-            agenda.ch
+            {t('sidebar.brand')}
           </div>
           <button
             onClick={toggleSidebar}
@@ -145,13 +150,13 @@ const Sidebar = () => {
             type="button"
           >
             {isCollapsed ? (
-              <SidebarTooltip label="Se déconnecter">
+              <SidebarTooltip label={t('sidebar.logout')}>
                 <LogOut size={20} />
               </SidebarTooltip>
             ) : (
               <>
                 <LogOut size={20} />
-                <span className="ml-3">Se déconnecter</span>
+                <span className="ml-3">{t('sidebar.logout')}</span>
               </>
             )}
           </button>

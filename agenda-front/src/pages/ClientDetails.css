@@ -1,0 +1,148 @@
+.client-details {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.client-back {
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  color: #6c3fc5;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.02em;
+  transition: color 0.15s;
+}
+.client-back:hover {
+  color: #43217a;
+  text-decoration: underline;
+}
+.client-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #6c3fc5;
+  margin-bottom: 0.3rem;
+}
+.client-meta {
+  color: #888;
+  margin-bottom: 1.2rem;
+}
+.client-info-block {
+  background: #f7f5fb;
+  padding: 1rem 1.2rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+}
+.client-info-label {
+  font-weight: 600;
+  margin-right: 0.5em;
+}
+.client-section {
+  margin-bottom: 2.3rem;
+}
+.client-section h2 {
+  color: #6c3fc5;
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+.client-docs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.client-doc-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: #f7f5fb;
+  padding: 0.7rem 1rem;
+  border-radius: 0.4rem;
+}
+.client-btn {
+  display: inline-block;
+  padding: 0.35em 1em;
+  border-radius: 6px;
+  background: #fff;
+  color: #6c3fc5;
+  border: 1px solid #6c3fc5;
+  font-weight: 500;
+  font-size: 0.97em;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.client-btn:hover {
+  background: #6c3fc5;
+  color: #fff;
+}
+.client-table-scroll {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(60,40,120,0.06);
+  padding: 1rem;
+}
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+}
+.client-table th, .client-table td {
+  padding: 0.6rem 0.5rem;
+  text-align: left;
+}
+.client-table th {
+  background: #f7f5fb;
+  color: #6c3fc5;
+  font-weight: 600;
+  border-bottom: 2px solid #ece6fa;
+}
+.client-table tr {
+  transition: background 0.15s;
+}
+.client-table tr:hover {
+  background: #f5f3fa;
+}
+.client-badge-paid {
+  display: inline-block;
+  background: #22c55e;
+  color: #fff;
+  border-radius: 0.7em;
+  padding: 0.2em 0.8em;
+  font-size: 0.96em;
+  font-weight: 600;
+}
+.client-badge-unpaid {
+  display: inline-block;
+  background: #f59e42;
+  color: #fff;
+  border-radius: 0.7em;
+  padding: 0.2em 0.8em;
+  font-size: 0.96em;
+  font-weight: 600;
+}
+.client-empty {
+  color: #aaa;
+  font-style: italic;
+}
+@media (max-width: 600px) {
+  .client-details {
+    padding: 1rem 0.3rem;
+  }
+  .client-title {
+    font-size: 1.3rem;
+  }
+  .client-table {
+    font-size: 0.95em;
+  }
+  .client-info-block {
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.7rem 0.7rem;
+  }
+  .client-section {
+    margin-bottom: 1.2rem;
+  }
+}

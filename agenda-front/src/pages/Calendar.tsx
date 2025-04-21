@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Filter,
-  UserRound,
-  CheckCircle2,
-  XCircle,
-  HelpCircle,
-  PlusCircle,
+import { 
+  CheckCircle2, 
+  XCircle, 
+  HelpCircle, 
+  PlusCircle, 
+  Calendar as CalendarIc 
 } from "lucide-react";
 import MainLayout from "../layouts/MainLayout";
 import CalendarComponent, {
@@ -15,17 +14,20 @@ import CalendarComponent, {
 import AppointmentModal, {
   AppointmentFormData,
 } from "../components/AppointmentModal";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
+
 import { toast } from "sonner";
+import { useTranslation } from 'react-i18next';
+
+// Utilitaire pour traduire les types d'événements
+const getTypeLabel = (t: any, typeId: string) => t(`calendar.appointmentTypes.${typeId}`);
 
 // Style des types de rendez-vous
 const appointmentTypes = [
-  { id: "consultation", name: "Consultation", color: "#2563eb" }, // Bleu vif
-  { id: "massage", name: "Massage", color: "#059669" }, // Vert foncé
-  { id: "coaching", name: "Coaching", color: "#dc2626" }, // Rouge vif
-  { id: "therapie", name: "Thérapie", color: "#f59e0b" }, // Jaune foncé
-  { id: "formation", name: "Formation", color: "#4f46e5" }, // Indigo foncé
+  { id: "consultation", color: "#2563eb" }, // Bleu vif
+  { id: "massage", color: "#059669" }, // Vert foncé
+  { id: "coaching", color: "#dc2626" }, // Rouge vif
+  { id: "therapie", color: "#f59e0b" }, // Jaune foncé
+  { id: "formation", color: "#4f46e5" }, // Indigo foncé
 ];
 
 // Générer des événements factices
@@ -135,7 +137,7 @@ const generateMockEvents = (): CalendarEvent[] => {
             type: eventType.id,
             status,
             notes:
-              Math.random() > 0.7 ? "Notes pour ce rendez-vous..." : undefined,
+              Math.random() > 0.7 ? (window?.i18next?.language === 'en' ? "Notes for this appointment..." : "Notes pour ce rendez-vous...") : undefined,
           },
         });
       }
@@ -153,6 +155,7 @@ const getAppointmentTypeById = (typeId: string) => {
 };
 
 const Calendar = () => {
+  const { t } = useTranslation();
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null
@@ -272,7 +275,7 @@ const Calendar = () => {
           : event
       );
       setEvents(updatedEvents);
-      toast.success("Rendez-vous modifié avec succès");
+      toast.success(t('toast.appointmentUpdated'));
     } else {
       // Création
       const newEvent: CalendarEvent = {
@@ -290,7 +293,7 @@ const Calendar = () => {
         },
       };
       setEvents((prev) => [...prev, newEvent]);
-      toast.success("Rendez-vous créé avec succès");
+      toast.success(t('toast.appointmentCreated'));
     }
     setIsNewAppointmentModalOpen(false);
     setSelectedEvent(null);
@@ -307,13 +310,13 @@ const Calendar = () => {
           }
         : e
     ));
-    toast.success("Rendez-vous modifié avec succès");
+    toast.success(t('toast.appointmentUpdated'));
   };
 
   // Suppression d'un rendez-vous
   const handleDeleteAppointment = (eventId: string) => {
     setEvents((prev) => prev.filter((event) => event.id !== eventId));
-    toast.success("Rendez-vous supprimé avec succès");
+    toast.success(t('toast.appointmentDeleted'));
     setSelectedEvent(null);
   };
 
@@ -337,10 +340,13 @@ const Calendar = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className='flex flex-wrap justify-between mb-6'>
-          <div>
-            <h1 className='text-2xl font-bold text-gray-900'>Calendrier</h1>
-            <p className='mt-1 text-gray-600'>
-              Gérez vos rendez-vous et votre planning
+          <div className='flex flex-col gap-2 mb-6'>
+            <h1 className='text-2xl font-bold flex items-center gap-2'>
+              <CalendarIc className='w-6 h-6 text-agenda-purple' />
+              {t('calendar.title')}
+            </h1>
+            <p className='text-gray-500'>
+              {t('calendar.subtitle')}
             </p>
           </div>
 
@@ -358,7 +364,7 @@ const Calendar = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}>
               <h3 className='font-medium text-gray-900 mb-3'>
-                Prestations
+                {t('calendar.filters.types')}
               </h3>
 
               <div className='space-y-3'>
@@ -373,7 +379,7 @@ const Calendar = () => {
                       onChange={() => handleTypeFilterChange(type.id)}
                     />
                     <span className='ml-2 text-sm text-gray-700 group-hover:text-gray-900'>
-                      {type.name}
+                      {t(`calendar.types.${type.id}`)}
                     </span>
                     <div
                       className='ml-auto w-4 h-4 rounded-full transition-transform group-hover:scale-125'
@@ -384,7 +390,7 @@ const Calendar = () => {
 
               <div className='h-px bg-gray-200 my-5' />
 
-              <h3 className='font-medium text-gray-900 mb-3'>Statut</h3>
+              <h3 className='font-medium text-gray-900 mb-3'>{t('calendar.filters.status')}</h3>
               <div className='space-y-3'>
                 <label className='flex items-center cursor-pointer group'>
                   <input
@@ -403,7 +409,7 @@ const Calendar = () => {
                   />
                   <span className='ml-2 text-sm text-gray-700 flex items-center group-hover:text-gray-900'>
                     <CheckCircle2 className='h-4 w-4 mr-1 text-green-500' />
-                    Confirmés
+                    {t('calendar.status.confirmed')}
                   </span>
                 </label>
                 <label className='flex items-center cursor-pointer group'>
@@ -423,7 +429,7 @@ const Calendar = () => {
                   />
                   <span className='ml-2 text-sm text-gray-700 flex items-center group-hover:text-gray-900'>
                     <HelpCircle className='h-4 w-4 mr-1 text-amber-500' />
-                    En attente
+                    {t('calendar.status.pending')}
                   </span>
                 </label>
                 <label className='flex items-center cursor-pointer group'>
@@ -443,7 +449,7 @@ const Calendar = () => {
                   />
                   <span className='ml-2 text-sm text-gray-700 flex items-center group-hover:text-gray-900'>
                     <XCircle className='h-4 w-4 mr-1 text-red-500' />
-                    Annulés
+                    {t('calendar.status.cancelled')}
                   </span>
                 </label>
               </div>
@@ -460,7 +466,7 @@ const Calendar = () => {
                   onClick={handleNewAppointmentClick}
                 >
                   <PlusCircle className='h-5 w-5' />
-                  Nouveau RDV
+                  {t('calendar.newAppointment')}
                 </button>
               </div>
             </motion.div>

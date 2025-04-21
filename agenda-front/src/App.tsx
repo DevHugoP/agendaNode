@@ -1,4 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import ClientsList from "./pages/ClientsList";
+import ClientDetails from "./pages/ClientDetails";
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Index from "./pages/Index";
@@ -128,6 +130,8 @@ function App() {
         />
         
 
+        <Route path="/clients" element={<ClientsList />} />
+        <Route path="/clients/:id" element={<ClientDetails />} />
         {/* Catch-all : si connecté → dashboard, sinon → accueil */}
         <Route path="*" element={<AuthRedirect />} />
       </Routes>

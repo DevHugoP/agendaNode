@@ -8,6 +8,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
 import { useAuth } from "../store/auth";
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setToken } = useAuth();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,11 +31,11 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "Erreur de connexion");
+        setError(err.response?.data?.message || t('login.error'));
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("Une erreur inconnue est survenue");
+        setError(t('login.unknownError'));
       }
     } finally {
       setIsLoading(false);
@@ -41,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <AuthLayout title="Bienvenue sur Agenda">
+    <AuthLayout title={t('login.welcome')}>
       {error && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -57,19 +59,19 @@ const Login = () => {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <FormInput
-          label="Email"
+          label={t('login.email')}
           type="email"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          placeholder="votre@email.com"
+          placeholder={t('login.emailPlaceholder')}
           autoComplete="email"
           icon={FiMail}
         />
 
         <FormInput
-          label="Mot de passe"
+          label={t('login.password')}
           type="password"
           id="password"
           value={password}
@@ -88,13 +90,13 @@ const Login = () => {
               className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
             />
             <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-              Se souvenir de moi
+              {t('login.rememberMe')}
             </label>
           </div>
 
           <div className="text-sm">
             <a href="#" className="text-primary-600 hover:text-primary-700">
-              Mot de passe oublié?
+              {t('login.forgotPassword')}
             </a>
           </div>
         </div>
@@ -105,17 +107,17 @@ const Login = () => {
           isLoading={isLoading}
         >
           <FiLogIn className="mr-2" />
-          Se connecter
+          {t('login.loginButton')}
         </Button>
 
         <div className="mt-4 text-center text-sm">
-          <span className="text-gray-600">Pas encore de compte? </span>
+          <span className="text-gray-600">{t('login.noAccount')}</span>
           <Link 
             to="/register" 
             className="font-medium text-primary-600 hover:text-primary-700 flex items-center justify-center mt-2"
           >
             <FiUserPlus className="mr-2" />
-            Créer un compte
+            {t('login.createAccount')}
           </Link>
         </div>
       </form>

@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Index from "./pages/Index";
 import { useAuth } from "./store/auth";
-import NotFound from './pages/NotFound';
 
 function IndexRedirect() {
   const { token } = useAuth();
@@ -132,12 +131,13 @@ function App() {
 
         <Route path="/clients" element={<ClientsList />} />
         <Route path="/clients/:id" element={<ClientDetails />} />
-        {/* Catch-all : si connecté → dashboard, sinon → accueil */}
+        {/* Catch-all: si connecté → dashboard, sinon → accueil */}
         <Route path="*" element={<AuthRedirect />} />
       </Routes>
     </QueryClientProvider>
   );
 }
+
 
 // Redirige vers dashboard si connecté, sinon vers accueil
 function AuthRedirect() {

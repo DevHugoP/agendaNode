@@ -173,6 +173,8 @@ const Calendar = () => {
   // États pour la modal de création de rendez-vous
   const [isNewAppointmentModalOpen, setIsNewAppointmentModalOpen] =
     useState(false);
+  // Counter to force remount of AppointmentModal for new appointments
+  const [newModalKey, setNewModalKey] = useState(0);
   const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(
     undefined
   );
@@ -234,6 +236,7 @@ const Calendar = () => {
   const handleDateSelect = (start: Date, end: Date, allDay: boolean) => {
     setSelectedStartDate(start);
     setSelectedEndDate(end);
+    setNewModalKey((k) => k + 1);
     setIsNewAppointmentModalOpen(true);
   };
 
@@ -241,6 +244,7 @@ const Calendar = () => {
   const handleNewAppointmentClick = () => {
     setSelectedStartDate(undefined);
     setSelectedEndDate(undefined);
+    setNewModalKey((k) => k + 1);
     setIsNewAppointmentModalOpen(true);
   };
 
@@ -505,6 +509,7 @@ const Calendar = () => {
 
         {/* Modal de création de rendez-vous */}
         <AppointmentModal
+          key={newModalKey}
           isOpen={isNewAppointmentModalOpen}
           onClose={() => setIsNewAppointmentModalOpen(false)}
           onSave={handleSaveAppointment}

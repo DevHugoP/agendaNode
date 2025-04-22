@@ -1,0 +1,280 @@
+{
+  "clientDetails": {
+    "notFound": "Kunde nicht gefunden.",
+    "backToList": "Zurück zur Liste",
+    "personalInfo": "Persönliche Informationen",
+    "documents": "Dokumente",
+    "addPdf": "PDF hinzufügen",
+    "noDocument": "Kein Dokument.",
+    "preview": "Vorschau",
+    "download": "Herunterladen",
+    "invoices": "Rechnungen",
+    "date": "Datum",
+    "about": "Über",
+    "amount": "Betrag",
+    "status": "Status",
+    "actions": "Aktionen",
+    "noInvoice": "Keine Rechnung.",
+    "paid": "Bezahlt",
+    "pending": "Ausstehend",
+    "pastConsultations": "Frühere Beratungen",
+    "noPastConsult": "Keine frühere Beratung.",
+    "documentPreview": "Dokumentenvorschau",
+    "closeModal": "Modal schließen",
+    "pdfPreview": "PDF-Vorschau",
+    "none": "—"
+  },
+  "button": {
+    "addPdf": "PDF hinzufügen"
+  },
+  "smsHistory": {
+    "title": "SMS-Verlauf",
+    "reminders": "Erinnerungen",
+    "remindersCount": "{{count}} SMS-Erinnerungen gesendet zwischen {{start}} und {{end}}",
+    "notifications": "Benachrichtigungen",
+    "notificationsCount": "{{count}} SMS-Benachrichtigungen gesendet zwischen {{start}} und {{end}}",
+    "sent": "Gesendet am",
+    "patient": "Patient",
+    "appointment": "Termin",
+    "message": "Nachricht",
+    "status": "Status",
+    "phone": "Telefon"
+  },
+  "sidebar": {
+    "brand": "agenda.ch",
+    "dashboard": "Dashboard",
+    "calendar": "Kalender",
+    "clients": "Kunden",
+    "smsHistory": "SMS-Verlauf",
+    "vouchers": "Gutscheine",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "help": "Hilfe",
+    "logout": "Abmelden"
+  },
+  "login": {
+    "error": "Login-Fehler",
+    "unknownError": "Ein unbekannter Fehler ist aufgetreten",
+    "welcome": "Willkommen bei Agenda",
+    "email": "E-Mail",
+    "emailPlaceholder": "deine@email.com",
+    "password": "Passwort",
+    "rememberMe": "Angemeldet bleiben",
+    "forgotPassword": "Passwort vergessen?",
+    "loginButton": "Anmelden",
+    "noAccount": "Noch kein Konto?",
+    "createAccount": "Konto erstellen"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "greeting": {
+      "morning": "Guten Morgen",
+      "afternoon": "Guten Tag",
+      "evening": "Guten Abend"
+    },
+    "todayAppointments": "Heutige Termine",
+    "newClients": "Neue Kunden",
+    "hoursWorked": "Gearbeitete Stunden",
+    "todayRevenue": "Heutiger Umsatz",
+    "upcomingAppointments": "Bevorstehende Termine",
+    "col": {
+      "appointment": "Termin",
+      "client": "Kunde",
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "actions": "Aktionen"
+    },
+    "details": "Details"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "subtitle": "Verwalte deine Termine und deinen Zeitplan",
+    "services": "Dienstleistungen",
+    "today": "Heute",
+    "week": "Woche",
+    "day": "Tag",
+    "month": "Monat",
+    "list": "Liste",
+    "newAppointment": "Neuer Termin",
+    "appointmentTypes": {
+      "consultation": "Beratung",
+      "massage": "Massage",
+      "coaching": "Coaching",
+      "therapie": "Therapie",
+      "formation": "Schulung"
+    },
+    "status": {
+      "confirmed": "Bestätigt",
+      "pending": "Ausstehend",
+      "cancelled": "Abgesagt"
+    },
+    "filters": {
+      "types": "Termintypen",
+      "status": "Status"
+    },
+    "types": {
+      "consultation": "Beratung",
+      "massage": "Massage",
+      "coaching": "Coaching",
+      "therapie": "Therapie",
+      "formation": "Schulung"
+    }
+  },
+  "appointmentModal": {
+    "editTitle": "Termin bearbeiten",
+    "newTitle": "Neuer Termin",
+    "types": {
+      "consultation": "Beratung",
+      "massage": "Massage",
+      "coaching": "Coaching",
+      "therapie": "Therapie",
+      "formation": "Schulung"
+    },
+    "serviceLabel": "Dienstleistung",
+    "titleLabel": "Termintitel",
+    "titlePlaceholder": "Titel eingeben (optional)",
+    "clientLabel": "Kundenname",
+    "clientPlaceholder": "z.B. Max Mustermann",
+    "startLabel": "Beginn",
+    "endLabel": "Ende",
+    "durationLabel": "Dauer: {{duration}}",
+    "statusLabel": "Status",
+    "statusConfirmed": "Bestätigt",
+    "statusPending": "Ausstehend",
+    "statusCancelled": "Abgesagt",
+    "notesLabel": "Notizen",
+    "notesPlaceholder": "Notiz hinzufügen (optional)",
+    "deleteButton": "Löschen",
+    "cancelButton": "Abbrechen",
+    "createButton": "Erstellen",
+    "updateButton": "Aktualisieren"
+  },
+  "clientsList": {
+    "title": "Kundenliste",
+    "name": "Name",
+    "lastName": "Nachname",
+    "firstName": "Vorname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "seeDetails": "Details anzeigen"
+  },
+  "register": {
+    "title": "Professionelles Konto erstellen",
+    "subtitle": "Registriere dich, damit deine Kunden online buchen können.",
+    "createAccountTitle": "Konto erstellen",
+    "name": "Vollständiger Name",
+    "namePlaceholder": "Max Mustermann",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Passwort bestätigen",
+    "success": "Konto erfolgreich erstellt! Weiterleitung zur Anmeldung...",
+    "passwordsDontMatch": "Passwörter stimmen nicht überein",
+    "error": "Registrierungsfehler",
+    "unknownError": "Ein unbekannter Fehler ist aufgetreten",
+    "loading": "Registrierung läuft...",
+    "submit": "Konto erstellen",
+    "stripe": {
+      "connected": "Stripe verbunden",
+      "notConnected": "Stripe nicht verbunden"
+    },
+    "googleCalendar": {
+      "synced": "Google Kalender synchronisiert",
+      "notSynced": "Nicht synchronisiert"
+    },
+    "stats": {
+      "appointments": "Termine",
+      "clients": "Kunden",
+      "revenue": "Umsatz generiert",
+      "upcoming": "Bevorstehende Termine"
+    }
+  },
+  "stats": {
+    "appointments": "Termine",
+    "clients": "Kunden",
+    "revenue": "Generierter Umsatz",
+    "upcoming": "Bevorstehend"
+  },
+  "stripe": {
+    "connected": "Stripe verbunden",
+    "notConnected": "Stripe nicht verbunden"
+  },
+  "googleCalendar": {
+    "synced": "Google Kalender synchronisiert",
+    "notSynced": "Nicht synchronisiert"
+  },
+  "appointment": {
+    "errors": {
+      "titleMin": "Der Titel muss mindestens 2 Zeichen lang sein.",
+      "clientNameMin": "Der Name des Kunden muss mindestens 2 Zeichen lang sein.",
+      "startRequired": "Startdatum ist erforderlich.",
+      "endRequired": "Enddatum ist erforderlich.",
+      "typeMin": "Bitte wählen Sie eine Leistung aus.",
+      "statusInvalid": "Der ausgewählte Status ist ungültig.",
+      "endAfterStart": "Das Enddatum muss nach dem Startdatum liegen."
+    }
+  },
+  "toast": {
+    "appointmentCreated": "Termin erfolgreich erstellt",
+    "appointmentUpdated": "Termin erfolgreich aktualisiert",
+    "appointmentDeleted": "Termin erfolgreich gelöscht"
+  },
+  "userProfile": {
+    "form": {
+      "fullName": "Vollständiger Name",
+      "fullNamePlaceholder": "z.B. Max Mustermann",
+      "profession": "Beruf",
+      "professionPlaceholder": "z.B. Osteopath, Coach...",
+      "email": "E-Mail",
+      "emailPlaceholder": "deine@email.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "z.B. +41 79 123 45 67",
+      "company": "Firma",
+      "companyPlaceholder": "Firmenname",
+      "address": "Adresse",
+      "addressPlaceholder": "Straße, Stadt...",
+      "website": "Webseite",
+      "websitePlaceholder": "https://deinewebseite.com",
+      "bio": "Bio",
+      "bioPlaceholder": "Beschreibe dich, deinen Ansatz, deine Werte... (max. 500 Zeichen)",
+      "avatar": "Avatar-URL",
+      "avatarPlaceholder": "Füge die URL deines Profilbilds ein",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "saving": "Speichern...",
+      "success": "Profil erfolgreich aktualisiert!",
+      "fullNameRequired": "Name ist erforderlich",
+      "professionRequired": "Beruf ist erforderlich",
+      "emailInvalid": "Ungültige E-Mail",
+      "phoneRequired": "Telefon ist erforderlich",
+      "companyRequired": "Firma ist erforderlich",
+      "addressRequired": "Adresse ist erforderlich",
+      "websiteInvalid": "Ungültige URL",
+      "bioMax": "Maximal 500 Zeichen",
+      "avatarInvalid": "Ungültige Avatar-URL",
+      "fullNameRequired": "Name ist erforderlich",
+      "professionRequired": "Beruf ist erforderlich",
+      "emailInvalid": "Ungültige E-Mail",
+      "phoneRequired": "Telefon ist erforderlich",
+      "companyRequired": "Firma ist erforderlich",
+      "addressRequired": "Adresse ist erforderlich",
+      "websiteInvalid": "Ungültige URL",
+      "bioMax": "Maximal 500 Zeichen"
+    },
+    "edit": "Profil bearbeiten",
+    "success": "Profil erfolgreich aktualisiert!",
+    "about": "Über mich",
+    "stripe": {
+      "connected": "Stripe verbunden",
+      "notConnected": "Stripe nicht verbunden"
+    },
+    "googleCalendar": {
+      "synced": "Google Kalender synchronisiert",
+      "notSynced": "Nicht synchronisiert"
+    },
+    "stats": {
+      "appointments": "Termine insgesamt",
+      "clients": "Kunden insgesamt",
+      "revenue": "Gesamter Umsatz",
+      "upcoming": "Bevorstehende Termine"
+    }
+  }
+}

@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, User, FileText, Tag, Check, CalendarClock, CalendarDays, CalendarCheck } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { X, Clock, User, FileText, Tag, Check, CalendarClock } from 'lucide-react';
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
-import { enGB } from 'date-fns/locale';
+import { fr, enGB, de } from 'date-fns/locale';
+import { useAppointmentForm } from '../hooks/useAppointmentForm';
+import type { AppointmentFormData } from '../types/appointment';
 
-interface AppointmentModalProps {
+export interface AppointmentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (appointmentData: AppointmentFormData) => void;
+  onSave: (data: AppointmentFormData) => void;
   onDelete?: () => void;
   startDate?: Date;
   endDate?: Date;
@@ -17,16 +18,6 @@ interface AppointmentModalProps {
   initialData?: Partial<AppointmentFormData>;
 }
 
-export interface AppointmentFormData {
-  id?: string;
-  title: string;
-  clientName: string;
-  start: Date;
-  end: Date;
-  appointmentType: string;
-  notes?: string;
-  status: 'confirmed' | 'pending' | 'cancelled';
-}
 
 // Configuration des types de rendez-vous
 const appointmentTypes = [
@@ -61,75 +52,29 @@ const AppointmentModal = ({
   editMode = false,
   initialData 
 }: AppointmentModalProps) => {
+  // Toujours appeler les hooks en haut du composant, jamais dans une condition !
   const { t, i18n } = useTranslation();
-  // État du formulaire
-  const [formData, setFormData] = useState<AppointmentFormData>({
-    id: initialData?.id,
-    title: '',
-    clientName: '',
-    start: startDate || new Date(),
-    end: endDate || new Date(Date.now() + 30 * 60 * 1000), // +30 min par défaut
-    appointmentType: 'consultation',
-    notes: '',
-    status: 'confirmed'
-  });
+  const {
+    formData,
+    handleChange,
+    handleDateChange,
+    handleTypeChange,
+    error,
+    setError,
+    fieldErrors,
+    setFieldErrors
+  } = useAppointmentForm({ startDate, endDate, editMode, initialData });
 
-  // Mettre à jour les dates de début et de fin lorsqu'elles changent
+  // Réinitialiser les erreurs à chaque ouverture de la modal
   useEffect(() => {
-    if (startDate) {
-      setFormData(prev => ({ 
-        ...prev, 
-        start: startDate,
-        // Si la date de fin n'est pas définie, on ajoute 30 minutes par défaut
-        end: endDate || new Date(startDate.getTime() + 30 * 60 * 1000)
-      }));
+    if (isOpen) {
+      setError('');
+      setFieldErrors({});
     }
-  }, [startDate, endDate]);
+  }, [isOpen, setError, setFieldErrors]);
 
-  // Charger les données initiales (en mode édition)
-  useEffect(() => {
-    if (editMode && initialData) {
-      setFormData(prev => ({
-        ...prev,
-        ...initialData,
-        id: initialData.id || prev.id,
-      }));
-    }
-  }, [editMode, initialData]);
 
-  // Gérer les changements de champs
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
 
-  // Gérer les changements de date
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'start' | 'end') => {
-    const [date, time] = e.target.value.split('T');
-    
-    if (field === 'start') {
-      const newStart = new Date(date + 'T' + time);
-      setFormData(prev => ({ 
-        ...prev, 
-        start: newStart,
-        // Ajuster la fin si nécessaire pour garantir que end > start
-        end: prev.end <= newStart ? new Date(newStart.getTime() + 30 * 60 * 1000) : prev.end
-      }));
-    } else {
-      const newEnd = new Date(date + 'T' + time);
-      setFormData(prev => ({ 
-        ...prev, 
-        end: newEnd 
-      }));
-    }
-  };
-
-  // Gérer le choix du Prestation (avec un sélecteur de couleur)
-  const handleTypeChange = (typeId: string) => {
-    setFormData(prev => ({ ...prev, appointmentType: typeId }));
-  };
-
-  // Gérer la soumission du formulaire
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
@@ -149,7 +94,12 @@ const AppointmentModal = ({
 
   // Formater la date pour l'affichage
   const formatDate = (date: Date) => {
-    const locale = i18n.language === 'en' ? enGB : fr;
+    const locale =
+      i18n.language === 'en'
+        ? enGB
+        : i18n.language === 'de'
+        ? de
+        : fr;
     return format(date, "EEEE d MMMM yyyy", { locale });
   };
 
@@ -210,10 +160,15 @@ const AppointmentModal = ({
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
+            {error && Object.keys(fieldErrors).length === 0 && (
+              <div className="px-6 pt-2 pb-1 text-red-500 text-sm font-medium">
+                {error}
+              </div>
+            )}
 
             {/* Date affichée (header secondaire) */}
             <div className="flex items-center px-6 pt-2 pb-1">
-              <CalendarDays className="h-4 w-4 mr-2 opacity-80 text-agenda-purple" />
+
               <p className="text-sm text-gray-700 font-medium">
                 {formatDate(formData.start)}
               </p>
@@ -224,36 +179,39 @@ const AppointmentModal = ({
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Prestation */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                  <label className="flex text-sm font-medium text-gray-700 mb-2 items-center">
                     <Tag size={18} className="mr-2 text-agenda-purple" />
                     {t('appointmentModal.serviceLabel')}
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {appointmentTypes.map((type) => (
-  <button
-    type="button"
-    key={type.id}
-    onClick={() => handleTypeChange(type.id)}
-    className={`flex items-center px-3 py-1.5 rounded-xl border-2 transition-all text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-agenda-purple/60 focus:border-agenda-purple/60 
+                      <button
+                        type="button"
+                        key={type.id}
+                        onClick={() => handleTypeChange(type.id)}
+                        className={`flex items-center px-3 py-1.5 rounded-xl border-2 transition-all text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-agenda-purple/60 focus:border-agenda-purple/60 
       ${formData.appointmentType === type.id
         ? 'border-agenda-purple bg-agenda-purple/10 text-agenda-purple'
         : 'border-gray-200 bg-white text-gray-700 hover:border-agenda-purple/50'}
     `}
-    aria-pressed={formData.appointmentType === type.id}
-  >
-    <span className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: type.color }}></span>
-    {t(`appointmentModal.types.${type.id}`)}
-  </button>
-))}
+                        aria-pressed={formData.appointmentType === type.id}
+                      >
+                        <span className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: type.color }}></span>
+                        {t(`appointmentModal.types.${type.id}`)}
+                      </button>
+                    ))}
                   </div>
+                  {fieldErrors.appointmentType && (
+                    <p className="mt-1 text-sm text-red-600">{fieldErrors.appointmentType}</p>
+                  )}
                 </div>
 
                 {/* Titre */}
                 <div>
                   <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-  <CalendarCheck size={18} className="mr-2 text-agenda-purple" />
-  {t('appointmentModal.titleLabel')}
-</label>
+
+                    {t('appointmentModal.titleLabel')}
+                  </label>
                   <input
                     id="title"
                     name="title"
@@ -264,6 +222,9 @@ const AppointmentModal = ({
                     className="w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all hover:border-gray-300"
                     required
                   />
+                  {fieldErrors.title && (
+                    <p className="mt-1 text-sm text-red-600">{fieldErrors.title}</p>
+                  )}
                 </div>
 
                 {/* Client */}
@@ -282,6 +243,9 @@ const AppointmentModal = ({
                     className="w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all hover:border-gray-300"
                     required
                   />
+                  {fieldErrors.clientName && (
+                    <p className="mt-1 text-sm text-red-600">{fieldErrors.clientName}</p>
+                  )}
                 </div>
 
                 {/* Dates & heures */}
@@ -300,6 +264,9 @@ const AppointmentModal = ({
                       className="w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all"
                       required
                     />
+                    {fieldErrors.start && (
+                      <p className="mt-1 text-sm text-red-600">{fieldErrors.start}</p>
+                    )}
                   </div>
                   <div className="flex-1">
                     <label htmlFor="end" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -315,6 +282,9 @@ const AppointmentModal = ({
                       className="w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-agenda-purple focus:border-agenda-purple shadow-sm transition-all"
                       required
                     />
+                    {fieldErrors.end && (
+                      <p className="mt-1 text-sm text-red-600">{fieldErrors.end}</p>
+                    )}
                   </div>
                 </div>
 
@@ -349,6 +319,9 @@ const AppointmentModal = ({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </div>
+                    {fieldErrors.status && (
+                      <p className="mt-1 text-sm text-red-600">{fieldErrors.status}</p>
+                    )}
                   </div>
                 </div>
 

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Pencil, Mail, Phone, MapPin, Building2, CalendarDays, CreditCard, ShieldCheck, LogOut, Link2, UserRound } from "lucide-react";
 import MainLayout from "../layouts/MainLayout";
 import EditProfileForm from '../features/user/EditProfileForm';
+import type { UserProfileData, ProfileFormValues } from '../types/profile';
 import { toast } from 'sonner';
 
 // Exemple d'utilisateur (à remplacer par l'utilisateur connecté)
-const mockUser = {
+
+const mockUser: UserProfileData = {
   avatar: "https://randomuser.me/api/portraits/men/32.jpg",
   fullName: "Jean Dupont",
   profession: "Ostéopathe D.O.",
@@ -25,29 +27,30 @@ const mockUser = {
   googleCalendarSync: true,
 };
 
-import { useAuth } from '../store/auth';
-import { useNavigate } from 'react-router-dom';
+
 
 import { useTranslation } from 'react-i18next';
 
 const UserProfile = () => {
   const { t } = useTranslation();
-  const { setToken } = useAuth();
-  const navigate = useNavigate();
-  const [editing, setEditing] = useState(false);
-  const [profile, setProfile] = useState(mockUser);
 
-  const handleSave = async (values: any) => {
+  const [editing, setEditing] = useState(false);
+  const [profile, setProfile] = useState<UserProfileData>(mockUser);
+
+  const handleSave = async (values: ProfileFormValues) => {
     // Liste des champs éditables du formulaire
     const editableKeys = [
       'avatar', 'fullName', 'profession', 'email', 'phone', 'company', 'address', 'website', 'bio'
     ];
     const hasChanged = editableKeys.some(
-      (key) => values[key] !== profile[key]
+      (key) => values[key as keyof ProfileFormValues] !== profile[key as keyof ProfileFormValues]
     );
     setEditing(false); // Toujours revenir à la vue profil
     if (!hasChanged) return; // Pas de toast ni update
-    setProfile((p) => ({ ...p, ...values }));
+    setProfile((prev) => ({
+      ...prev,
+      ...Object.fromEntries(editableKeys.map((key) => [key, values[key as keyof ProfileFormValues]])),
+    }));
     toast.success(t('userProfile.success'));
   };
 

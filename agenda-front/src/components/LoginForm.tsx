@@ -1,43 +1,16 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
-import { loginUser } from '../services/auth';
-import { useAuth } from '../store/auth';
-import axios from 'axios';
+import { useLoginForm } from '../hooks/useLoginForm';
 
 const LoginForm = () => {
-  const navigate = useNavigate();
-  const { setToken } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-    
-    try {
-      const res = await loginUser({ email, password });
-      localStorage.setItem("token", res.token);
-      setToken(res.token);
-      navigate('/dashboard');
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "Erreur de connexion");
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Une erreur inconnue est survenue");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    email, setEmail,
+    password, setPassword,
+    showPassword, setShowPassword,
+    rememberMe, setRememberMe,
+    isLoading, error, handleSubmit
+  } = useLoginForm();
 
   return (
     <motion.div 

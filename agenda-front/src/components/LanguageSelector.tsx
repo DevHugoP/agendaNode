@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 const LANGUAGES = [
   { code: "fr", label: "Français", flag: "🇫🇷" },
   { code: "en", label: "English", flag: "🇬🇧" },
+  { code: "de", label: "Deutsch", flag: "🇩🇪" },
 ];
 
 const Globe = () => <span role="img" aria-label="Langues" className="text-lg">🌐</span>;

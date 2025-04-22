@@ -1,5 +1,7 @@
 // Données mockées pour clients, documents, factures et consultations
-export const mockClients = [
+import { Client, Document } from '../../types/Client';
+
+export const mockClients: Client[] = [
   {
     id: "1",
     firstName: "Alice",
@@ -20,7 +22,7 @@ export const mockClients = [
   },
 ];
 
-export const mockDocuments: Record<string, Array<{ id: string; name: string; url: string }>> = {
+export const mockDocuments: Record<string, Document[]> = {
   "1": [
     { id: "d1", name: "Bilan sanguin 2024.pdf", url: "/docs/bilan-sanguin.pdf" },
     { id: "d2", name: "Radio épaule.jpg", url: "/docs/radio-epaule.jpg" },

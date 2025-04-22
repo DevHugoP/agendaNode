@@ -1,271 +1,114 @@
-import { useState, useRef, useEffect, ChangeEvent } from "react";
-import { createRoot } from "react-dom/client";
+import { useState, useRef } from "react";
+import { useCalendarView } from '../hooks/useCalendarView';
+import useBadgeStatus from '../hooks/useBadgeStatus.tsx';
+import { useClickOutside } from '../hooks/useClickOutside';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import frLocale from "@fullcalendar/core/locales/fr";
-import enLocale from "@fullcalendar/core/locales/en-gb";
 import { motion } from "framer-motion";
 import { useTranslation } from 'react-i18next';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Plus,
-  Calendar as CalendarIcon,
-  CheckCircle2,
-  XCircle,
-  Clock
-} from "lucide-react";
-import "./calendar-custom.css"; // Nous allons créer ce fichier CSS pour les styles avancés
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
+import "./calendar-custom.css";
+import { EventClickArg, DateSelectArg } from '../types/Calendar';
+import { EventDropArg, EventMountArg } from '@fullcalendar/core';
+import type { CalendarEvent, CalendarComponentProps } from '../types/Calendar';
 
-// Définir le type des événements
-export interface CalendarEvent {
-  id: string;
-  title: string;
-  start: string;
-  end?: string;
-  allDay?: boolean;
-  backgroundColor?: string;
-  borderColor?: string;
-  extendedProps?: {
-    clientName?: string;
-    type?: string;
-    status?: "confirmed" | "pending" | "cancelled";
-    notes?: string;
-  };
-}
-
-interface CalendarComponentProps {
-  events: CalendarEvent[];
-  onEventClick?: (event: CalendarEvent) => void;
-  onDateSelect?: (start: Date, end: Date, allDay: boolean) => void;
-  onNewAppointmentClick?: () => void;
-  onPrevClick?: () => void;
-  onNextClick?: () => void;
-  onEventDrop?: (event: CalendarEvent, newStart: Date, newEnd: Date) => void;
-}
-
-const CalendarComponent = ({
-  events,
-  onEventClick,
-  onDateSelect,
-  onNewAppointmentClick,
-  onPrevClick,
-  onNextClick,
-  onEventDrop,
-}: CalendarComponentProps) => {
+const CalendarComponent = ({ events, onEventClick, onDateSelect, onEventDrop }: CalendarComponentProps) => {
   const { t, i18n } = useTranslation();
-  const [viewType, setViewType] = useState<
-    "dayGridMonth" | "timeGridWeek" | "timeGridDay" | "listWeek"
-  >("timeGridWeek");
-  const [currentDate, setCurrentDate] = useState<string>("");
-  // Month picker state for quick navigation
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [monthPickerValue, setMonthPickerValue] = useState<string>("");
-  const calendarRef = useRef<any>(null);
+  const pickerRef = useRef<HTMLElement>(null);
 
-  // Mettre à jour le titre de la date courante
-  useEffect(() => {
-    updateCurrentDateTitle();
-  }, [viewType]);
+  const {
+    viewType,
+    currentDate,
+    calendarRef,
+    updateCurrentDateTitle,
+    changeView,
+    goToToday,
+    handlePrev,
+    handleNext
+  } = useCalendarView("timeGridWeek");
 
-  // Mettre à jour le titre avec la date actuelle
-  const updateCurrentDateTitle = () => {
-    if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      // Update displayed title
-      const title = calendarApi.view.title;
-      setCurrentDate(title);
-      // Sync month picker input (YYYY-MM)
-      const date = calendarApi.getDate();
-      const yyyy = date.getFullYear();
-      const mm = String(date.getMonth() + 1).padStart(2, "0");
-      setMonthPickerValue(`${yyyy}-${mm}`);
-    }
-  };
+  const getStatusBadgeContent = useBadgeStatus();
 
-  // Gérer le clic sur un événement
-  const handleEventClick = (info: any) => {
+  useClickOutside(pickerRef as React.RefObject<HTMLElement>, () => setIsDatePickerOpen(false), isDatePickerOpen);
+
+  const handleEventClick = (info: EventClickArg) => {
     if (onEventClick) {
-      onEventClick(info.event.toPlainObject({ includePrivate: true }));
+      onEventClick({
+        id: info.event.id,
+        title: info.event.title,
+        start: info.event.startStr,
+        end: info.event.endStr,
+        allDay: info.event.allDay,
+        backgroundColor: info.event.backgroundColor,
+        borderColor: info.event.borderColor,
+        extendedProps: info.event.extendedProps as CalendarEvent['extendedProps'],
+      });
     }
   };
 
-  // Gérer le déplacement (drag & drop) d'un événement
-  const handleEventDrop = (info: any) => {
+  const handleEventDrop = (info: EventDropArg) => {
     if (onEventDrop) {
-      const eventObj = info.event.toPlainObject({ includePrivate: true });
-      onEventDrop(eventObj, info.event.start, info.event.end);
+      onEventDrop({
+        id: info.event.id,
+        title: info.event.title,
+        start: info.event.startStr,
+        end: info.event.endStr,
+        allDay: info.event.allDay,
+        backgroundColor: info.event.backgroundColor,
+        borderColor: info.event.borderColor,
+        extendedProps: info.event.extendedProps as CalendarEvent['extendedProps'],
+      }, info.event.start, info.event.end);
     }
   };
 
-  // Gérer la sélection d'une plage de dates
-  const handleDateSelect = (info: any) => {
-    if (onDateSelect) {
-      // Ne pas désélectionner - laisse la sélection active pour ouvrir la modal
-      info.view.calendar.unselect = function () {};
-      onDateSelect(info.start, info.end, info.allDay);
+  const handleDateSelect = (info: DateSelectArg) => {
+    if (onDateSelect && info.start && info.end) {
+      onDateSelect(info.start, info.end, !!info.allDay);
     }
   };
 
-  // Changer la vue du calendrier
-  const changeView = (
-    viewName: "dayGridMonth" | "timeGridWeek" | "timeGridDay" | "listWeek"
-  ) => {
-    setViewType(viewName);
-    if (calendarRef.current) {
-      calendarRef.current.getApi().changeView(viewName);
-      updateCurrentDateTitle();
-    }
-  };
-
-  // Gérer la navigation vers aujourd'hui
-  const goToToday = () => {
-    if (calendarRef.current) {
-      calendarRef.current.getApi().today();
-      updateCurrentDateTitle();
-    }
-  };
-
-  // Navigation précédent/suivant
-  const handlePrev = () => {
-    if (calendarRef.current) {
-      calendarRef.current.getApi().prev();
-      updateCurrentDateTitle();
-      if (onPrevClick) onPrevClick();
-    }
-  };
-
-  const handleNext = () => {
-    if (calendarRef.current) {
-      calendarRef.current.getApi().next();
-      updateCurrentDateTitle();
-      if (onNextClick) onNextClick();
-    }
-  };
-  // Ouvrir/fermer le sélecteur de mois
-  const handleMonthPickerOpen = () => {
-    if (calendarRef.current) {
-      const date = calendarRef.current.getApi().getDate();
-      const yyyy = date.getFullYear();
-      const mm = String(date.getMonth() + 1).padStart(2, "0");
-      setMonthPickerValue(`${yyyy}-${mm}`);
-    }
-    setIsDatePickerOpen((prev) => !prev);
-  };
-  // Changer de mois via le sélecteur
-  const handleMonthChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value; // format YYYY-MM
-    setMonthPickerValue(val);
-    if (calendarRef.current) {
-      calendarRef.current.getApi().gotoDate(`${val}-01`);
-      updateCurrentDateTitle();
-    }
-  };
-
-  // Fonction pour obtenir le contenu du badge de statut
-  const getStatusBadgeContent = (status: string, mode: "icon" | "full") => {
-    const size = mode === "icon" ? 20 : 16;
-    const marginStyle = { marginBottom: -1 };
-    const textStyle = { color: "#fff" };
-
-    switch (status) {
-      case "confirmed":
-        return mode === "icon" ? (
-          <CheckCircle2 size={size} color="#22c55e" />
-        ) : (
-          <>
-            <CheckCircle2 size={size} color="#22c55e" style={marginStyle} />{" "}
-            <span style={textStyle}>Confirmé</span>
-          </>
-        );
-      case "pending":
-        return mode === "icon" ? (
-          <Clock size={size} color="#f59e0b" />
-        ) : (
-          <>
-            <Clock size={size} color="#f59e0b" style={marginStyle} />{" "}
-            <span style={textStyle}>En attente</span>
-          </>
-        );
-      case "cancelled":
-        return mode === "icon" ? (
-          <XCircle size={size} color="#6b7280" />
-        ) : (
-          <>
-            <XCircle size={size} color="#6b7280" style={marginStyle} />{" "}
-            <span style={textStyle}>Annulé</span>
-          </>
-        );
-      default:
-        return null;
-    }
-  };
-
-  // Styles personnalisés pour les événements
-  const eventDidMount = (info: any) => {
+  const eventDidMount = (info: EventMountArg) => {
     const { event } = info;
-    const status = event.extendedProps.status;
-    // Base event class
+    const status = event.extendedProps?.status;
     info.el.classList.add("calendar-event");
-    // Ajouter une classe selon le statut (confirmed, pending, cancelled)
     if (status) {
       info.el.classList.add(`calendar-event--${status}`);
     }
-    // Appliquer la couleur personnalisée si renseignée
     if (event.backgroundColor) {
-      info.el.style.backgroundColor = event.backgroundColor;
+      (info.el as HTMLElement).style.backgroundColor = event.backgroundColor;
     }
-    // Ajout d'un badge statut, affichage adapté selon la vue
     const badge = document.createElement('span');
     badge.className = `calendar-event-status-badge calendar-event-status-badge--${status}`;
     let inserted = false;
-    // Vue timeGrid/semaine/jour : badge à gauche avec texte
     const main = info.el.querySelector('.fc-event-main');
     if (main) {
       const content = getStatusBadgeContent(status, 'full');
       if (content) {
-        createRoot(badge).render(content);
+        import('react-dom/client').then(({ createRoot }) => {
+          createRoot(badge).render(content);
+        });
       }
-      badge.style.marginRight = '6px';
-      badge.style.verticalAlign = 'middle';
+      (badge as HTMLElement).style.marginRight = '6px';
+      (badge as HTMLElement).style.verticalAlign = 'middle';
       main.insertBefore(badge, main.firstChild);
-
-      // Ajout du nom de la personne sous le Prestation
-      // On ne modifie que si on est en vue timeGrid (jour ou semaine)
-      const calendarApi = info.view?.calendar;
-      const viewType = calendarApi?.view?.type;
-      if (viewType === 'timeGridDay' || viewType === 'timeGridWeek') {
-        // Cherche le titre (type de RDV)
-        const titleEl = main.querySelector('.fc-event-title');
-        const clientName = event.extendedProps?.clientName;
-        if (titleEl && clientName) {
-          // Crée ou remplace un sous-titre pour le nom
-          let subtitle = main.querySelector('.calendar-event-client-name');
-          if (!subtitle) {
-            subtitle = document.createElement('div');
-            subtitle.className = 'calendar-event-client-name';
-            subtitle.style.fontSize = '0.80em';
-            subtitle.style.fontWeight = '400';
-            subtitle.style.color = '#e0e7ef';
-            subtitle.style.marginTop = '2px';
-            subtitle.style.whiteSpace = 'normal';
-            titleEl.insertAdjacentElement('afterend', subtitle);
-          }
-          subtitle.textContent = clientName;
-        }
-      }
       inserted = true;
     }
-    // Vue liste : badge à droite, icône seule, taille plus grande
     if (!inserted) {
       const listTitle = info.el.querySelector('.fc-list-event-title');
       if (listTitle) {
         const icon = getStatusBadgeContent(status, 'icon');
         if (icon) {
-          createRoot(badge).render(icon);
+          import('react-dom/client').then(({ createRoot }) => {
+            createRoot(badge).render(icon);
+          });
         }
         badge.classList.add('calendar-event-status-badge--list');
         badge.style.marginLeft = '10px';
@@ -276,7 +119,6 @@ const CalendarComponent = ({
         inserted = true;
       }
     }
-    // Vue mois : badge à droite du titre, icône seule
     if (!inserted) {
       const monthTitle = info.el.querySelector('.fc-event-title');
       if (monthTitle) {
@@ -286,11 +128,11 @@ const CalendarComponent = ({
             createRoot(badge).render(icon);
           });
         }
-        badge.classList.add('calendar-event-status-badge--month');
-        badge.style.marginLeft = '8px';
-        badge.style.marginRight = '0';
-        badge.style.verticalAlign = 'middle';
-        badge.style.display = 'inline-flex';
+        (badge as HTMLElement).classList.add('calendar-event-status-badge--month');
+        (badge as HTMLElement).style.marginLeft = '8px';
+        (badge as HTMLElement).style.marginRight = '0';
+        (badge as HTMLElement).style.verticalAlign = 'middle';
+        (badge as HTMLElement).style.display = 'inline-flex';
         monthTitle.appendChild(badge);
       }
     }
@@ -304,23 +146,46 @@ const CalendarComponent = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}>
         <div className='flex items-center space-x-4'>
-          {/* Titre et sélecteur de mois */}
-          <div className='relative hidden sm:block'>
+          <div className='relative flex items-center' ref={pickerRef as React.RefObject<HTMLDivElement>}>
             <button
-              onClick={handleMonthPickerOpen}
-              className='flex items-center space-x-1 text-xl font-bold text-gray-900 hover:bg-gray-100 px-2 py-1 rounded transition-colors'>
-              <span>{currentDate}</span>
-              <CalendarIcon size={20} />
+              onClick={() => setIsDatePickerOpen((prev) => !prev)}
+              className='p-2 rounded-full hover:bg-gray-200 transition-colors'
+              aria-label='Ouvrir le sélecteur de date/mois'>
+              <CalendarIcon size={22} />
             </button>
+            <span
+              className="ml-2 text-xl font-bold text-gray-900 cursor-pointer select-none"
+              onClick={() => setIsDatePickerOpen((prev) => !prev)}
+            >
+              {currentDate}
+            </span>
             {isDatePickerOpen && (
-              <input
-                type='month'
-                value={monthPickerValue}
-                onChange={handleMonthChange}
-                onBlur={() => setIsDatePickerOpen(false)}
-                className='absolute top-full left-0 mt-1 bg-white border border-gray-300 rounded shadow p-1 z-10'
-                autoFocus
-              />
+              <div className="absolute top-full left-0 mt-1 z-20 bg-white rounded shadow-lg border border-gray-200">
+                <DatePicker
+                  selected={selectedDate !== null ? selectedDate : undefined}
+                  onChange={(date) => {
+                    setSelectedDate(date);
+                    setIsDatePickerOpen(false);
+                    if (date) {
+                      if (viewType === "dayGridMonth") {
+                        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+                        calendarRef.current?.getApi()?.gotoDate(firstDay);
+                      } else if (viewType === "timeGridWeek" || viewType === "listWeek") {
+                        const monday = new Date(date);
+                        const day = monday.getDay();
+                        const diff = (day === 0 ? -6 : 1) - day;
+                        monday.setDate(monday.getDate() + diff);
+                        calendarRef.current?.getApi()?.gotoDate(monday);
+                      } else {
+                        calendarRef.current?.getApi()?.gotoDate(date);
+                      }
+                    }
+                  }}
+                  dateFormat="yyyy-MM-dd"
+                  className="border rounded px-2 py-1"
+                  onCalendarClose={() => setIsDatePickerOpen(false)}
+                />
+              </div>
             )}
           </div>
 
@@ -385,12 +250,7 @@ const CalendarComponent = ({
             </button>
           </div>
 
-          <button
-            onClick={onNewAppointmentClick}
-            className='px-3 py-1.5 text-sm bg-agenda-purple text-white rounded-full shadow-sm hover:bg-agenda-light-purple focus:outline-none focus:ring-2 focus:ring-agenda-purple focus:ring-opacity-50 flex items-center transition-all'>
-            <Plus size={16} className='mr-1' />
-            <span>{t('calendar.newAppointment')}</span>
-          </button>
+          
         </div>
       </motion.div>
 
@@ -407,10 +267,49 @@ const CalendarComponent = ({
             interactionPlugin,
             listPlugin,
           ]}
+          views={{
+            dayGridMonth: {
+              dayHeaderContent: (args) => {
+                // Nom du jour complet dans la langue courante
+                return args.date.toLocaleDateString(i18n.language, { weekday: 'long' });
+              },
+            },
+            timeGridWeek: {
+              dayHeaderContent: ({ date }) => {
+                let day;
+                if (i18n.language === 'de') {
+                  // Forcer 3 lettres allemandes : Don, Mit, Sam, etc.
+                  const full = date.toLocaleDateString('de', { weekday: 'long' });
+                  // Tableau mapping court -> long
+                  const map: Record<string, string> = {
+                    'Mo': 'Mon',
+                    'Di': 'Die',
+                    'Mi': 'Mit',
+                    'Do': 'Don',
+                    'Fr': 'Fre',
+                    'Sa': 'Sam',
+                    'So': 'Son',
+                  };
+                  const short = date.toLocaleDateString('de', { weekday: 'short' }).replace('.', '');
+                  day = map[short] ?? full.slice(0, 3);
+                } else {
+                  day = date.toLocaleDateString(i18n.language, { weekday: 'short' }).slice(0, 3);
+                }
+                const datePart = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}`;
+                return `${day} ${datePart}`;
+              },
+            },
+            timeGridDay: {
+              dayHeaderFormat: { weekday: 'long' }, 
+            },
+            listWeek: {
+              dayHeaderFormat: { weekday: 'long' },
+            },
+          }}
           headerToolbar={false}
           initialView={viewType}
-          locale={i18n.language === "en" ? enLocale : frLocale}
-          events={events}
+          locale={i18n.language}
+          events={events as CalendarEvent[]}
           height='auto'
           editable={true}
           selectable={true}
@@ -422,8 +321,8 @@ const CalendarComponent = ({
           slotLabelInterval={"01:00"}
           slotMinTime={"08:00:00"}
           slotMaxTime={"20:00:00"}
-          eventClick={(info) => handleEventClick(info)}
-          select={(info) => handleDateSelect(info)}
+          eventClick={handleEventClick}
+          select={handleDateSelect}
           eventDidMount={eventDidMount}
           eventDrop={handleEventDrop}
           datesSet={updateCurrentDateTitle}
@@ -434,23 +333,19 @@ const CalendarComponent = ({
             meridiem: false,
             hour12: false,
           }}
-          firstDay={1} // Semaine commence le lundi
+          firstDay={1} 
           businessHours={{
-            daysOfWeek: [1, 2, 3, 4, 5], // Lundi au vendredi
+            daysOfWeek: [1, 2, 3, 4, 5],
             startTime: "09:00",
             endTime: "18:00",
           }}
-          selectAllow={(selectInfo) => {
+          selectAllow={() => {
             // Permettre la sélection avec glissement uniquement dans les vues jour et semaine
             return viewType === "timeGridDay" || viewType === "timeGridWeek";
           }}
           dayHeaderClassNames='calendar-day-header'
           dayCellClassNames='calendar-day-cell'
           slotLabelClassNames='calendar-slot-label'
-          eventClassNames='calendar-event'
-          slotLaneClassNames='calendar-slot-lane'
-          moreLinkClassNames='calendar-more-link'
-          allDayClassNames='calendar-all-day'
         />
       </motion.div>
     </div>

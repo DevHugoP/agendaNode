@@ -1,0 +1,18 @@
+.react-datepicker__month-dropdown, .react-datepicker__month-year-dropdown {
+  min-width: 160px;
+}
+.react-datepicker__month-text, .react-datepicker__month-year-text {
+  min-width: 120px;
+  padding: 0.5em 1em;
+  text-align: center;
+  white-space: nowrap;
+}
+.react-datepicker__month-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+.react-datepicker__month {
+  width: 100%;
+}

@@ -59,6 +59,12 @@
     "logout": "Se déconnecter"
   },
   "login": {
+    "errors": {
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+      "passwordMin": "Le mot de passe doit contenir au moins 6 caractères.",
+      "generic": "Erreur lors de la connexion.",
+      "unknown": "Une erreur inconnue est survenue."
+    },
     "error": "Erreur de connexion",
     "unknownError": "Une erreur inconnue est survenue",
     "welcome": "Bienvenue sur Agenda",
@@ -136,6 +142,15 @@
     "seeDetails": "Voir la fiche"
   },
   "register": {
+    "errors": {
+      "nameMin": "Le nom doit contenir au moins 2 caractères.",
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+      "passwordMin": "Le mot de passe doit contenir au moins 6 caractères.",
+      "confirmPasswordMin": "La confirmation du mot de passe doit contenir au moins 6 caractères.",
+      "passwordsDontMatch": "Les mots de passe ne correspondent pas.",
+      "error": "Erreur lors de l'inscription.",
+      "unknownError": "Une erreur inconnue est survenue."
+    },
     "title": "Créer un compte professionnel",
     "subtitle": "Inscrivez-vous pour permettre à vos clients de réserver en ligne.",
     "createAccountTitle": "Créer un compte",
@@ -152,6 +167,39 @@
     "alreadyAccount": "Déjà un compte ?"
   },
   "userProfile": {
+    "form": {
+      "fullName": "Nom complet",
+      "fullNamePlaceholder": "ex : Jean Dupont",
+      "profession": "Profession",
+      "professionPlaceholder": "ex : Ostéopathe, Coach...",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "phone": "Téléphone",
+      "phonePlaceholder": "ex : +41 79 123 45 67",
+      "company": "Société",
+      "companyPlaceholder": "Nom de la société",
+      "address": "Adresse",
+      "addressPlaceholder": "Rue, ville...",
+      "website": "Site web",
+      "websitePlaceholder": "https://votresite.com",
+      "bio": "Bio",
+      "bioPlaceholder": "Décrivez-vous, votre approche, vos valeurs... (max 500 caractères)",
+      "avatar": "URL de l’avatar",
+      "avatarPlaceholder": "Collez l’URL de votre image de profil",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "saving": "Enregistrement...",
+      "success": "Profil mis à jour avec succès !",
+      "fullNameRequired": "Nom requis",
+      "professionRequired": "Profession requise",
+      "emailInvalid": "Email invalide",
+      "phoneRequired": "Téléphone requis",
+      "companyRequired": "Société requise",
+      "addressRequired": "Adresse requise",
+      "websiteInvalid": "URL invalide",
+      "bioMax": "Max 500 caractères",
+      "avatarInvalid": "URL avatar invalide"
+    },
     "edit": "Éditer le profil",
     "success": "Profil mis à jour avec succès !",
     "about": "À propos",
@@ -170,19 +218,16 @@
       "upcoming": "Rendez-vous à venir"
     }
   },
-  "stats": {
-    "appointments": "Rendez-vous",
-    "clients": "Clients",
-    "revenue": "Revenus générés",
-    "upcoming": "À venir"
-  },
-  "stripe": {
-    "connected": "Stripe connecté",
-    "notConnected": "Stripe non connecté"
-  },
-  "googleCalendar": {
-    "synced": "Google Agenda synchronisé",
-    "notSynced": "Non synchronisé"
+  "appointment": {
+    "errors": {
+      "titleMin": "Le titre doit contenir au moins 2 caractères.",
+      "clientNameMin": "Le nom du client doit contenir au moins 2 caractères.",
+      "startRequired": "La date de début est requise.",
+      "endRequired": "La date de fin est requise.",
+      "typeMin": "Veuillez sélectionner une prestation.",
+      "statusInvalid": "Le statut sélectionné est invalide.",
+      "endAfterStart": "La date de fin doit être postérieure à la date de début."
+    }
   },
   "appointmentModal": {
     "editTitle": "Modifier le rendez-vous",

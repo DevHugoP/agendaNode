@@ -1,54 +1,33 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
-import { registerUser } from '../services/auth';
-import axios from 'axios';
+import { useRegisterForm } from '../hooks/useRegisterForm';
 
 const RegisterForm = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const {
+    name, setName,
+    email, setEmail,
+    password, setPassword,
+    confirmPassword, setConfirmPassword,
+    showPassword, setShowPassword,
+    showConfirmPassword, setShowConfirmPassword,
+    isLoading, error, success, handleSubmit
+  } = useRegisterForm();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    // Vérification que les mots de passe correspondent
-    if (password !== confirmPassword) {
-      setError(t('register.passwordsDontMatch'));
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      await registerUser({ name, email, password });
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000);
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || t('register.error'));
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError(t('register.unknownError'));
-      }
-    } finally {
-      setIsLoading(false);
+  // Centralise les handlers de champ pour factoriser
+  const handleFieldChange = (field: 'name' | 'email' | 'password' | 'confirmPassword') => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    switch (field) {
+      case 'name': setName(value); break;
+      case 'email': setEmail(value); break;
+      case 'password': setPassword(value); break;
+      case 'confirmPassword': setConfirmPassword(value); break;
     }
   };
+
+  // Pour une future extension : gestion fieldErrors (voir hook)
 
   return (
     <motion.div 
@@ -92,7 +71,7 @@ const RegisterForm = () => {
             id="name"
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleFieldChange('name')}
             className="form-input"
             placeholder={t('register.namePlaceholder')}
             required
@@ -107,7 +86,7 @@ const RegisterForm = () => {
             id="email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleFieldChange('email')}
             className="form-input"
             placeholder={t('login.emailPlaceholder')}
             required
@@ -123,7 +102,7 @@ const RegisterForm = () => {
               id="password"
               type={showPassword ? 'text' : 'password'}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleFieldChange('password')}
               className="form-input"
               placeholder="••••••••"
               required
@@ -151,7 +130,7 @@ const RegisterForm = () => {
               id="confirmPassword"
               type={showConfirmPassword ? 'text' : 'password'}
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={handleFieldChange('confirmPassword')}
               className="form-input"
               placeholder="••••••••"
               required

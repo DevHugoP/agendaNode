@@ -50,6 +50,7 @@
     "brand": "agenda.ch",
     "dashboard": "Dashboard",
     "calendar": "Calendar",
+    "clients": "Clients",
     "smsHistory": "SMS History",
     "vouchers": "Gift vouchers",
     "profile": "Profile",
@@ -57,28 +58,34 @@
     "help": "Help",
     "logout": "Log out"
   },
-  "toast": {
-    "appointmentCreated": "Appointment created successfully",
-    "appointmentUpdated": "Appointment updated successfully",
-    "appointmentDeleted": "Appointment deleted successfully"
-  },
   "login": {
+    "title": "Login",
+    "subtitle": "Access your professional area.",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "button": "Log in",
+    "loading": "Logging in...",
+    "noAccount": "No account yet?",
+    "signup": "Sign up",
+    "error": {
+      "invalidEmail": "Please enter a valid email address.",
+      "requiredEmail": "Email is required.",
+      "requiredPassword": "Password is required.",
+      "generic": "Login error."
+    },
     "errors": {
       "invalidEmail": "Please enter a valid email address.",
       "passwordMin": "Password must be at least 6 characters.",
       "generic": "Login error.",
       "unknown": "An unknown error occurred."
     },
-    "error": "Login error",
+    "errorMessage": "Login error",
     "unknownError": "An unknown error occurred",
     "welcome": "Welcome to Agenda",
-    "email": "Email",
-    "emailPlaceholder": "your@email.com",
-    "password": "Password",
-    "rememberMe": "Remember me",
-    "forgotPassword": "Forgot password?",
-    "loginButton": "Log in",
-    "noAccount": "No account yet?",
     "createAccount": "Create an account"
   },
   "dashboard": {
@@ -116,12 +123,10 @@
       "consultation": "Consultation",
       "massage": "Massage",
       "coaching": "Coaching",
-      "therapy": "Therapy",
-      "training": "Training"
+      "therapie": "Therapy",
+      "formation": "Training"
     },
     "status": {
-      "connected": "Stripe connected",
-      "notConnected": "Stripe not connected",
       "confirmed": "Confirmed",
       "pending": "Pending",
       "cancelled": "Cancelled"
@@ -129,13 +134,6 @@
     "filters": {
       "types": "Appointment types",
       "status": "Status"
-    },
-    "types": {
-      "consultation": "Consultation",
-      "massage": "Massage",
-      "coaching": "Coaching",
-      "therapy": "Therapy",
-      "training": "Training"
     }
   },
   "userProfile": {
@@ -171,21 +169,22 @@
       "bioMax": "Max 500 characters",
       "avatarInvalid": "Invalid avatar URL"
     },
+    "edit": "Edit profile",
     "success": "Profile updated successfully!",
     "about": "About",
     "stripe": {
       "connected": "Stripe connected",
       "notConnected": "Stripe not connected"
     },
-    "edit": "Edit profile",
     "googleCalendar": {
       "synced": "Google Calendar synchronized",
       "notSynced": "Not synchronized"
     },
     "stats": {
       "appointments": "Appointments",
+      "clients": "Clients",
       "revenue": "Generated revenue",
-      "upcoming": "Upcoming"
+      "upcoming": "Upcoming appointments"
     }
   },
   "appointment": {
@@ -206,8 +205,8 @@
       "consultation": "Consultation",
       "massage": "Massage",
       "coaching": "Coaching",
-      "therapy": "Therapy",
-      "training": "Training"
+      "therapie": "Therapy",
+      "formation": "Training"
     },
     "serviceLabel": "Service",
     "titleLabel": "Appointment title",
@@ -261,5 +260,26 @@
     "loading": "Registration in progress...",
     "submit": "Create my account",
     "alreadyAccount": "Already have an account?"
+  },
+  "index": {
+    "title": "agenda.ch",
+    "subtitle": "Appointment management for professionals",
+    "calendarTitle": "Calendar management",
+    "calendarDesc": "Easily manage your appointments with an intuitive and customizable calendar.",
+    "smsTitle": "SMS notifications",
+    "smsDesc": "Automatically send reminders and appointment confirmations by SMS.",
+    "statsTitle": "Statistics",
+    "statsDesc": "Analyze your activity with detailed statistics and custom reports."
+  },
+  "publicLayout": {
+    "copyright": "© 2025 Agenda.ch - All rights reserved",
+    "help": "Help",
+    "terms": "Terms",
+    "privacy": "Privacy"
+  },
+  "toast": {
+    "appointmentCreated": "Appointment created successfully",
+    "appointmentUpdated": "Appointment updated successfully",
+    "appointmentDeleted": "Appointment deleted successfully"
   }
 }

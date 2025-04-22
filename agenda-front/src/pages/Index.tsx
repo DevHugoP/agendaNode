@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import LoginForm from '../components/LoginForm';
+import { useTranslation } from 'react-i18next';
 import PublicLayout from '../layouts/PublicLayout';
 
 const Index = () => {
+  const { t } = useTranslation();
   return (
     <PublicLayout>
       <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-50">
@@ -12,9 +14,9 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-extrabold text-gray-900 mb-2">agenda.ch</h2>
+          <h2 className="text-4xl font-extrabold text-gray-900 mb-2">{t('index.title')}</h2>
           <p className="mt-2 text-center text-lg text-gray-600">
-            Gestion de rendez-vous pour professionnels
+            {t('index.subtitle')}
           </p>
           <motion.div 
             className="h-1 w-24 bg-agenda-purple mx-auto rounded-full my-6"
@@ -41,8 +43,8 @@ const Index = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Gestion de calendrier</h3>
-              <p className="text-gray-600">Gérez facilement vos rendez-vous avec un calendrier intuitif et personnalisable.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('index.calendarTitle')}</h3>
+              <p className="text-gray-600">{t('index.calendarDesc')}</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-md card-hover">
@@ -51,8 +53,8 @@ const Index = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Notifications SMS</h3>
-              <p className="text-gray-600">Envoyez automatiquement des rappels et des confirmations de rendez-vous par SMS.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('index.smsTitle')}</h3>
+              <p className="text-gray-600">{t('index.smsDesc')}</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-md card-hover">
@@ -61,8 +63,8 @@ const Index = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Statistiques</h3>
-              <p className="text-gray-600">Analysez votre activité avec des statistiques détaillées et des rapports personnalisés.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('index.statsTitle')}</h3>
+              <p className="text-gray-600">{t('index.statsDesc')}</p>
             </div>
           </div>
         </motion.div>

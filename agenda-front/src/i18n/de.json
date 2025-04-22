@@ -10,7 +10,6 @@
     "download": "Herunterladen",
     "invoices": "Rechnungen",
     "date": "Datum",
-    "about": "Über",
     "amount": "Betrag",
     "status": "Status",
     "actions": "Aktionen",
@@ -19,6 +18,13 @@
     "pending": "Ausstehend",
     "pastConsultations": "Frühere Beratungen",
     "noPastConsult": "Keine frühere Beratung.",
+    "upcomingConsultations": "Bevorstehende Beratungen",
+    "noUpcomingConsult": "Keine bevorstehende Beratung.",
+    "duration": "Dauer",
+    "practitioner": "Praktiker",
+    "notes": "Notizen",
+    "time": "Uhrzeit",
+    "location": "Ort",
     "documentPreview": "Dokumentenvorschau",
     "closeModal": "Modal schließen",
     "pdfPreview": "PDF-Vorschau",
@@ -53,16 +59,33 @@
     "logout": "Abmelden"
   },
   "login": {
-    "error": "Login-Fehler",
-    "unknownError": "Ein unbekannter Fehler ist aufgetreten",
-    "welcome": "Willkommen bei Agenda",
+    "title": "Anmeldung",
+    "subtitle": "Greifen Sie auf Ihren Profi-Bereich zu.",
     "email": "E-Mail",
     "emailPlaceholder": "deine@email.com",
     "password": "Passwort",
+    "passwordPlaceholder": "••••••••",
     "rememberMe": "Angemeldet bleiben",
     "forgotPassword": "Passwort vergessen?",
-    "loginButton": "Anmelden",
+    "button": "Anmelden",
+    "loading": "Anmeldung läuft...",
     "noAccount": "Noch kein Konto?",
+    "signup": "Registrieren",
+    "error": {
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "requiredEmail": "E-Mail ist erforderlich.",
+      "requiredPassword": "Passwort ist erforderlich.",
+      "generic": "Fehler beim Anmelden."
+    },
+    "errors": {
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "passwordMin": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "generic": "Fehler beim Anmelden.",
+      "unknown": "Ein unbekannter Fehler ist aufgetreten."
+    },
+    "errorMessage": "Login-Fehler",
+    "unknownError": "Ein unbekannter Fehler ist aufgetreten",
+    "welcome": "Willkommen bei Agenda",
     "createAccount": "Konto erstellen"
   },
   "dashboard": {
@@ -111,13 +134,68 @@
     "filters": {
       "types": "Termintypen",
       "status": "Status"
+    }
+  },
+  "userProfile": {
+    "form": {
+      "fullName": "Vollständiger Name",
+      "fullNamePlaceholder": "z.B. Max Mustermann",
+      "profession": "Beruf",
+      "professionPlaceholder": "z.B. Osteopath, Coach...",
+      "email": "E-Mail",
+      "emailPlaceholder": "deine@email.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "z.B. +41 79 123 45 67",
+      "company": "Firma",
+      "companyPlaceholder": "Firmenname",
+      "address": "Adresse",
+      "addressPlaceholder": "Straße, Stadt...",
+      "website": "Webseite",
+      "websitePlaceholder": "https://deinewebseite.com",
+      "bio": "Bio",
+      "bioPlaceholder": "Beschreibe dich, deinen Ansatz, deine Werte... (max. 500 Zeichen)",
+      "avatar": "Avatar-URL",
+      "avatarPlaceholder": "Füge die URL deines Profilbilds ein",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "saving": "Speichern...",
+      "fullNameRequired": "Name ist erforderlich",
+      "professionRequired": "Beruf ist erforderlich",
+      "emailInvalid": "Ungültige E-Mail",
+      "phoneRequired": "Telefon ist erforderlich",
+      "companyRequired": "Firma ist erforderlich",
+      "addressRequired": "Adresse ist erforderlich",
+      "websiteInvalid": "Ungültige URL",
+      "bioMax": "Maximal 500 Zeichen",
+      "avatarInvalid": "Ungültige Avatar-URL"
     },
-    "types": {
-      "consultation": "Beratung",
-      "massage": "Massage",
-      "coaching": "Coaching",
-      "therapie": "Therapie",
-      "formation": "Schulung"
+    "edit": "Profil bearbeiten",
+    "success": "Profil erfolgreich aktualisiert!",
+    "about": "Über mich",
+    "stripe": {
+      "connected": "Stripe verbunden",
+      "notConnected": "Stripe nicht verbunden"
+    },
+    "googleCalendar": {
+      "synced": "Google Kalender synchronisiert",
+      "notSynced": "Nicht synchronisiert"
+    },
+    "stats": {
+      "appointments": "Termine insgesamt",
+      "clients": "Kunden insgesamt",
+      "revenue": "Gesamter Umsatz",
+      "upcoming": "Bevorstehende Termine"
+    }
+  },
+  "appointment": {
+    "errors": {
+      "titleMin": "Der Titel muss mindestens 2 Zeichen lang sein.",
+      "clientNameMin": "Der Name des Kunden muss mindestens 2 Zeichen lang sein.",
+      "startRequired": "Startdatum ist erforderlich.",
+      "endRequired": "Enddatum ist erforderlich.",
+      "typeMin": "Bitte wählen Sie eine Leistung aus.",
+      "statusInvalid": "Der ausgewählte Status ist ungültig.",
+      "endAfterStart": "Das Enddatum muss nach dem Startdatum liegen."
     }
   },
   "appointmentModal": {
@@ -130,8 +208,8 @@
       "therapie": "Therapie",
       "formation": "Schulung"
     },
-    "serviceLabel": "Dienstleistung",
-    "titleLabel": "Termintitel",
+    "serviceLabel": "Leistung",
+    "titleLabel": "Titel des Termins",
     "titlePlaceholder": "Titel eingeben (optional)",
     "clientLabel": "Kundenname",
     "clientPlaceholder": "z.B. Max Mustermann",
@@ -159,6 +237,15 @@
     "seeDetails": "Details anzeigen"
   },
   "register": {
+    "errors": {
+      "nameMin": "Der Name muss mindestens 2 Zeichen lang sein.",
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "passwordMin": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "confirmPasswordMin": "Die Bestätigung muss mindestens 6 Zeichen lang sein.",
+      "passwordsDontMatch": "Passwörter stimmen nicht überein.",
+      "error": "Registrierungsfehler.",
+      "unknownError": "Ein unbekannter Fehler ist aufgetreten."
+    },
     "title": "Professionelles Konto erstellen",
     "subtitle": "Registriere dich, damit deine Kunden online buchen können.",
     "createAccountTitle": "Konto erstellen",
@@ -172,109 +259,27 @@
     "unknownError": "Ein unbekannter Fehler ist aufgetreten",
     "loading": "Registrierung läuft...",
     "submit": "Konto erstellen",
-    "stripe": {
-      "connected": "Stripe verbunden",
-      "notConnected": "Stripe nicht verbunden"
-    },
-    "googleCalendar": {
-      "synced": "Google Kalender synchronisiert",
-      "notSynced": "Nicht synchronisiert"
-    },
-    "stats": {
-      "appointments": "Termine",
-      "clients": "Kunden",
-      "revenue": "Umsatz generiert",
-      "upcoming": "Bevorstehende Termine"
-    }
+    "alreadyAccount": "Schon ein Konto?"
   },
-  "stats": {
-    "appointments": "Termine",
-    "clients": "Kunden",
-    "revenue": "Generierter Umsatz",
-    "upcoming": "Bevorstehend"
+  "index": {
+    "title": "agenda.ch",
+    "subtitle": "Terminverwaltung für Fachkräfte",
+    "calendarTitle": "Kalenderverwaltung",
+    "calendarDesc": "Verwalten Sie Ihre Termine einfach mit einem intuitiven und anpassbaren Kalender.",
+    "smsTitle": "SMS-Benachrichtigungen",
+    "smsDesc": "Senden Sie automatisch Erinnerungen und Terminbestätigungen per SMS.",
+    "statsTitle": "Statistiken",
+    "statsDesc": "Analysieren Sie Ihre Aktivitäten mit detaillierten Statistiken und individuellen Berichten."
   },
-  "stripe": {
-    "connected": "Stripe verbunden",
-    "notConnected": "Stripe nicht verbunden"
-  },
-  "googleCalendar": {
-    "synced": "Google Kalender synchronisiert",
-    "notSynced": "Nicht synchronisiert"
-  },
-  "appointment": {
-    "errors": {
-      "titleMin": "Der Titel muss mindestens 2 Zeichen lang sein.",
-      "clientNameMin": "Der Name des Kunden muss mindestens 2 Zeichen lang sein.",
-      "startRequired": "Startdatum ist erforderlich.",
-      "endRequired": "Enddatum ist erforderlich.",
-      "typeMin": "Bitte wählen Sie eine Leistung aus.",
-      "statusInvalid": "Der ausgewählte Status ist ungültig.",
-      "endAfterStart": "Das Enddatum muss nach dem Startdatum liegen."
-    }
+  "publicLayout": {
+    "copyright": "© 2025 Agenda.ch - Alle Rechte vorbehalten",
+    "help": "Hilfe",
+    "terms": "Bedingungen",
+    "privacy": "Datenschutz"
   },
   "toast": {
     "appointmentCreated": "Termin erfolgreich erstellt",
     "appointmentUpdated": "Termin erfolgreich aktualisiert",
     "appointmentDeleted": "Termin erfolgreich gelöscht"
-  },
-  "userProfile": {
-    "form": {
-      "fullName": "Vollständiger Name",
-      "fullNamePlaceholder": "z.B. Max Mustermann",
-      "profession": "Beruf",
-      "professionPlaceholder": "z.B. Osteopath, Coach...",
-      "email": "E-Mail",
-      "emailPlaceholder": "deine@email.com",
-      "phone": "Telefon",
-      "phonePlaceholder": "z.B. +41 79 123 45 67",
-      "company": "Firma",
-      "companyPlaceholder": "Firmenname",
-      "address": "Adresse",
-      "addressPlaceholder": "Straße, Stadt...",
-      "website": "Webseite",
-      "websitePlaceholder": "https://deinewebseite.com",
-      "bio": "Bio",
-      "bioPlaceholder": "Beschreibe dich, deinen Ansatz, deine Werte... (max. 500 Zeichen)",
-      "avatar": "Avatar-URL",
-      "avatarPlaceholder": "Füge die URL deines Profilbilds ein",
-      "save": "Speichern",
-      "cancel": "Abbrechen",
-      "saving": "Speichern...",
-      "success": "Profil erfolgreich aktualisiert!",
-      "fullNameRequired": "Name ist erforderlich",
-      "professionRequired": "Beruf ist erforderlich",
-      "emailInvalid": "Ungültige E-Mail",
-      "phoneRequired": "Telefon ist erforderlich",
-      "companyRequired": "Firma ist erforderlich",
-      "addressRequired": "Adresse ist erforderlich",
-      "websiteInvalid": "Ungültige URL",
-      "bioMax": "Maximal 500 Zeichen",
-      "avatarInvalid": "Ungültige Avatar-URL",
-      "fullNameRequired": "Name ist erforderlich",
-      "professionRequired": "Beruf ist erforderlich",
-      "emailInvalid": "Ungültige E-Mail",
-      "phoneRequired": "Telefon ist erforderlich",
-      "companyRequired": "Firma ist erforderlich",
-      "addressRequired": "Adresse ist erforderlich",
-      "websiteInvalid": "Ungültige URL",
-      "bioMax": "Maximal 500 Zeichen"
-    },
-    "edit": "Profil bearbeiten",
-    "success": "Profil erfolgreich aktualisiert!",
-    "about": "Über mich",
-    "stripe": {
-      "connected": "Stripe verbunden",
-      "notConnected": "Stripe nicht verbunden"
-    },
-    "googleCalendar": {
-      "synced": "Google Kalender synchronisiert",
-      "notSynced": "Nicht synchronisiert"
-    },
-    "stats": {
-      "appointments": "Termine insgesamt",
-      "clients": "Kunden insgesamt",
-      "revenue": "Gesamter Umsatz",
-      "upcoming": "Bevorstehende Termine"
-    }
   }
 }

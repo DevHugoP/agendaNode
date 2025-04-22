@@ -1,3 +1,4 @@
+import React from 'react';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
@@ -7,18 +8,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-const Button = ({ 
-  variant = 'primary', 
-  isLoading = false, 
-  children, 
-  className = '', 
-  ...props 
-}: ButtonProps) => {
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    variant = 'primary', 
+    isLoading = false, 
+    children, 
+    className = '', 
+    ...props 
+  }, ref) => {
   const baseClass = 'btn';
   const variantClass = `btn-${variant}`;
   
   return (
     <motion.button
+      ref={ref}
       className={`${baseClass} ${variantClass} ${className} ${isLoading ? 'opacity-75 cursor-not-allowed' : ''} py-3 font-semibold rounded-xl text-base`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
@@ -42,6 +45,6 @@ const Button = ({
       )}
     </motion.button>
   );
-};
+});
 
 export default Button;

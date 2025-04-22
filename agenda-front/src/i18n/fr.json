@@ -59,22 +59,33 @@
     "logout": "Se déconnecter"
   },
   "login": {
+    "title": "Connexion",
+    "subtitle": "Accédez à votre espace professionnel.",
+    "email": "Email",
+    "emailPlaceholder": "votre@email.com",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "••••••••",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "button": "Se connecter",
+    "loading": "Connexion en cours...",
+    "noAccount": "Pas encore de compte ?",
+    "signup": "S'inscrire",
+    "error": {
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+      "requiredEmail": "L'email est requis.",
+      "requiredPassword": "Le mot de passe est requis.",
+      "generic": "Erreur lors de la connexion."
+    },
     "errors": {
       "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
       "passwordMin": "Le mot de passe doit contenir au moins 6 caractères.",
       "generic": "Erreur lors de la connexion.",
       "unknown": "Une erreur inconnue est survenue."
     },
-    "error": "Erreur de connexion",
+    "errorMessage": "Erreur de connexion",
     "unknownError": "Une erreur inconnue est survenue",
     "welcome": "Bienvenue sur Agenda",
-    "email": "Email",
-    "emailPlaceholder": "votre@email.com",
-    "password": "Mot de passe",
-    "rememberMe": "Se souvenir de moi",
-    "forgotPassword": "Mot de passe oublié?",
-    "loginButton": "Se connecter",
-    "noAccount": "Pas encore de compte?",
     "createAccount": "Créer un compte"
   },
   "dashboard": {
@@ -107,7 +118,7 @@
     "day": "Jour",
     "month": "Mois",
     "list": "Liste",
-    "newAppointment": "Nouveau RDV",
+    "newAppointment": "Nouveau rendez-vous",
     "appointmentTypes": {
       "consultation": "Consultation",
       "massage": "Massage",
@@ -123,48 +134,7 @@
     "filters": {
       "types": "Types de rendez-vous",
       "status": "Statut"
-    },
-    "types": {
-      "consultation": "Consultation",
-      "massage": "Massage",
-      "coaching": "Coaching",
-      "therapie": "Thérapie",
-      "formation": "Formation"
     }
-  },
-  "clientsList": {
-    "title": "Liste des clients",
-    "name": "Nom",
-    "lastName": "Nom",
-    "firstName": "Prénom",
-    "email": "Email",
-    "phone": "Téléphone",
-    "seeDetails": "Voir la fiche"
-  },
-  "register": {
-    "errors": {
-      "nameMin": "Le nom doit contenir au moins 2 caractères.",
-      "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
-      "passwordMin": "Le mot de passe doit contenir au moins 6 caractères.",
-      "confirmPasswordMin": "La confirmation du mot de passe doit contenir au moins 6 caractères.",
-      "passwordsDontMatch": "Les mots de passe ne correspondent pas.",
-      "error": "Erreur lors de l'inscription.",
-      "unknownError": "Une erreur inconnue est survenue."
-    },
-    "title": "Créer un compte professionnel",
-    "subtitle": "Inscrivez-vous pour permettre à vos clients de réserver en ligne.",
-    "createAccountTitle": "Créer un compte",
-    "name": "Nom complet",
-    "namePlaceholder": "Jean Dupont",
-    "passwordPlaceholder": "••••••••",
-    "confirmPassword": "Confirmer le mot de passe",
-    "success": "Compte créé avec succès ! Redirection vers la page de connexion...",
-    "passwordsDontMatch": "Les mots de passe ne correspondent pas",
-    "error": "Erreur lors de l'inscription",
-    "unknownError": "Une erreur inconnue est survenue",
-    "loading": "Inscription en cours...",
-    "submit": "Créer mon compte",
-    "alreadyAccount": "Déjà un compte ?"
   },
   "userProfile": {
     "form": {
@@ -189,7 +159,6 @@
       "save": "Enregistrer",
       "cancel": "Annuler",
       "saving": "Enregistrement...",
-      "success": "Profil mis à jour avec succès !",
       "fullNameRequired": "Nom requis",
       "professionRequired": "Profession requise",
       "emailInvalid": "Email invalide",
@@ -257,6 +226,56 @@
     "cancelButton": "Annuler",
     "createButton": "Créer",
     "updateButton": "Mettre à jour"
+  },
+  "clientsList": {
+    "title": "Liste des clients",
+    "name": "Nom",
+    "lastName": "Nom",
+    "firstName": "Prénom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "seeDetails": "Voir la fiche"
+  },
+  "register": {
+    "errors": {
+      "nameMin": "Le nom doit contenir au moins 2 caractères.",
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+      "passwordMin": "Le mot de passe doit contenir au moins 6 caractères.",
+      "confirmPasswordMin": "La confirmation doit contenir au moins 6 caractères.",
+      "passwordsDontMatch": "Les mots de passe ne correspondent pas.",
+      "error": "Erreur lors de l'inscription.",
+      "unknownError": "Une erreur inconnue est survenue."
+    },
+    "title": "Créer un compte professionnel",
+    "subtitle": "Inscrivez-vous pour permettre à vos clients de réserver en ligne.",
+    "createAccountTitle": "Créer un compte",
+    "name": "Nom complet",
+    "namePlaceholder": "Jean Dupont",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmer le mot de passe",
+    "success": "Compte créé avec succès ! Redirection vers la page de connexion...",
+    "passwordsDontMatch": "Les mots de passe ne correspondent pas",
+    "error": "Erreur lors de l'inscription",
+    "unknownError": "Une erreur inconnue est survenue",
+    "loading": "Inscription en cours...",
+    "submit": "Créer mon compte",
+    "alreadyAccount": "Déjà un compte ?"
+  },
+  "index": {
+    "title": "agenda.ch",
+    "subtitle": "Gestion de rendez-vous pour professionnels",
+    "calendarTitle": "Gestion de calendrier",
+    "calendarDesc": "Gérez facilement vos rendez-vous avec un calendrier intuitif et personnalisable.",
+    "smsTitle": "Notifications SMS",
+    "smsDesc": "Envoyez automatiquement des rappels et des confirmations de rendez-vous par SMS.",
+    "statsTitle": "Statistiques",
+    "statsDesc": "Analysez votre activité avec des statistiques détaillées et des rapports personnalisés."
+  },
+  "publicLayout": {
+    "copyright": "© 2025 Agenda.ch - Tous droits réservés",
+    "help": "Aide",
+    "terms": "Conditions",
+    "privacy": "Confidentialité"
   },
   "toast": {
     "appointmentCreated": "Rendez-vous créé avec succès",

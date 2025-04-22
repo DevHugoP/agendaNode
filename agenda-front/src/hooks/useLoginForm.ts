@@ -37,13 +37,13 @@ export function useLoginForm(): UseLoginForm {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError('generic'); // Réinitialise l'erreur à une clé par défaut
     setIsLoading(true);
     // Validation Zod
     const result = loginSchema.safeParse({ email, password });
     if (!result.success) {
       const firstError = result.error.errors[0];
-      setError(t(firstError.message));
+      setError(firstError.message); // Stocke la clé d'erreur
       setIsLoading(false);
       return;
     }
@@ -54,11 +54,16 @@ export function useLoginForm(): UseLoginForm {
       navigate('/dashboard');
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || t('login.errors.generic'));
+        // On attend que l'API renvoie une clé d'erreur, sinon on fallback sur 'generic'
+        setError(
+          typeof err.response?.data?.errorKey === 'string'
+            ? err.response.data.errorKey
+            : 'generic'
+        );
       } else if (err instanceof Error) {
-        setError(err.message);
+        setError('generic');
       } else {
-        setError(t('login.errors.unknown'));
+        setError('unknown');
       }
     } finally {
       setIsLoading(false);

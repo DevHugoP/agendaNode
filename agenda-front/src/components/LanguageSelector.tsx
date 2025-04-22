@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronRight } from "lucide-react";
+import Button from "./Button";
 
 const LANGUAGES = [
   { code: "fr", label: "Français", flag: "🇫🇷" },
@@ -63,28 +64,25 @@ export const LanguageSelector: React.FC = () => {
     }
   };
 
-  // Responsive : sur mobile, n'afficher que le globe ou le drapeau
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
 
   return (
     <div className="relative inline-block text-left">
-      <button
-        ref={btnRef}
-        className="flex items-center gap-1 px-1.5 py-1 rounded-full border border-gray-200 bg-white shadow-sm hover:bg-agenda-light-purple/10 focus:ring-2 focus:ring-agenda-purple focus:outline-none text-xs font-medium transition min-w-[36px] max-h-9"
+      <Button
+        type="button"
+        className="bg-white text-agenda-purple py-2 px-4 rounded hover:bg-gray-100 transition-colors"
+        style={{ borderRadius: '0.24rem', padding: '0.48rem' }}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls="lang-menu"
         tabIndex={0}
         onClick={() => setOpen((v) => !v)}
         onKeyDown={handleButtonKeyDown}
-        style={{lineHeight: 1.1}}
       >
-        {/* Mobile: globe ou drapeau seul, Desktop: drapeau + texte */}
         <span className="sm:hidden">{Globe()}</span>
-        <span className="hidden sm:inline text-base">{LANGUAGES.find(l => l.code === selected)?.flag}</span>
-        <span className="hidden md:inline text-xs font-semibold ml-0.5">{LANGUAGES.find(l => l.code === selected)?.label}</span>
-        <ChevronRight className={`ml-0.5 w-3.5 h-3.5 opacity-70 transition-transform duration-200 ${open ? "rotate-90" : "rotate-0"}`} aria-hidden="true" />
-      </button>
+        <span className="hidden sm:inline">{LANGUAGES.find(l => l.code === selected)?.flag}</span>
+        <span className="hidden md:inline ml-2">{LANGUAGES.find(l => l.code === selected)?.label}</span>
+        <ChevronRight className={`ml-2 w-5 h-5 opacity-70 transition-transform duration-200 ${open ? "rotate-90" : "rotate-0"}`} aria-hidden="true" />
+      </Button>
       <div
         ref={menuRef}
         id="lang-menu"

@@ -1,12 +1,15 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../components/LanguageSelector';
 
 interface PublicLayoutProps {
   children: ReactNode;
 }
 
 const PublicLayout = ({ children }: PublicLayoutProps) => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen flex flex-col">
       <motion.header 
@@ -19,7 +22,7 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
           <Link to="/" className="text-xl font-bold">
             agenda.ch
           </Link>
-          <div className="space-x-4">
+          <div className="flex items-center space-x-4">
             <Link to="/register" className="text-white hover:text-gray-200">
               S'inscrire
             </Link>
@@ -29,11 +32,15 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
             >
               Se connecter
             </Link>
+            <div className="ml-4">
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       </motion.header>
       
       <main className="flex-grow">
+        
         {children}
       </main>
       
@@ -46,17 +53,17 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-center md:text-left mb-4 md:mb-0">
-              <p className="text-gray-600">&copy; 2025 Agenda.ch - Tous droits réservés</p>
+              <p className="text-gray-600">{t('publicLayout.copyright')}</p>
             </div>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-600 hover:text-agenda-purple">
-                Aide
+                {t('publicLayout.help')}
               </a>
               <a href="#" className="text-gray-600 hover:text-agenda-purple">
-                Conditions
+                {t('publicLayout.terms')}
               </a>
               <a href="#" className="text-gray-600 hover:text-agenda-purple">
-                Confidentialité
+                {t('publicLayout.privacy')}
               </a>
             </div>
           </div>

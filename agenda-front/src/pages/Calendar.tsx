@@ -383,7 +383,7 @@ const Calendar = () => {
                       onChange={() => handleTypeFilterChange(type.id)}
                     />
                     <span className='ml-2 text-sm text-gray-700 group-hover:text-gray-900'>
-                      {t(`calendar.types.${type.id}`)}
+                      {t(`calendar.appointmentTypes.${type.id}`)}
                     </span>
                     <div
                       className='ml-auto w-4 h-4 rounded-full transition-transform group-hover:scale-125'

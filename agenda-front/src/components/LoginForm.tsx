@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
 import { useLoginForm } from '../hooks/useLoginForm';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const {
     email, setEmail,
     password, setPassword,
@@ -20,7 +22,8 @@ const LoginForm = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-800">Connexion</h2>
+        <h2 className="text-2xl font-bold text-gray-800">{t('login.title')}</h2>
+        <p className="text-gray-500">{t('login.subtitle')}</p>
       </div>
       
       {error && (
@@ -30,14 +33,14 @@ const LoginForm = () => {
           animate={{ opacity: 1, height: 'auto' }}
           transition={{ duration: 0.3 }}
         >
-          <p>{error}</p>
+          <p>{t(`login.errors.${error}`) || t('login.errors.generic')}</p>
         </motion.div>
       )}
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="form-control">
           <label htmlFor="email" className="form-label">
-            Email
+            {t('login.email')}
           </label>
           <input
             id="email"
@@ -45,14 +48,14 @@ const LoginForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="form-input"
-            placeholder="votre@email.com"
+            placeholder={t('login.emailPlaceholder')}
             required
           />
         </div>
         
         <div className="form-control">
           <label htmlFor="password" className="form-label">
-            Mot de passe
+            {t('login.password')}
           </label>
           <div className="relative">
             <input
@@ -61,7 +64,7 @@ const LoginForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
-              placeholder="••••••••"
+              placeholder={t('login.passwordPlaceholder')}
               required
             />
             <button
@@ -89,12 +92,12 @@ const LoginForm = () => {
               className="h-4 w-4 text-agenda-purple focus:ring-agenda-purple border-gray-300 rounded"
             />
             <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-              Rester connecté
+              {t('login.rememberMe')}
             </label>
           </div>
           <div className="text-sm">
             <a href="#" className="text-agenda-purple hover:text-agenda-light-purple">
-              Mot de passe oublié?
+              {t('login.forgotPassword')}
             </a>
           </div>
         </div>
@@ -110,29 +113,21 @@ const LoginForm = () => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Connexion en cours...
+              {t('login.loading')}
             </span>
           ) : (
-            'Se connecter'
+            t('login.button')
           )}
         </button>
       </form>
       
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
-          Pas encore de compte?{' '}
+          {t('login.noAccount')}{' '}
           <Link to="/register" className="text-agenda-purple hover:text-agenda-light-purple">
-            S'inscrire
+            {t('login.signup')}
           </Link>
         </p>
-      </div>
-      
-      <div className="mt-6 flex justify-center space-x-4">
-        <button className="text-gray-600 hover:text-gray-900">FR</button>
-        <span className="text-gray-400">|</span>
-        <button className="text-gray-400 hover:text-gray-600">DE</button>
-        <span className="text-gray-400">|</span>
-        <button className="text-gray-400 hover:text-gray-600">EN</button>
       </div>
     </motion.div>
   );

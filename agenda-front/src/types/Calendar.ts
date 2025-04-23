@@ -1,6 +1,4 @@
-// Types centralisés pour le calendrier et les événements
 import { EventClickArg as FCEventClickArg, DateSelectArg as FCDateSelectArg, EventApi } from '@fullcalendar/core';
-
 export interface CalendarComponentProps {
   events: CalendarEvent[];
   onEventClick?: (event: CalendarEvent) => void;

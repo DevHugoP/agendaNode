@@ -9,7 +9,7 @@ import type { LoginFormValues, RegisterFormValues, LoginResponse, RegisterRespon
 export const registerUser = async (
   data: RegisterFormValues
 ): Promise<RegisterResponse> => {
-  const { confirmPassword, ...payload } = data; // Ne pas envoyer confirmPassword à l'API
+  const { confirmPassword, ...payload } = data;
   const response = await API.post<RegisterResponse>("/auth/register", payload);
   return response.data;
 };

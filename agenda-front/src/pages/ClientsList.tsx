@@ -6,10 +6,9 @@ import { Users, Eye } from "lucide-react";
 
 import { useTranslation } from 'react-i18next';
 
-import { ReactElement } from "react";
 import { Client } from "../types/Client";
 
-export default function ClientsList(): ReactElement {
+export default function ClientsList() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
@@ -44,7 +43,7 @@ export default function ClientsList(): ReactElement {
 </tr>
               </thead>
               <tbody className="gap-y-1">
-                {mockClients.map((client) => (
+                {mockClients.map((client: Client) => (
   <tr
     key={client.id}
     className="border-b hover:bg-agenda-purple/5 h-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-agenda-purple active:bg-agenda-purple/10"

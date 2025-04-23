@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import type { SidebarTooltipProps } from '../types/SidebarTooltip';
 

@@ -1,42 +1,30 @@
-// Librairies externes
 import { useState, useEffect } from "react";
-
 import { HelpCircle, PlusCircle, Calendar as CalendarIc, CheckCircle2, XCircle } from "lucide-react";
 import { useTranslation } from 'react-i18next';
-
-// Layout & composants principaux
-
 import { CalendarEvent } from "../types/Calendar";
 import CalendarComponent from "../components/CalendarComponent";
 import AppointmentModal, { AppointmentFormData } from "../components/AppointmentModal";
 import MainLayout from "../layouts/MainLayout";
-
-// Outils divers
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
-// --- Helpers & constantes globales ---
-
-// Liste des types de rendez-vous et couleurs associées
+// Types de rendez-vous et couleurs associées
 const appointmentTypes = [
-  { id: "consultation", color: "#2563eb" }, // Bleu vif
-  { id: "massage", color: "#059669" }, // Vert foncé
-  { id: "coaching", color: "#dc2626" }, // Rouge vif
-  { id: "therapie", color: "#f59e0b" }, // Jaune foncé
-  { id: "formation", color: "#4f46e5" }, // Indigo foncé
+  { id: "consultation", color: "#2563eb" },
+  { id: "massage", color: "#059669" },
+  { id: "coaching", color: "#dc2626" },
+  { id: "therapie", color: "#f59e0b" },
+  { id: "formation", color: "#4f46e5" },
 ];
 
-// --- Génération d'événements factices pour démo ---
 const generateMockEvents = (): CalendarEvent[] => {
   const today = new Date();
   const events: CalendarEvent[] = [];
-  const statuses: ("confirmed" | "pending" | "cancelled")[] = ["confirmed", "pending", "cancelled"];
   const clientNames = [
     "Jean Dupont", "Marie Martin", "Sophie Dubois", "Michel Bernard",
     "Émilie Petit", "François Dubois", "Laura Moreau", "Thomas Leroy"
   ];
 
-  // --- Événements fixes pour chaque statut (toujours visibles) ---
   events.push(
     {
       id: 'event-demo-confirmed',
@@ -82,7 +70,6 @@ const generateMockEvents = (): CalendarEvent[] => {
     }
   );
 
-  // --- Génération aléatoire d'événements sur 14 jours ouvrés ---
   for (let i = -3; i < 14; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
@@ -103,6 +90,7 @@ const generateMockEvents = (): CalendarEvent[] => {
         const endDate = new Date(startDate);
         endDate.setMinutes(startDate.getMinutes() + duration);
 
+        const statuses: ("confirmed" | "pending" | "cancelled")[] = ["confirmed", "pending", "cancelled"];
         const status = statuses[Math.floor(Math.random() * statuses.length)];
         const clientName = clientNames[Math.floor(Math.random() * clientNames.length)];
 
@@ -123,11 +111,8 @@ const generateMockEvents = (): CalendarEvent[] => {
       }
     }
   }
-
   return events;
 };
-
-// Fonction utilitaire pour obtenir le type d'un événement
 const getAppointmentTypeById = (typeId: string): { id: string; color: string } | undefined => {
   return (
     appointmentTypes.find((type) => type.id === typeId) || appointmentTypes[0]
@@ -136,7 +121,6 @@ const getAppointmentTypeById = (typeId: string): { id: string; color: string } |
 
 function Calendar(): ReactElement {
   const { t } = useTranslation();
-  // --- Composant principal Calendar ---
   // États principaux du calendrier
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
@@ -154,7 +138,6 @@ function Calendar(): ReactElement {
   const [newModalKey, setNewModalKey] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Charger les événements factices
   useEffect(() => {
     setIsLoading(true);
 
@@ -171,13 +154,11 @@ function Calendar(): ReactElement {
     setFilters((prev) => {
       const types = [...prev.appointmentTypes];
       if (types.includes(typeId)) {
-        // Retirer le type s'il est déjà inclus
         return {
           ...prev,
           appointmentTypes: types.filter((id) => id !== typeId),
         };
       } else {
-        // Ajouter le type s'il n'est pas inclus
         return { ...prev, appointmentTypes: [...types, typeId] };
       }
     });
@@ -185,19 +166,19 @@ function Calendar(): ReactElement {
 
   // Filtrer les événements
   const filteredEvents = events.filter((event) => {
-  let status = event.extendedProps?.status;
-  const type = event.extendedProps?.type || "consultation";
+    let status = event.extendedProps?.status;
+    const type = event.extendedProps?.type || "consultation";
 
-  // Normalise et sécurise le statut
-  if (status !== "confirmed" && status !== "pending" && status !== "cancelled") {
-    status = "confirmed";
-  }
+    // Normalise et sécurise le statut
+    if (status !== "confirmed" && status !== "pending" && status !== "cancelled") {
+      status = "confirmed";
+    }
 
-  return (
-    filters.status[status as keyof typeof filters.status] === true &&
-    filters.appointmentTypes.includes(type)
-  );
-});
+    return (
+      filters.status[status as keyof typeof filters.status] === true &&
+      filters.appointmentTypes.includes(type)
+    );
+  });
 
   // Gérer le clic sur un événement
   const handleEventClick = (event: CalendarEvent) => {

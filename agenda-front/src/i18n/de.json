@@ -138,148 +138,156 @@
   },
   "userProfile": {
     "form": {
-      "fullName": "Vollständiger Name",
-      "fullNamePlaceholder": "z.B. Max Mustermann",
-      "profession": "Beruf",
-      "professionPlaceholder": "z.B. Osteopath, Coach...",
-      "email": "E-Mail",
-      "emailPlaceholder": "deine@email.com",
-      "phone": "Telefon",
-      "phonePlaceholder": "z.B. +41 79 123 45 67",
-      "company": "Firma",
-      "companyPlaceholder": "Firmenname",
-      "address": "Adresse",
-      "addressPlaceholder": "Straße, Stadt...",
-      "website": "Webseite",
-      "websitePlaceholder": "https://deinewebseite.com",
-      "bio": "Bio",
-      "bioPlaceholder": "Beschreibe dich, deinen Ansatz, deine Werte... (max. 500 Zeichen)",
-      "avatar": "Avatar-URL",
-      "avatarPlaceholder": "Füge die URL deines Profilbilds ein",
-      "save": "Speichern",
-      "cancel": "Abbrechen",
-      "saving": "Speichern...",
-      "fullNameRequired": "Name ist erforderlich",
-      "professionRequired": "Beruf ist erforderlich",
-      "emailInvalid": "Ungültige E-Mail",
-      "phoneRequired": "Telefon ist erforderlich",
-      "companyRequired": "Firma ist erforderlich",
-      "addressRequired": "Adresse ist erforderlich",
-      "websiteInvalid": "Ungültige URL",
-      "bioMax": "Maximal 500 Zeichen",
-      "avatarInvalid": "Ungültige Avatar-URL"
+      "fullNamePlaceholder": "Vollständiger Name",
+      "professionPlaceholder": "Beruf",
+      "emailPlaceholder": "E-Mail-Adresse",
+      "phonePlaceholder": "Telefonnummer",
+      "companyPlaceholder": "Firma",
+      "addressPlaceholder": "Adresse",
+      "websitePlaceholder": "Webseite",
+      "bioPlaceholder": "Biografie",
+      "avatarPlaceholder": "Avatar"
     },
-    "edit": "Profil bearbeiten",
-    "success": "Profil erfolgreich aktualisiert!",
-    "about": "Über mich",
-    "stripe": {
-      "connected": "Stripe verbunden",
-      "notConnected": "Stripe nicht verbunden"
-    },
-    "googleCalendar": {
-      "synced": "Google Kalender synchronisiert",
-      "notSynced": "Nicht synchronisiert"
-    },
-    "stats": {
-      "appointments": "Termine insgesamt",
-      "clients": "Kunden insgesamt",
-      "revenue": "Gesamter Umsatz",
-      "upcoming": "Bevorstehende Termine"
-    }
-  },
-  "appointment": {
-    "errors": {
-      "titleMin": "Der Titel muss mindestens 2 Zeichen lang sein.",
-      "clientNameMin": "Der Name des Kunden muss mindestens 2 Zeichen lang sein.",
-      "startRequired": "Startdatum ist erforderlich.",
-      "endRequired": "Enddatum ist erforderlich.",
-      "typeMin": "Bitte wählen Sie eine Leistung aus.",
-      "statusInvalid": "Der ausgewählte Status ist ungültig.",
-      "endAfterStart": "Das Enddatum muss nach dem Startdatum liegen."
-    }
-  },
-  "appointmentModal": {
-    "editTitle": "Termin bearbeiten",
-    "newTitle": "Neuer Termin",
-    "types": {
-      "consultation": "Beratung",
-      "massage": "Massage",
-      "coaching": "Coaching",
-      "therapie": "Therapie",
-      "formation": "Schulung"
-    },
-    "serviceLabel": "Leistung",
-    "titleLabel": "Titel des Termins",
-    "titlePlaceholder": "Titel eingeben (optional)",
-    "clientLabel": "Kundenname",
-    "clientPlaceholder": "z.B. Max Mustermann",
-    "startLabel": "Beginn",
-    "endLabel": "Ende",
-    "durationLabel": "Dauer: {{duration}}",
-    "statusLabel": "Status",
-    "statusConfirmed": "Bestätigt",
-    "statusPending": "Ausstehend",
-    "statusCancelled": "Abgesagt",
-    "notesLabel": "Notizen",
-    "notesPlaceholder": "Notiz hinzufügen (optional)",
-    "deleteButton": "Löschen",
-    "cancelButton": "Abbrechen",
-    "createButton": "Erstellen",
-    "updateButton": "Aktualisieren"
-  },
-  "clientsList": {
-    "title": "Kundenliste",
-    "name": "Name",
-    "lastName": "Nachname",
-    "firstName": "Vorname",
+    "fullNamePlaceholder": "z.B. Max Mustermann",
+    "profession": "Beruf",
+    "professionPlaceholder": "z.B. Osteopath, Coach...",
     "email": "E-Mail",
+    "emailPlaceholder": "deine@email.com",
     "phone": "Telefon",
-    "seeDetails": "Details anzeigen"
+    "phonePlaceholder": "Telefonnummer",
+    "company": "Firma",
+    "companyPlaceholder": "Firmenname",
+    "address": "Adresse",
+    "addressPlaceholder": "Straße, Stadt...",
+    "website": "Webseite",
+    "websitePlaceholder": "https://deinewebseite.com",
+    "bio": "Bio",
+    "bioPlaceholder": "Beschreibe dich, deinen Ansatz, deine Werte... (max. 500 Zeichen)",
+    "avatar": "Avatar-URL",
+    "avatarPlaceholder": "Füge die URL deines Profilbilds ein",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "saving": "Speichern...",
+    "fullNameRequired": "Name ist erforderlich",
+    "professionRequired": "Beruf ist erforderlich",
+    "emailInvalid": "Ungültige E-Mail",
+    "phoneRequired": "Telefon ist erforderlich",
+    "companyRequired": "Firma ist erforderlich",
+    "addressRequired": "Adresse ist erforderlich",
+    "websiteInvalid": "Ungültige URL",
+    "bioMax": "Maximal 500 Zeichen",
+    "avatarInvalid": "Ungültige Avatar-URL"
   },
-  "register": {
-    "errors": {
-      "nameMin": "Der Name muss mindestens 2 Zeichen lang sein.",
-      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-      "passwordMin": "Das Passwort muss mindestens 6 Zeichen lang sein.",
-      "confirmPasswordMin": "Die Bestätigung muss mindestens 6 Zeichen lang sein.",
-      "passwordsDontMatch": "Passwörter stimmen nicht überein.",
-      "error": "Registrierungsfehler.",
-      "unknownError": "Ein unbekannter Fehler ist aufgetreten."
-    },
-    "title": "Professionelles Konto erstellen",
-    "subtitle": "Registriere dich, damit deine Kunden online buchen können.",
-    "createAccountTitle": "Konto erstellen",
-    "name": "Vollständiger Name",
-    "namePlaceholder": "Max Mustermann",
-    "passwordPlaceholder": "••••••••",
-    "confirmPassword": "Passwort bestätigen",
-    "success": "Konto erfolgreich erstellt! Weiterleitung zur Anmeldung...",
-    "passwordsDontMatch": "Passwörter stimmen nicht überein",
-    "error": "Registrierungsfehler",
-    "unknownError": "Ein unbekannter Fehler ist aufgetreten",
-    "loading": "Registrierung läuft...",
-    "submit": "Konto erstellen",
-    "alreadyAccount": "Schon ein Konto?"
+  "edit": "Profil bearbeiten",
+  "success": "Profil erfolgreich aktualisiert!",
+  "about": "Über mich",
+  "stripe": {
+    "connected": "Stripe verbunden",
+    "notConnected": "Stripe nicht verbunden"
   },
-  "index": {
-    "title": "agenda.ch",
-    "subtitle": "Terminverwaltung für Fachkräfte",
-    "calendarTitle": "Kalenderverwaltung",
-    "calendarDesc": "Verwalten Sie Ihre Termine einfach mit einem intuitiven und anpassbaren Kalender.",
-    "smsTitle": "SMS-Benachrichtigungen",
-    "smsDesc": "Senden Sie automatisch Erinnerungen und Terminbestätigungen per SMS.",
-    "statsTitle": "Statistiken",
-    "statsDesc": "Analysieren Sie Ihre Aktivitäten mit detaillierten Statistiken und individuellen Berichten."
+  "googleCalendar": {
+    "synced": "Google Kalender synchronisiert",
+    "notSynced": "Nicht synchronisiert"
   },
-  "publicLayout": {
-    "copyright": "© 2025 Agenda.ch - Alle Rechte vorbehalten",
-    "help": "Hilfe",
-    "terms": "Bedingungen",
-    "privacy": "Datenschutz"
+  "stats": {
+    "appointments": "Termine insgesamt",
+    "clients": "Kunden insgesamt",
+    "revenue": "Gesamter Umsatz",
+    "upcoming": "Bevorstehende Termine"
   },
-  "toast": {
-    "appointmentCreated": "Termin erfolgreich erstellt",
-    "appointmentUpdated": "Termin erfolgreich aktualisiert",
-    "appointmentDeleted": "Termin erfolgreich gelöscht"
+"appointment": {
+  "errors": {
+    "titleMin": "Der Titel muss mindestens 2 Zeichen lang sein.",
+    "clientNameMin": "Der Name des Kunden muss mindestens 2 Zeichen lang sein.",
+    "startRequired": "Startdatum ist erforderlich.",
+    "endRequired": "Enddatum ist erforderlich.",
+    "typeMin": "Bitte wählen Sie eine Leistung aus.",
+    "statusInvalid": "Der ausgewählte Status ist ungültig.",
+    "endAfterStart": "Das Enddatum muss nach dem Startdatum liegen."
   }
+},
+"appointmentModal": {
+  "editTitle": "Termin bearbeiten",
+  "newTitle": "Neuer Termin",
+  "types": {
+    "consultation": "Beratung",
+    "massage": "Massage",
+    "coaching": "Coaching",
+    "therapie": "Therapie",
+    "formation": "Schulung"
+  },
+  "serviceLabel": "Leistung",
+  "titleLabel": "Titel des Termins",
+  "titlePlaceholder": "Titel eingeben (optional)",
+  "clientLabel": "Kundenname",
+  "clientPlaceholder": "z.B. Max Mustermann",
+  "startLabel": "Beginn",
+  "endLabel": "Ende",
+  "durationLabel": "Dauer: {{duration}}",
+  "statusLabel": "Status",
+  "statusConfirmed": "Bestätigt",
+  "statusPending": "Ausstehend",
+  "statusCancelled": "Abgesagt",
+  "notesLabel": "Notizen",
+  "notesPlaceholder": "Notiz hinzufügen (optional)",
+  "deleteButton": "Löschen",
+  "cancelButton": "Abbrechen",
+  "createButton": "Erstellen",
+  "updateButton": "Aktualisieren"
+},
+"clientsList": {
+  "title": "Kundenliste",
+  "name": "Name",
+  "lastName": "Nachname",
+  "firstName": "Vorname",
+  "email": "E-Mail",
+  "phone": "Telefon",
+  "seeDetails": "Details anzeigen"
+},
+"register": {
+  "errors": {
+    "nameMin": "Der Name muss mindestens 2 Zeichen lang sein.",
+    "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+    "passwordMin": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+    "confirmPasswordMin": "Die Bestätigung muss mindestens 6 Zeichen lang sein.",
+    "passwordsDontMatch": "Passwörter stimmen nicht überein.",
+    "error": "Registrierungsfehler.",
+    "unknownError": "Ein unbekannter Fehler ist aufgetreten."
+  },
+  "title": "Professionelles Konto erstellen",
+  "subtitle": "Registriere dich, damit deine Kunden online buchen können.",
+  "createAccountTitle": "Konto erstellen",
+  "name": "Vollständiger Name",
+  "namePlaceholder": "Max Mustermann",
+  "passwordPlaceholder": "••••••••",
+  "confirmPassword": "Passwort bestätigen",
+  "success": "Konto erfolgreich erstellt! Weiterleitung zur Anmeldung...",
+  "passwordsDontMatch": "Passwörter stimmen nicht überein",
+  "error": "Registrierungsfehler",
+  "unknownError": "Ein unbekannter Fehler ist aufgetreten",
+  "loading": "Registrierung läuft...",
+  "submit": "Konto erstellen",
+  "alreadyAccount": "Schon ein Konto?"
+},
+"index": {
+  "title": "agenda.ch",
+  "subtitle": "Terminverwaltung für Fachkräfte",
+  "calendarTitle": "Kalenderverwaltung",
+  "calendarDesc": "Verwalten Sie Ihre Termine einfach mit einem intuitiven und anpassbaren Kalender.",
+  "smsTitle": "SMS-Benachrichtigungen",
+  "smsDesc": "Senden Sie automatisch Erinnerungen und Terminbestätigungen per SMS.",
+  "statsTitle": "Statistiken",
+  "statsDesc": "Analysieren Sie Ihre Aktivitäten mit detaillierten Statistiken und individuellen Berichten."
+},
+"publicLayout": {
+  "copyright": "© 2025 Agenda.ch - Alle Rechte vorbehalten",
+  "help": "Hilfe",
+  "terms": "Bedingungen",
+  "privacy": "Datenschutz"
+},
+"toast": {
+  "appointmentCreated": "Termin erfolgreich erstellt",
+  "appointmentUpdated": "Termin erfolgreich aktualisiert",
+  "appointmentDeleted": "Termin erfolgreich gelöscht"
+}
 }

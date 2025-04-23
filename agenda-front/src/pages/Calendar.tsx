@@ -1,27 +1,23 @@
+// Librairies externes
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  CheckCircle2, 
-  XCircle, 
-  HelpCircle, 
-  PlusCircle, 
-  Calendar as CalendarIc 
-} from "lucide-react";
-import MainLayout from "../layouts/MainLayout";
-import CalendarComponent, {
-  CalendarEvent,
-} from "../components/CalendarComponent";
-import AppointmentModal, {
-  AppointmentFormData,
-} from "../components/AppointmentModal";
 
-import { toast } from "sonner";
+import { HelpCircle, PlusCircle, Calendar as CalendarIc, CheckCircle2, XCircle } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
-// Utilitaire pour traduire les types d'événements
-const getTypeLabel = (t: any, typeId: string) => t(`calendar.appointmentTypes.${typeId}`);
+// Layout & composants principaux
 
-// Style des types de rendez-vous
+import { CalendarEvent } from "../types/Calendar";
+import CalendarComponent from "../components/CalendarComponent";
+import AppointmentModal, { AppointmentFormData } from "../components/AppointmentModal";
+import MainLayout from "../layouts/MainLayout";
+
+// Outils divers
+import { toast } from "sonner";
+import { motion } from "framer-motion";
+
+// --- Helpers & constantes globales ---
+
+// Liste des types de rendez-vous et couleurs associées
 const appointmentTypes = [
   { id: "consultation", color: "#2563eb" }, // Bleu vif
   { id: "massage", color: "#059669" }, // Vert foncé
@@ -30,27 +26,17 @@ const appointmentTypes = [
   { id: "formation", color: "#4f46e5" }, // Indigo foncé
 ];
 
-// Générer des événements factices
+// --- Génération d'événements factices pour démo ---
 const generateMockEvents = (): CalendarEvent[] => {
   const today = new Date();
   const events: CalendarEvent[] = [];
-  const statuses: ("confirmed" | "pending" | "cancelled")[] = [
-    "confirmed",
-    "pending",
-    "cancelled",
-  ];
+  const statuses: ("confirmed" | "pending" | "cancelled")[] = ["confirmed", "pending", "cancelled"];
   const clientNames = [
-    "Jean Dupont",
-    "Marie Martin",
-    "Sophie Dubois",
-    "Michel Bernard",
-    "Émilie Petit",
-    "François Dubois",
-    "Laura Moreau",
-    "Thomas Leroy",
+    "Jean Dupont", "Marie Martin", "Sophie Dubois", "Michel Bernard",
+    "Émilie Petit", "François Dubois", "Laura Moreau", "Thomas Leroy"
   ];
 
-  // Ajout d'exemples explicites pour chaque statut (toujours visibles)
+  // --- Événements fixes pour chaque statut (toujours visibles) ---
   events.push(
     {
       id: 'event-demo-confirmed',
@@ -96,7 +82,7 @@ const generateMockEvents = (): CalendarEvent[] => {
     }
   );
 
-  // Générer des événements pour les 14 jours à venir
+  // --- Génération aléatoire d'événements sur 14 jours ouvrés ---
   for (let i = -3; i < 14; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
@@ -113,21 +99,16 @@ const generateMockEvents = (): CalendarEvent[] => {
         const duration = [30, 45, 60, 90][Math.floor(Math.random() * 4)]; // Durées en minutes
 
         const startDate = new Date(date);
-        startDate.setHours(startHour, Math.floor(Math.random() * 4) * 15, 0); // Heures pile et quarts d'heures
-
+        startDate.setHours(startHour, 0, 0, 0);
         const endDate = new Date(startDate);
-        endDate.setMinutes(endDate.getMinutes() + duration);
+        endDate.setMinutes(startDate.getMinutes() + duration);
 
-        const clientName =
-          clientNames[Math.floor(Math.random() * clientNames.length)];
-        const status =
-          Math.random() > 0.8
-            ? statuses[Math.floor(Math.random() * 3)]
-            : "confirmed"; // 80% confirmés, 20% autre statut
+        const status = statuses[Math.floor(Math.random() * statuses.length)];
+        const clientName = clientNames[Math.floor(Math.random() * clientNames.length)];
 
         events.push({
           id: `event-${i}-${j}`,
-          title: `${eventType.name}`,
+          title: eventType.id.charAt(0).toUpperCase() + eventType.id.slice(1),
           start: startDate.toISOString(),
           end: endDate.toISOString(),
           backgroundColor: eventType.color,
@@ -136,8 +117,7 @@ const generateMockEvents = (): CalendarEvent[] => {
             clientName,
             type: eventType.id,
             status,
-            notes:
-              Math.random() > 0.7 ? (window?.i18next?.language === 'en' ? "Notes for this appointment..." : "Notes pour ce rendez-vous...") : undefined,
+            notes: '',
           },
         });
       }
@@ -156,11 +136,10 @@ const getAppointmentTypeById = (typeId: string) => {
 
 const Calendar = () => {
   const { t } = useTranslation();
+  // --- Composant principal Calendar ---
+  // États principaux du calendrier
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [filters, setFilters] = useState({
     appointmentTypes: appointmentTypes.map((type) => type.id), // Tous activés par défaut
     status: {
@@ -169,18 +148,11 @@ const Calendar = () => {
       cancelled: true,
     },
   });
-
-  // États pour la modal de création de rendez-vous
-  const [isNewAppointmentModalOpen, setIsNewAppointmentModalOpen] =
-    useState(false);
-  // Counter to force remount of AppointmentModal for new appointments
+  const [isNewAppointmentModalOpen, setIsNewAppointmentModalOpen] = useState(false);
+  const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(undefined);
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>(undefined);
   const [newModalKey, setNewModalKey] = useState(0);
-  const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(
-    undefined
-  );
-  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>(
-    undefined
-  );
+  const [isLoading, setIsLoading] = useState(false);
 
   // Charger les événements factices
   useEffect(() => {
@@ -233,7 +205,7 @@ const Calendar = () => {
   };
 
   // Gérer la sélection d'une plage de dates par glissement
-  const handleDateSelect = (start: Date, end: Date, allDay: boolean) => {
+  const handleDateSelect = (start: Date, end: Date) => {
     setSelectedStartDate(start);
     setSelectedEndDate(end);
     setNewModalKey((k) => k + 1);
@@ -251,22 +223,21 @@ const Calendar = () => {
   // Créer ou éditer un rendez-vous
   const handleSaveAppointment = (appointmentData: AppointmentFormData) => {
     const typeInfo = getAppointmentTypeById(appointmentData.appointmentType);
-    let isEdit = false;
     let updatedEvents = events;
 
     // Si on est en édition, remplacer l'événement existant
     if (
       appointmentData &&
-      (appointmentData as any).id &&
-      events.some((e) => e.id === (appointmentData as any).id)
+      'id' in appointmentData &&
+      typeof appointmentData.id === 'string' &&
+      events.some((e) => e.id === appointmentData.id)
     ) {
-      isEdit = true;
       updatedEvents = events.map((event) =>
-        event.id === (appointmentData as any).id
+        event.id === appointmentData.id
           ? {
               ...event,
               ...appointmentData,
-              title: `${typeInfo.name} - ${appointmentData.clientName}`,
+              title: `${typeInfo.id.charAt(0).toUpperCase() + typeInfo.id.slice(1)} - ${appointmentData.clientName}`,
               backgroundColor: typeInfo.color,
               borderColor: typeInfo.color,
               extendedProps: {
@@ -284,7 +255,7 @@ const Calendar = () => {
       // Création
       const newEvent: CalendarEvent = {
         id: `event-${Date.now()}`,
-        title: `${typeInfo.name} - ${appointmentData.clientName}`,
+        title: `${typeInfo.id.charAt(0).toUpperCase() + typeInfo.id.slice(1)} - ${appointmentData.clientName}`,
         start: appointmentData.start.toISOString(),
         end: appointmentData.end.toISOString(),
         backgroundColor: typeInfo.color,
@@ -482,7 +453,6 @@ const Calendar = () => {
               events={filteredEvents}
               onEventClick={handleEventClick}
               onDateSelect={handleDateSelect}
-              onNewAppointmentClick={handleNewAppointmentClick}
               onEventDrop={handleEventDrop}
             />
           </div>
@@ -498,10 +468,10 @@ const Calendar = () => {
             id: selectedEvent.id,
             title: selectedEvent.title ?? '',
             clientName: selectedEvent.extendedProps?.clientName ?? '',
-            start: selectedEvent.start ? new Date(selectedEvent.start) : new Date(),
-            end: selectedEvent.end ? new Date(selectedEvent.end) : new Date(),
+            start: selectedEvent.start ? new Date(selectedEvent.start) : undefined,
+            end: selectedEvent.end ? new Date(selectedEvent.end) : undefined,
             appointmentType: selectedEvent.extendedProps?.type ?? 'consultation',
-            status: selectedEvent.extendedProps?.status ?? 'confirmed',
+            status: (selectedEvent.extendedProps?.status as 'confirmed' | 'pending' | 'cancelled') ?? 'confirmed',
             notes: selectedEvent.extendedProps?.notes ?? '',
           } : undefined}
           editMode={!!selectedEvent}
@@ -519,6 +489,6 @@ const Calendar = () => {
       </div>
     </MainLayout>
 );
-};
+}
 
 export default Calendar;

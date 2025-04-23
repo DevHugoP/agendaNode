@@ -1,29 +1,42 @@
+// Librairies externes
 import { useState, useRef } from "react";
-import { useCalendarView } from '../hooks/useCalendarView';
-import useBadgeStatus from '../hooks/useBadgeStatus.tsx';
-import { useClickOutside } from '../hooks/useClickOutside';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 
+// FullCalendar & plugins
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import { motion } from "framer-motion";
-import { useTranslation } from 'react-i18next';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
-import "./calendar-custom.css";
-import { EventClickArg, DateSelectArg } from '../types/Calendar';
-import { EventDropArg, EventMountArg } from '@fullcalendar/core';
-import type { CalendarEvent, CalendarComponentProps } from '../types/Calendar';
+import frLocale from '@fullcalendar/core/locales/fr';
+import enLocale from '@fullcalendar/core/locales/en-gb';
 
-const CalendarComponent = ({ events, onEventClick, onDateSelect, onEventDrop }: CalendarComponentProps) => {
+// Hooks & outils internes
+import { useCalendarView } from '../hooks/useCalendarView';
+import useBadgeStatus from '../hooks/useBadgeStatus.tsx';
+import { useClickOutside } from '../hooks/useClickOutside';
+
+// Types & styles
+import type { CalendarEvent } from '../types/Calendar';
+import "./calendar-custom.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+export interface CalendarComponentProps {
+  events: CalendarEvent[];
+  onEventClick?: (event: CalendarEvent) => void;
+  onEventDrop?: (event: CalendarEvent, newStart: Date, newEnd: Date) => void;
+  onDateSelect?: (start: Date, end: Date) => void;
+}
+
+const CalendarComponent = ({ events, onEventClick, onEventDrop, onDateSelect }: CalendarComponentProps) => {
+  // --- Hooks principaux ---
   const { t, i18n } = useTranslation();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const pickerRef = useRef<HTMLElement>(null);
-
   const {
     viewType,
     currentDate,
@@ -34,68 +47,98 @@ const CalendarComponent = ({ events, onEventClick, onDateSelect, onEventDrop }: 
     handlePrev,
     handleNext
   } = useCalendarView("timeGridWeek");
-
   const getStatusBadgeContent = useBadgeStatus();
+
+  // --- Helpers ---
+  function getCalendarTitle(viewType: string, date: any, locale: string): string {
+    // Vue semaine : si date string (titre FC), retourne tel quel
+    if (viewType === "timeGridWeek" && !(date instanceof Date) && typeof date === "string") return date;
+    let d = date instanceof Date ? date : new Date(date);
+    if (isNaN(d.getTime())) {
+      if (typeof date === 'string') {
+        const iso = Date.parse(date);
+        if (!isNaN(iso)) {
+          d = new Date(iso);
+        } else {
+          return date;
+        }
+      } else {
+        return '';
+      }
+    }
+    if (viewType === "timeGridWeek") {
+      const day = d.getDay();
+      const diffToMonday = (day === 0 ? -6 : 1) - day;
+      const monday = new Date(d);
+      monday.setDate(d.getDate() + diffToMonday);
+      const sunday = new Date(monday);
+      sunday.setDate(monday.getDate() + 6);
+      const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
+      return `${monday.toLocaleDateString(locale, options)} – ${sunday.toLocaleDateString(locale, options)} ${sunday.getFullYear()}`;
+    }
+    if (viewType === "dayGridMonth") {
+      return d.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+    }
+    if ((viewType === "timeGridDay" || viewType.startsWith("list")) && date) {
+      const parsed = date instanceof Date ? date : new Date(date);
+      if (!isNaN(parsed.getTime())) {
+        try {
+          return parsed.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        } catch {
+          return parsed.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+      }
+      return typeof date === 'string' ? date : '';
+    }
+    return d.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  }
 
   useClickOutside(pickerRef as React.RefObject<HTMLElement>, () => setIsDatePickerOpen(false), isDatePickerOpen);
 
+  // --- Handlers extraits pour clarté ---
   const handleEventClick = (info: EventClickArg) => {
-    if (onEventClick) {
-      onEventClick({
-        id: info.event.id,
-        title: info.event.title,
-        start: info.event.startStr,
-        end: info.event.endStr,
-        allDay: info.event.allDay,
-        backgroundColor: info.event.backgroundColor,
-        borderColor: info.event.borderColor,
-        extendedProps: info.event.extendedProps as CalendarEvent['extendedProps'],
-      });
-    }
+    if (!onEventClick) return;
+    onEventClick({
+      id: info.event.id,
+      title: info.event.title,
+      start: info.event.startStr,
+      end: info.event.endStr,
+      backgroundColor: info.event.backgroundColor,
+      borderColor: info.event.borderColor,
+      extendedProps: info.event.extendedProps as CalendarEvent['extendedProps'],
+    });
   };
-
   const handleEventDrop = (info: EventDropArg) => {
-    if (onEventDrop) {
-      onEventDrop({
-        id: info.event.id,
-        title: info.event.title,
-        start: info.event.startStr,
-        end: info.event.endStr,
-        allDay: info.event.allDay,
-        backgroundColor: info.event.backgroundColor,
-        borderColor: info.event.borderColor,
-        extendedProps: info.event.extendedProps as CalendarEvent['extendedProps'],
-      }, info.event.start, info.event.end);
-    }
+    if (!onEventDrop) return;
+    onEventDrop({
+      id: info.event.id,
+      title: info.event.title,
+      start: info.event.startStr,
+      end: info.event.endStr,
+      backgroundColor: info.event.backgroundColor,
+      borderColor: info.event.borderColor,
+      extendedProps: info.event.extendedProps as CalendarEvent['extendedProps'],
+    }, info.event.start, info.event.end);
   };
-
   const handleDateSelect = (info: DateSelectArg) => {
     if (onDateSelect && info.start && info.end) {
-      onDateSelect(info.start, info.end, !!info.allDay);
+      onDateSelect(info.start, info.end);
     }
   };
-
   const eventDidMount = (info: EventMountArg) => {
+    // Ajoute les badges de statut sur les événements selon leur type
     const { event } = info;
     const status = event.extendedProps?.status;
     info.el.classList.add("calendar-event");
-    if (status) {
-      info.el.classList.add(`calendar-event--${status}`);
-    }
-    if (event.backgroundColor) {
-      (info.el as HTMLElement).style.backgroundColor = event.backgroundColor;
-    }
+    if (status) info.el.classList.add(`calendar-event--${status}`);
+    if (event.backgroundColor) (info.el as HTMLElement).style.backgroundColor = event.backgroundColor;
     const badge = document.createElement('span');
     badge.className = `calendar-event-status-badge calendar-event-status-badge--${status}`;
     let inserted = false;
     const main = info.el.querySelector('.fc-event-main');
     if (main) {
       const content = getStatusBadgeContent(status, 'full');
-      if (content) {
-        import('react-dom/client').then(({ createRoot }) => {
-          createRoot(badge).render(content);
-        });
-      }
+      if (content) import('react-dom/client').then(({ createRoot }) => { createRoot(badge).render(content); });
       (badge as HTMLElement).style.marginRight = '6px';
       (badge as HTMLElement).style.verticalAlign = 'middle';
       main.insertBefore(badge, main.firstChild);
@@ -105,11 +148,7 @@ const CalendarComponent = ({ events, onEventClick, onDateSelect, onEventDrop }: 
       const listTitle = info.el.querySelector('.fc-list-event-title');
       if (listTitle) {
         const icon = getStatusBadgeContent(status, 'icon');
-        if (icon) {
-          import('react-dom/client').then(({ createRoot }) => {
-            createRoot(badge).render(icon);
-          });
-        }
+        if (icon) import('react-dom/client').then(({ createRoot }) => { createRoot(badge).render(icon); });
         badge.classList.add('calendar-event-status-badge--list');
         badge.style.marginLeft = '10px';
         badge.style.marginRight = '0';
@@ -123,11 +162,7 @@ const CalendarComponent = ({ events, onEventClick, onDateSelect, onEventDrop }: 
       const monthTitle = info.el.querySelector('.fc-event-title');
       if (monthTitle) {
         const icon = getStatusBadgeContent(status, 'icon');
-        if (icon) {
-          import('react-dom/client').then(({ createRoot }) => {
-            createRoot(badge).render(icon);
-          });
-        }
+        if (icon) import('react-dom/client').then(({ createRoot }) => { createRoot(badge).render(icon); });
         (badge as HTMLElement).classList.add('calendar-event-status-badge--month');
         (badge as HTMLElement).style.marginLeft = '8px';
         (badge as HTMLElement).style.marginRight = '0';
@@ -154,10 +189,9 @@ const CalendarComponent = ({ events, onEventClick, onDateSelect, onEventDrop }: 
               <CalendarIcon size={22} />
             </button>
             <span
-              className="ml-2 text-xl font-bold text-gray-900 cursor-pointer select-none"
-              onClick={() => setIsDatePickerOpen((prev) => !prev)}
+              className="ml-2 text-xl font-bold text-gray-900 select-none"
             >
-              {currentDate}
+              {getCalendarTitle(viewType, currentDate, i18n.language)}
             </span>
             {isDatePickerOpen && (
               <div className="absolute top-full left-0 mt-1 z-20 bg-white rounded shadow-lg border border-gray-200">
@@ -300,15 +334,18 @@ const CalendarComponent = ({ events, onEventClick, onDateSelect, onEventDrop }: 
               },
             },
             timeGridDay: {
-              dayHeaderFormat: { weekday: 'long' }, 
+              dayHeaderFormat: { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' },
             },
             listWeek: {
-              dayHeaderFormat: { weekday: 'long' },
+              dayHeaderFormat: { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' },
+            },
+            listDay: {
+              dayHeaderFormat: { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' },
             },
           }}
           headerToolbar={false}
           initialView={viewType}
-          locale={i18n.language}
+          locale={i18n.language === 'fr' ? frLocale : enLocale}
           events={events as CalendarEvent[]}
           height='auto'
           editable={true}

@@ -128,13 +128,13 @@ const generateMockEvents = (): CalendarEvent[] => {
 };
 
 // Fonction utilitaire pour obtenir le type d'un événement
-const getAppointmentTypeById = (typeId: string) => {
+const getAppointmentTypeById = (typeId: string): { id: string; color: string } | undefined => {
   return (
     appointmentTypes.find((type) => type.id === typeId) || appointmentTypes[0]
   );
 };
 
-const Calendar = () => {
+function Calendar(): ReactElement {
   const { t } = useTranslation();
   // --- Composant principal Calendar ---
   // États principaux du calendrier

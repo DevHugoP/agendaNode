@@ -7,14 +7,14 @@ import { Mail, Phone, MapPin, CalendarDays, X, FilePlus, FileText, Download, Eye
 
 import { useState } from 'react';
 
-function formatDateFr(dateStr: string) {
+function formatDateFr(dateStr: string): string {
   if (!dateStr) return '';
   // Gère "2024-01-15" ou "2024-01-15T13:00:00"
   const [y, m, d] = dateStr.split('T')[0].split('-');
   return `${d}/${m}/${y}`;
 }
 
-function handleUploadPdf(e: React.ChangeEvent<HTMLInputElement>) {
+function handleUploadPdf(e: React.ChangeEvent<HTMLInputElement>): void {
   const file = e.target.files && e.target.files[0];
   if (file) {
     // TODO: Envoyer le fichier au backend ou l'ajouter à la liste
@@ -22,18 +22,22 @@ function handleUploadPdf(e: React.ChangeEvent<HTMLInputElement>) {
   }
 }
 
-function handleDownloadPdf(doc: any) {
+
+
+function handleDownloadPdf(doc: Document): void {
   // Pour mock, on utilise doc.url
   window.open(doc.url, '_blank');
 }
 
-export default function ClientDetails() {
+import { ReactElement } from "react";
+import { Document, Invoice, PastConsult, UpcomingConsult } from "../types/Client";
+export default function ClientDetails(): ReactElement {
   const { t } = useTranslation();
   // Gestion de la modal PDF
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedDoc, setSelectedDoc] = useState<any>(null);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
 
-  const handleOpenModal = (doc: any) => {
+  const handleOpenModal = (doc: Document) => {
     setSelectedDoc(doc);
     setOpenModal(true);
   };
@@ -45,10 +49,10 @@ export default function ClientDetails() {
 
   const { id } = useParams();
   const client = mockClients.find((c) => c.id === id);
-  const documents = mockDocuments[id] || [];
-  const invoices = mockInvoices[id] || [];
-  const pastConsults = mockPastConsults[id] || [];
-  const upcomingConsults = mockUpcomingConsults[id] || [];
+  const documents = id ? mockDocuments[id] || [] : [];
+  const invoices: Invoice[] = id ? mockInvoices[id] || [] : [];
+  const pastConsults: PastConsult[] = id ? mockPastConsults[id] || [] : [];
+const upcomingConsults: UpcomingConsult[] = id ? mockUpcomingConsults[id] || [] : [];
 
   if (!client) {
     return (
@@ -188,7 +192,7 @@ export default function ClientDetails() {
                 {invoices.length === 0 && (
                   <tr><td colSpan={3}><span className="text-gray-400 italic">{t('clientDetails.noInvoice')}</span></td></tr>
                 )}
-                {invoices.map((inv) => (
+                {invoices.map((inv: Invoice) => (
                   <tr key={inv.id} className="border-b hover:bg-agenda-purple/5 h-full">
                     <td className="px-4 py-2 whitespace-nowrap">{formatDateFr(inv.date)}</td>
                     <td className="px-4 py-2 whitespace-nowrap">{inv.amount.toFixed(2)} €</td>
@@ -260,7 +264,7 @@ export default function ClientDetails() {
     </td>
   </tr>
 )}
-                {pastConsults.map((cons) => (
+                {pastConsults.map((cons: PastConsult) => (
                   <tr key={cons.id} className="border-b hover:bg-agenda-purple/5 h-full">
                     <td className="px-4 py-2 whitespace-nowrap">{formatDateFr(cons.date)}</td>
                     <td className="px-4 py-2 whitespace-nowrap">{cons.duration} min</td>
@@ -302,7 +306,7 @@ export default function ClientDetails() {
     </td>
   </tr>
 )}
-                {upcomingConsults.map((cons) => (
+                {upcomingConsults.map((cons: UpcomingConsult) => (
                   <tr key={cons.id} className="border-b hover:bg-agenda-purple/5 h-full">
                     <td className="px-4 py-2 whitespace-nowrap">{formatDateFr(cons.date)}</td>
                     <td className="px-4 py-2 whitespace-nowrap">{cons.time}</td>

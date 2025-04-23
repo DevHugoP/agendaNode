@@ -2,11 +2,7 @@ import React from 'react';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
-  isLoading?: boolean;
-  children: ReactNode;
-}
+import type { ButtonProps } from '../types/components';
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
@@ -15,7 +11,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     children, 
     className = '', 
     ...props 
-  }, ref) => {
+  }: ButtonProps, ref) => {
   const baseClass = 'btn';
   const variantClass = `btn-${variant}`;
   

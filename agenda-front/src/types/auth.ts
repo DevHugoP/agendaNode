@@ -9,3 +9,14 @@ export interface RegisterFormValues {
   password: string;
   confirmPassword: string;
 }
+
+export interface LoginResponse {
+  token: string;
+  // Ajoute ici d'autres champs si l'API en renvoie (user, role, etc.)
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  message?: string;
+  // Ajoute ici d'autres champs si l'API en renvoie
+}

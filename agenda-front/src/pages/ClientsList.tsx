@@ -6,7 +6,10 @@ import { Users, Eye } from "lucide-react";
 
 import { useTranslation } from 'react-i18next';
 
-export default function ClientsList() {
+import { ReactElement } from "react";
+import { Client } from "../types/Client";
+
+export default function ClientsList(): ReactElement {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (

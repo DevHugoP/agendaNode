@@ -50,7 +50,7 @@ const CalendarComponent = ({ events, onEventClick, onEventDrop, onDateSelect }: 
   const getStatusBadgeContent = useBadgeStatus();
 
   // --- Helpers ---
-  function getCalendarTitle(viewType: string, date: any, locale: string): string {
+  function getCalendarTitle(viewType: string, date: Date | string, locale: string): string {
     // Vue semaine : si date string (titre FC), retourne tel quel
     if (viewType === "timeGridWeek" && !(date instanceof Date) && typeof date === "string") return date;
     let d = date instanceof Date ? date : new Date(date);

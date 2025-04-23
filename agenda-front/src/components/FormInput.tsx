@@ -2,13 +2,9 @@ import { InputHTMLAttributes } from 'react';
 import { motion } from 'framer-motion';
 import { IconType } from 'react-icons';
 
-interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
-  icon?: IconType;
-}
+import type { FormInputProps } from '../types/components';
 
-const FormInput = ({ label, error, id, className, icon: Icon, ...props }: FormInputProps) => {
+const FormInput = ({ label, error, id, className, icon: Icon, ...props }: FormInputProps): JSX.Element => {
   return (
     <motion.div 
       className="form-control mb-6"

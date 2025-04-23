@@ -1,5 +1,5 @@
 // Données mockées pour clients, documents, factures et consultations
-import { Client, Document } from '../../types/Client';
+import { Client, Document, Invoice, PastConsult, UpcomingConsult } from '../../types/Client';
 
 export const mockClients: Client[] = [
   {
@@ -32,17 +32,17 @@ export const mockDocuments: Record<string, Document[]> = {
   ],
 };
 
-export const mockInvoices: Record<string, Array<{ id: string; date: string; amount: number; paid: boolean }>> = {
+export const mockInvoices: Record<string, Invoice[]> = {
   "1": [
-    { id: "f1", date: "2024-03-10", amount: 65, paid: true },
-    { id: "f2", date: "2024-04-05", amount: 70, paid: false },
+    { id: "f1", date: "2024-03-10", amount: 65, paid: true, name: "Facture #1", url: "/invoices/f1.pdf" },
+    { id: "f2", date: "2024-04-05", amount: 70, paid: false, name: "Facture #2", url: "/invoices/f2.pdf" },
   ],
   "2": [
-    { id: "f3", date: "2024-01-15", amount: 80, paid: true },
+    { id: "f3", date: "2024-01-15", amount: 80, paid: true, name: "Facture #3", url: "/invoices/f3.pdf" },
   ],
 };
 
-export const mockPastConsults: Record<string, Array<{ id: string; date: string; duration: number; practitioner: string; notes?: string }>> = {
+export const mockPastConsults: Record<string, PastConsult[]> = {
   "1": [
     { id: "c1", date: "2024-03-10", duration: 30, practitioner: "Dr. Dupont", notes: "Douleurs persistantes" },
   ],
@@ -51,7 +51,7 @@ export const mockPastConsults: Record<string, Array<{ id: string; date: string; 
   ],
 };
 
-export const mockUpcomingConsults: Record<string, Array<{ id: string; date: string; time: string; location: string }>> = {
+export const mockUpcomingConsults: Record<string, UpcomingConsult[]> = {
   "1": [
     { id: "u1", date: "2025-05-02", time: "14:00", location: "Cabinet Paris 12" },
   ],

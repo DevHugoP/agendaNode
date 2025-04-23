@@ -13,7 +13,9 @@ interface AppointmentType {
   client: string;
 }
 
-const Dashboard = () => {
+import { ReactElement } from "react";
+
+const Dashboard = (): ReactElement => {
   const { t } = useTranslation();
   const [greeting, setGreeting] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +61,7 @@ const Dashboard = () => {
     }, 1000);
   }, []);
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = { 
       weekday: 'long', 
       day: 'numeric', 

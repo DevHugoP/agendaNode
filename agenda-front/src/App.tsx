@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Index from "./pages/Index";
 import { useAuth } from "./store/auth";
 
-function IndexRedirect() {
+function IndexRedirect(): ReactElement {
   const { token } = useAuth();
   if (token) {
     return <Navigate to="/dashboard" replace />;
@@ -25,7 +25,9 @@ import { Toaster } from "sonner";
 const queryClient = new QueryClient();
 
 // Composant pour protéger les routes
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+import { PropsWithChildren, ReactElement } from "react";
+
+const ProtectedRoute = ({ children }: PropsWithChildren): ReactElement | null => {
   const { token } = useAuth();
   
   if (!token) {
@@ -35,7 +37,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   return children;
 };
 
-function App() {
+function App(): ReactElement {
   const { setToken } = useAuth();
   
   // Récupérer le token du localStorage au démarrage
@@ -140,7 +142,7 @@ function App() {
 
 
 // Redirige vers dashboard si connecté, sinon vers accueil
-function AuthRedirect() {
+function AuthRedirect(): ReactElement {
   const { token } = useAuth();
   if (token) {
     return <Navigate to="/dashboard" replace />;

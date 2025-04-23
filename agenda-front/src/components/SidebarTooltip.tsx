@@ -1,12 +1,8 @@
 import { ReactNode, useRef, useState } from 'react';
 
-interface SidebarTooltipProps {
-  label: string;
-  children: ReactNode;
-  delay?: number;
-}
+import type { SidebarTooltipProps } from '../types/SidebarTooltip';
 
-export const SidebarTooltip = ({ label, children, delay = 300 }: SidebarTooltipProps) => {
+export const SidebarTooltip = ({ label, children, delay = 300 }: SidebarTooltipProps): JSX.Element => {
   const [visible, setVisible] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 

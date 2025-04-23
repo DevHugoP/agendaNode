@@ -32,6 +32,8 @@ export interface CalendarEvent {
  * Voir https://fullcalendar.io/docs/eventClick
  */
 export type EventClickArg = FCEventClickArg;
+export type EventDropArg = import('@fullcalendar/core').EventDropArg;
+export type EventMountArg = import('@fullcalendar/core').EventMountArg;
 
 /**
  * Argument du handler de sélection de dates (FullCalendar)

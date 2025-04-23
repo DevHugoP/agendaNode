@@ -2,7 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { CheckCircle2, AlertTriangle } from 'lucide-react';
 
-export default function Toast({ show, message, type = 'success' }: { show: boolean; message: string; type?: 'success' | 'error' }) {
+import type { ToastProps } from '../types/Toast';
+
+export default function Toast({ show, message, type = 'success' }: ToastProps): JSX.Element {
   const base = 'fixed top-6 right-6 z-50 min-w-[260px] max-w-[350px] flex items-center gap-3 px-5 py-3 rounded-xl shadow-xl text-white font-semibold text-base';
   const color = type === 'success'
     ? 'bg-[#22c55e]'

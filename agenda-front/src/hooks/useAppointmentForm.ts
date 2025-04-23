@@ -10,7 +10,20 @@ export interface UseAppointmentFormProps {
   initialData?: Partial<AppointmentFormData>;
 }
 
-export function useAppointmentForm({ startDate, endDate, editMode = false, initialData }: UseAppointmentFormProps) {
+export type UseAppointmentFormReturn = {
+  formData: AppointmentFormData;
+  setFormData: React.Dispatch<React.SetStateAction<AppointmentFormData>>;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+  handleDateChange: (e: React.ChangeEvent<HTMLInputElement>, field: 'start' | 'end') => void;
+  handleTypeChange: (typeId: string) => void;
+  error: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
+  fieldErrors: Record<string, string>;
+  setFieldErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+};
+
+export function useAppointmentForm({ startDate, endDate, editMode = false, initialData }: UseAppointmentFormProps): UseAppointmentFormReturn {
+
   const { t } = useTranslation();
   const [formData, setFormData] = useState<AppointmentFormData>({
     id: initialData?.id,
@@ -22,8 +35,8 @@ export function useAppointmentForm({ startDate, endDate, editMode = false, initi
     notes: '',
     status: 'confirmed',
   });
-  const [error, setError] = useState('');
-  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+  const [error, setError] = useState<string>('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (startDate) {

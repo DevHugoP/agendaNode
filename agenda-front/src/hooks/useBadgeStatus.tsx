@@ -5,7 +5,9 @@ import { CheckCircle2, Clock, XCircle } from 'lucide-react';
  * Retourne une fonction permettant d'obtenir le badge de statut d'un événement calendrier.
  * @returns (status?: string, mode: "icon" | "full") => React.ReactNode
  */
-const useBadgeStatus = () => {
+import { ReactNode } from 'react';
+
+const useBadgeStatus = (): ((status?: string, mode?: "icon" | "full") => ReactNode) => {
   return (status?: string, mode: "icon" | "full" = "icon"): React.ReactNode => {
     const size = mode === "icon" ? 20 : 16;
     const marginStyle: React.CSSProperties = { marginBottom: -1 };

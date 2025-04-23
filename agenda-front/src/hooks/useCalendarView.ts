@@ -1,9 +1,27 @@
 import { useState, useRef, useCallback } from 'react';
 import FullCalendar from '@fullcalendar/react';
 
-export function useCalendarView(initialView: 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' | 'listWeek' = 'timeGridWeek') {
-  const [viewType, setViewType] = useState<"dayGridMonth" | "timeGridWeek" | "timeGridDay" | "listWeek">(initialView);
-  const [currentDate, setCurrentDate] = useState<string>("");
+
+import type { CalendarViewType, UseCalendarViewReturn } from '../types/calendarView';
+
+export function useCalendarView(initialView: CalendarViewType = 'timeGridWeek'): UseCalendarViewReturn {
+  // Typage explicite du retour du hook
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const [viewType, setViewType] = useState<CalendarViewType>(initialView);
+  // Initialisation : titre semaine courante dès le premier render
+  const getInitialWeekTitle = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diffToMonday = (day === 0 ? -6 : 1) - day;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    const locale = navigator.language || 'fr-FR';
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
+    return `${monday.toLocaleDateString(locale, options)} – ${sunday.toLocaleDateString(locale, options)} ${sunday.getFullYear()}`;
+  };
+  const [currentDate, setCurrentDate] = useState<string>(getInitialWeekTitle());
   const calendarRef = useRef<FullCalendar | null>(null);
   const updateCurrentDateTitle = useCallback(() => {
     if (calendarRef.current && typeof calendarRef.current.getApi === 'function') {

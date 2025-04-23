@@ -18,28 +18,34 @@ Une API RESTful pour gérer les rendez-vous, construite avec Express.js et Prism
 ## 🛠️ Installation
 
 1. Cloner le repository :
+
 ```bash
 git clone https://github.com/votre-username/agenda-api.git
 cd agenda-api
 ```
 
 2. Installer les dépendances :
+
 ```bash
 pnpm install
 ```
 
 3. Configurer l'environnement :
+
 ```bash
 cp .env.example .env
 ```
+
 Puis éditer le fichier `.env` avec vos configurations.
 
 4. Initialiser la base de données :
+
 ```bash
 pnpm prisma migrate dev
 ```
 
 5. Lancer le serveur de développement :
+
 ```bash
 pnpm dev
 ```
@@ -71,11 +77,13 @@ pnpm test
 ## 📦 Déploiement
 
 1. Construire l'application :
+
 ```bash
 pnpm build
 ```
 
 2. Lancer en production :
+
 ```bash
 pnpm start
 ```
@@ -86,4 +94,4 @@ Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou un
 
 ## 📄 Licence
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails. 
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.

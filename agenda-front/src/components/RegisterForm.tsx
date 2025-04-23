@@ -46,6 +46,8 @@ const RegisterForm = () => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           transition={{ duration: 0.3 }}
+          role="alert"
+          aria-live="assertive"
         >
           <p>{error}</p>
         </motion.div>
@@ -69,12 +71,16 @@ const RegisterForm = () => {
           </label>
           <input
             id="name"
+            name="name"
             type="text"
             value={name}
             onChange={handleFieldChange('name')}
-            className="form-input"
+            className="form-input focus:ring-2 focus:ring-agenda-purple focus:outline-none"
             placeholder={t('register.namePlaceholder')}
             required
+            aria-required="true"
+            aria-invalid={!!error}
+            autoComplete="name"
           />
         </div>
         
@@ -84,12 +90,16 @@ const RegisterForm = () => {
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             value={email}
             onChange={handleFieldChange('email')}
-            className="form-input"
+            className="form-input focus:ring-2 focus:ring-agenda-purple focus:outline-none"
             placeholder={t('login.emailPlaceholder')}
             required
+            aria-required="true"
+            aria-invalid={!!error}
+            autoComplete="email"
           />
         </div>
         
@@ -100,17 +110,23 @@ const RegisterForm = () => {
           <div className="relative">
             <input
               id="password"
+              name="password"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={handleFieldChange('password')}
-              className="form-input"
+              className="form-input focus:ring-2 focus:ring-agenda-purple focus:outline-none"
               placeholder="••••••••"
               required
+              aria-required="true"
+              aria-invalid={!!error}
+              autoComplete="new-password"
             />
             <button
               type="button"
+              tabIndex={0}
+              aria-label={showPassword ? t('register.hidePassword') : t('register.showPassword')}
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-agenda-purple"
             >
               {showPassword ? (
                 <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -128,17 +144,23 @@ const RegisterForm = () => {
           <div className="relative">
             <input
               id="confirmPassword"
+              name="confirmPassword"
               type={showConfirmPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={handleFieldChange('confirmPassword')}
-              className="form-input"
+              className="form-input focus:ring-2 focus:ring-agenda-purple focus:outline-none"
               placeholder="••••••••"
               required
+              aria-required="true"
+              aria-invalid={!!error}
+              autoComplete="new-password"
             />
             <button
               type="button"
+              tabIndex={0}
+              aria-label={showConfirmPassword ? t('register.hidePassword') : t('register.showPassword')}
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-agenda-purple"
             >
               {showConfirmPassword ? (
                 <EyeOff className="h-5 w-5" aria-hidden="true" />

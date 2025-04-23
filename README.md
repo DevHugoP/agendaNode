@@ -1,52 +1,85 @@
-# AgendaNode – Monorepo
+# AgendaNode
 
-Plateforme SaaS de gestion de rendez-vous pour professionnels (inspirée d’agenda.ch).
+Plateforme SaaS de gestion de rendez-vous pour professionnels, inspirée d’agenda.ch. Permet la prise de rendez-vous en ligne, la gestion d’agenda, les paiements et rappels automatisés, avec une expérience fluide pour les clients comme pour les pros.
 
-## 🚀 Stack technique
-- **Frontend** : React 18, TypeScript, Vite, Chakra UI, Zustand, React Query, React Hook Form, Zod, Radix UI/Shadcn
-- **Backend** : NestJS (Node.js), Prisma ORM, PostgreSQL, JWT Auth, Stripe API, BullMQ/Redis, Google Calendar API, NodeMailer
+## 🚀 Fonctionnalités principales
+
+- Authentification des professionnels (inscription, connexion, gestion du profil)
+- Configuration des services proposés (nom, durée, prix, description, lieu)
+- Définition des disponibilités récurrentes (jours ouvrés, horaires, pauses)
+- Interface publique de réservation sans création de compte client
+- Moteur de réservation intelligent (créneaux disponibles, confirmation)
+- Paiement en ligne (Stripe)
+- Dashboard agenda (vue jour/semaine/mois)
+- Rappels automatiques par email (confirmation, rappel avant RDV)
+- Synchronisation bidirectionnelle Google Calendar
+
+## 🛠️ Stack technique
+
+- **Frontend** :
+  - React 18 + TypeScript
+  - Vite
+  - Tailwind CSS
+  - Zustand (state)
+  - React Query (API/cache)
+  - React Hook Form + Zod (validation)
+  - Radix UI / Shadcn (UI)
+- **Backend** :
+  - Node.js + NestJS (API REST)
+  - Prisma ORM + PostgreSQL
+  - Authentification JWT
+  - Stripe API (paiement)
+  - BullMQ + Redis (tâches asynchrones, rappels)
+  - Google Calendar API
+  - NodeMailer (emails)
 
 ## 📁 Structure du monorepo
+
 ```
 agendaNode/
 ├── frontend/    # Application React (prise de RDV, dashboard, etc.)
 │   └── src/
-├── backend/     # API NestJS (services, users, bookings, etc.)
+├── backend/     # API  (services, users, bookings, etc.)
 │   └── src/
 └── prisma/      # Schémas & migrations DB
 ```
 
 ## ⚡ Démarrage rapide
+
 1. **Cloner le repo**
 2. Installer les dépendances :
    - Frontend : `cd frontend && npm install`
    - Backend : `cd backend && npm install`
 3. Configurer les variables d’environnement (voir `.env.example` dans chaque dossier)
-4. Lancer la base de données (PostgreSQL) et Redis
+4. Lancer la base de données (PostgreSQL)
 5. Démarrer le backend : `npm run start:dev` (dans `backend/`)
 6. Démarrer le frontend : `npm run dev` (dans `frontend/`)
 
 ## 🔗 Liens internes
+
 - [Frontend (React)](./frontend/README.md)
 - [Backend (NestJS)](./backend/README.md)
 - [Prisma Schema](./prisma/schema.prisma)
 
 ## ✨ Fonctionnalités principales
+
 - Auth pro, config de services, dispos récurrentes
 - Réservation publique, paiement Stripe
 - Dashboard agenda, rappels email, sync Google Calendar
 
 ## 🤝 Contribution
+
 1. Fork/clone le repo
 2. Crée une branche (`feat/ma-feature`)
 3. PR bienvenue !
 
 ## 📄 Licence
+
 MIT
 
 ## 📞 Contact
-Pour toute question, ouvre une issue ou contacte le mainteneur du projet.
 
+Pour toute question, ouvre une issue ou contacte le mainteneur du projet.
 
 ## 🚀 Fonctionnalités
 
@@ -71,14 +104,12 @@ Pour toute question, ouvre une issue ou contacte le mainteneur du projet.
 - Backend:
   - Node.js
   - Express
-  - MongoDB
   - JWT (authentification)
 
 ## 📋 Prérequis
 
 - Node.js (v18 ou supérieur)
 - npm ou yarn
-- MongoDB
 
 ## 🔧 Installation
 
@@ -106,7 +137,6 @@ npm install
 
 ```
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/agenda
 JWT_SECRET=votre_secret_jwt
 ```
 

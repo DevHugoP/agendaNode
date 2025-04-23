@@ -5,7 +5,7 @@ export const getProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
@@ -36,6 +36,7 @@ export const getProfile = async (
       avatar: profile.avatar,
       // Ajoute ici d'autres champs si besoin
     });
+    return; // Explicitly return void after sending response
   } catch (error) {
     next(error);
   }
@@ -45,7 +46,7 @@ export const updateProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
@@ -63,9 +64,8 @@ export const updateProfile = async (
         where: { email: data.email },
       });
       if (existing && existing.id !== userId) {
-        return res
-          .status(409)
-          .json({ error: "Cet email est déjà utilisé par un autre compte." });
+        res.status(409).json({ error: "Cet email est déjà utilisé par un autre compte." });
+        return;
       }
       userUpdates.email = data.email;
     }

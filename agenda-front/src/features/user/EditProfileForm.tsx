@@ -35,6 +35,20 @@ function FormField({
 
 // Composant principal
 export default function EditProfileForm({ initialValues, onCancel, onSave }: EditProfileFormProps) {
+  // Normalisation des valeurs null ou undefined pour les placeholders
+  const normalizedValues = {
+    ...initialValues,
+    fullName: initialValues.fullName ?? '',
+    profession: initialValues.profession ?? '',
+    email: initialValues.email ?? '',
+    phone: initialValues.phone ?? '',
+    company: initialValues.company ?? '',
+    address: initialValues.address ?? '',
+    website: initialValues.website ?? '',
+    bio: initialValues.bio ?? '',
+    avatar: initialValues.avatar ?? ''
+  };
+
   // Utilisation de la traduction
   const { t, i18n } = useTranslation();
 
@@ -48,7 +62,7 @@ export default function EditProfileForm({ initialValues, onCancel, onSave }: Edi
     formState: { errors, isSubmitting },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: initialValues,
+    defaultValues: normalizedValues,
   });
 
   // Vérification si le formulaire a changé
@@ -86,6 +100,7 @@ export default function EditProfileForm({ initialValues, onCancel, onSave }: Edi
               {...register('avatar')}
               type="url"
               className="input w-52 mt-2"
+              placeholder={t('userProfile.form.avatarPlaceholder')}
             />
           </FormField>
         </div>
@@ -93,16 +108,32 @@ export default function EditProfileForm({ initialValues, onCancel, onSave }: Edi
         {/* Infos principales */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField label={t('userProfile.form.fullName')} error={errors.fullName?.message}>
-            <input {...register('fullName')} className="input w-full" />
+            <input
+              {...register('fullName')}
+              className="input w-full"
+              placeholder={t('userProfile.form.fullNamePlaceholder')}
+            />
           </FormField>
           <FormField label={t('userProfile.form.profession')} error={errors.profession?.message}>
-            <input {...register('profession')} className="input w-full" />
+            <input
+              {...register('profession')}
+              className="input w-full"
+              placeholder={t('userProfile.form.professionPlaceholder')}
+            />
           </FormField>
           <FormField label={t('userProfile.form.email')} error={errors.email?.message}>
-            <input {...register('email')} className="input w-full" />
+            <input
+              {...register('email')}
+              className="input w-full"
+              placeholder={t('userProfile.form.emailPlaceholder')}
+            />
           </FormField>
           <FormField label={t('userProfile.form.phone')} error={errors.phone?.message}>
-            <input {...register('phone')} className="input w-full" />
+            <input
+              {...register('phone')}
+              className="input w-full"
+              placeholder={t('userProfile.form.phonePlaceholder')}
+            />
           </FormField>
         </div>
       </div>
@@ -110,19 +141,37 @@ export default function EditProfileForm({ initialValues, onCancel, onSave }: Edi
       {/* Informations supplémentaires */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <FormField label={t('userProfile.form.company')} error={errors.company?.message}>
-          <input {...register('company')} className="input w-full" />
+          <input
+            {...register('company')}
+            className="input w-full"
+            placeholder={t('userProfile.form.companyPlaceholder')}
+          />
         </FormField>
         <FormField label={t('userProfile.form.address')} error={errors.address?.message}>
-          <input {...register('address')} className="input w-full" />
+          <input
+            {...register('address')}
+            className="input w-full"
+            placeholder={t('userProfile.form.addressPlaceholder')}
+          />
         </FormField>
         <FormField label={t('userProfile.form.website')} error={errors.website?.message}>
-          <input {...register('website')} className="input w-full" />
+          <input
+            {...register('website')}
+            className="input w-full"
+            placeholder={t('userProfile.form.websitePlaceholder')}
+          />
         </FormField>
       </div>
 
       {/* Bio */}
       <FormField label={t('userProfile.form.bio')} error={errors.bio?.message}>
-        <textarea {...register('bio')} rows={4} className="input w-full" maxLength={500} />
+        <textarea
+          {...register('bio')}
+          rows={4}
+          className="input w-full"
+          maxLength={500}
+          placeholder={t('userProfile.form.bioPlaceholder')}
+        />
       </FormField>
 
       {/* Boutons */}

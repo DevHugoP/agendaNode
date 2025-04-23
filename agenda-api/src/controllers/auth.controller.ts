@@ -12,25 +12,45 @@ export const register = async (
   try {
     const { email, name, phone, password } = req.body;
 
+    // Vérification de l'existence de l'email
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      res.status(409).json({ error: "Un utilisateur avec cet email existe déjà." });
+      return;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await prisma.user.create({
-      data: {
-        email,
-        name,
-        phone,
-        password: hashedPassword,
-      },
-    });
+    // Création du user ET du profil dans une transaction atomique
+    const [user, profile] = await prisma.$transaction([
+      prisma.user.create({
+        data: {
+          email,
+          name,
+          phone,
+          password: hashedPassword,
+        },
+      }),
+      // Le profil est créé juste après avec le nom et l'email du user
+      prisma.profile.create({
+        data: {
+          user: { connect: { email } },
+          fullName: name,
+          // On peut stocker l'email ici aussi si tu veux un champ email public
+          // email: email,
+        },
+      })
+    ]);
 
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1d" });
     res.status(201).json({
-      message: "Utilisateur enregistré avec succès",
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
         phone: user.phone,
       },
+      token,
     });
   } catch (error) {
     next(error);
@@ -64,7 +84,12 @@ export const login = async (
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1d" });
 
     res.status(200).json({
-      message: "Connexion réussie",
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        phone: user.phone,
+      },
       token,
     });
   } catch (error) {

@@ -145,7 +145,7 @@
       "email": "Email",
       "emailPlaceholder": "votre@email.com",
       "phone": "Téléphone",
-      "phonePlaceholder": "ex : +41 79 123 45 67",
+      "phonePlaceholder": "Numéro de téléphone",
       "company": "Société",
       "companyPlaceholder": "Nom de la société",
       "address": "Adresse",

@@ -13,5 +13,9 @@ export function createProfileSchema(t: TFunction) {
     website: z.string().url(t('userProfile.form.websiteInvalid')).optional().or(z.literal('')),
     bio: z.string().max(500, t('userProfile.form.bioMax')).optional(),
     avatar: z.string().url(t('userProfile.form.avatarInvalid')).optional(),
+    // Champs additionnels ignorés par défaut
+    stats: z.any().optional(),
+    stripeConnected: z.boolean().optional(),
+    googleCalendarSync: z.boolean().optional(),
   });
 }

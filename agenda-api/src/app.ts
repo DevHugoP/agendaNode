@@ -1,3 +1,4 @@
+import "./types/express-ext";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -6,6 +7,7 @@ import { setCurrentUser } from "./middlewares/setCurrentUser";
 import appointmentsRouter from "./routes/appointement";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/users";
+import profileRouter from "./routes/profile";
 
 dotenv.config();
 const app = express();
@@ -23,6 +25,7 @@ app.use(setCurrentUser);
 app.use("/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/appointments", appointmentsRouter);
+app.use("/api", profileRouter);
 
 app.use(errorHandler);
 

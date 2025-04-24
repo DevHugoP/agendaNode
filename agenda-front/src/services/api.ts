@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuth } from "../store/auth";
 
 const API = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true, // pour que les cookies HttpOnly soient envoyés
 });
 
@@ -22,14 +22,13 @@ API.interceptors.request.use(
       isAuthLoading &&
       !(config.url && config.url.includes("/auth/refresh-token"))
     ) {
-      // Attendre que l'auth soit terminée avant de continuer
+      // Attendre que l'auth soit terminée via un événement custom
       await new Promise((resolve) => {
-        const interval = setInterval(() => {
-          if (!useAuth.getState().isAuthLoading) {
-            clearInterval(interval);
-            resolve(true);
-          }
-        }, 10);
+        const handler = () => {
+          window.removeEventListener('auth:loading:done', handler);
+          resolve(true);
+        };
+        window.addEventListener('auth:loading:done', handler);
       });
     }
     if (accessToken && config.url && config.url.startsWith("/protected")) {

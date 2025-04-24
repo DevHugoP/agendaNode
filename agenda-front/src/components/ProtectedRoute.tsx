@@ -7,10 +7,8 @@ const ProtectedRoute = () => {
   useAutoRefreshToken();
   const { accessToken, isAuthLoading } = useAuth();
 
+  // Tant que l'auth est en cours, on bloque tout rendu privé
   if (isAuthLoading) {
-    // ⚠️ Tant que isAuthLoading est true, aucun composant enfant (et donc aucune requête API protégée) ne doit être monté.
-    // Cela évite tout double appel à /auth/refresh-token lors du rechargement.
-    // Tu peux personnaliser ce loader si besoin.
     return (
       <div style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f9f9fc'
@@ -21,10 +19,11 @@ const ProtectedRoute = () => {
       </div>
     );
   }
-  // Si l'utilisateur n'est pas authentifié après chargement, on redirige
+  // Après chargement, si pas de token, redirige vers login
   if (!isAuthLoading && !accessToken) {
     return <Navigate to="/login" replace />;
   }
+  // Sinon, on autorise l'accès à la route privée
   return <Outlet />;
 };
 

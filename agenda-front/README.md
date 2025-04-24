@@ -42,8 +42,16 @@ npm run build
 
 - `.env` à la racine du dossier (`.env.example` fourni)
 - Variables principales :
-  - `VITE_API_URL` (URL de l’API backend)
-  - `VITE_STRIPE_PUBLIC_KEY` (clé Stripe publique)
+  - `VITE_API_URL` (URL de l’API backend, ex : http://localhost:3000/api)
+  - `VITE_AUTH_API_URL` (URL racine pour l’authentification, ex : http://localhost:3000)
+  - `VITE_STRIPE_PUBLIC_KEY` (clé Stripe publique Stripe, ex : pk_test_...)
+
+**Exemple de configuration pour la production :**
+```env
+VITE_API_URL="https://mon-saas-backend.com/api"
+VITE_AUTH_API_URL="https://mon-saas-backend.com"
+VITE_STRIPE_PUBLIC_KEY="pk_live_XXXXXXXXXXXXXXXXXXXXXXXX"
+```
 
 ## 📁 Structure du dossier
 

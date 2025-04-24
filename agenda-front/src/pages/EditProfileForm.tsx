@@ -1,24 +1,29 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createProfileSchema } from '../validation/profileSchemas';
-import { useProfile } from "../hooks/useProfile";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { useTranslation } from "react-i18next";
 import type { UserProfile } from "../types/profile";
 
-export function EditProfileForm() {
+interface EditProfileFormProps {
+  initialValues: UserProfile;
+  onCancel: () => void;
+  onSave: (values: UserProfile) => void;
+}
+
+export function EditProfileForm({ initialValues, onCancel, onSave }: EditProfileFormProps) {
   const { t } = useTranslation();
-  const { data } = useProfile();
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const schema = createProfileSchema(t);
 
   const { register, handleSubmit, formState: { errors } } = useForm<UserProfile>({
     resolver: zodResolver(schema),
-    defaultValues: data,
+    defaultValues: initialValues,
   });
 
   function onSubmit(values: UserProfile) {
     updateProfile(values);
+    onSave(values);
   }
 
   return (
@@ -42,6 +47,7 @@ export function EditProfileForm() {
       {errors.bio && <span>{errors.bio.message}</span>}
       <button type="submit" disabled={isPending}>{t('common.save')}</button>
       {error && <div>{t('common.saveError')}</div>}
+      <button type="button" onClick={onCancel}>{t('userProfile.form.cancel')}</button>
     </form>
   );
 }

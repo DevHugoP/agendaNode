@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/auth';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next';
 import type { RegisterFormValues } from '../types/auth';
 import { registerSchema } from '../validation/authSchemas';
+import { AuthErrorCode } from '../types/authErrors';
+import { useMutation } from '@tanstack/react-query';
 
 export interface UseRegisterForm {
   name: string;
@@ -28,7 +29,6 @@ export interface UseRegisterForm {
 }
 
 export function useRegisterForm(): UseRegisterForm {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const [values, setValues] = useState<RegisterFormValues>({
     name: '',
@@ -38,7 +38,6 @@ export function useRegisterForm(): UseRegisterForm {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -48,36 +47,44 @@ export function useRegisterForm(): UseRegisterForm {
   const setConfirmPassword = (confirmPassword: string) => setValues((v) => ({ ...v, confirmPassword }));
   const { name, email, password, confirmPassword } = values;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-    // Validation Zod
-    const result = registerSchema.safeParse({ name, email, password, confirmPassword });
-    if (!result.success) {
-      const firstError = result.error.errors[0];
-      setError(t(firstError.message));
-      setIsLoading(false);
-      return;
-    }
-    try {
-      await registerUser({ name, email, password });
+  const mutation = useMutation<void, unknown, RegisterFormValues>({
+    mutationFn: async (values: RegisterFormValues) => {
+      await registerUser(values);
+    },
+    onSuccess: () => {
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');
       }, 2000);
-    } catch (err: unknown) {
+    },
+    onError: (err) => {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || t('register.error'));
+        setError(
+          typeof err.response?.data?.errorKey === 'string' && Object.values(AuthErrorCode).includes(err.response.data.errorKey)
+            ? err.response.data.errorKey
+            : AuthErrorCode.GENERIC
+        );
       } else if (err instanceof Error) {
-        setError(err.message);
+        setError(AuthErrorCode.GENERIC);
       } else {
-        setError(t('register.unknownError'));
+        setError(AuthErrorCode.UNKNOWN);
       }
-    } finally {
-      setIsLoading(false);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    setError('');
+    // Validation Zod
+    const result = registerSchema.safeParse({ name, email, password, confirmPassword });
+    if (!result.success) {
+      const firstError = result.error.errors[0];
+      setError(firstError.message);
+      return;
     }
+    await mutation.mutateAsync({ name, email, password, confirmPassword });
   };
+
 
   return {
     name, setName,
@@ -86,7 +93,8 @@ export function useRegisterForm(): UseRegisterForm {
     confirmPassword, setConfirmPassword,
     showPassword, setShowPassword,
     showConfirmPassword, setShowConfirmPassword,
-    isLoading, error, success, handleSubmit,
+    isLoading: mutation.status === 'pending',
+    error, success, handleSubmit,
     values,
     fieldErrors: {},
   };

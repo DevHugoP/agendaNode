@@ -127,6 +127,7 @@ const RegisterForm = () => {
               aria-label={showPassword ? t('register.hidePassword') : t('register.showPassword')}
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-agenda-purple"
+              aria-pressed={showPassword}
             >
               {showPassword ? (
                 <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -161,6 +162,7 @@ const RegisterForm = () => {
               aria-label={showConfirmPassword ? t('register.hidePassword') : t('register.showPassword')}
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-agenda-purple"
+              aria-pressed={showConfirmPassword}
             >
               {showConfirmPassword ? (
                 <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -175,6 +177,8 @@ const RegisterForm = () => {
           type="submit"
           disabled={isLoading}
           className="w-full py-3 px-4 bg-agenda-purple text-white rounded-md hover:bg-agenda-light-purple focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+          aria-busy={isLoading}
+          aria-disabled={isLoading}
         >
           {isLoading ? (
             <span className="flex items-center justify-center">

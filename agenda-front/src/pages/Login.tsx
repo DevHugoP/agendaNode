@@ -106,6 +106,9 @@ const Login = () => {
               className="form-input"
               placeholder={t('login.emailPlaceholder')}
               required
+              aria-required="true"
+              aria-invalid={!!error}
+              autoComplete="email"
             />
           </div>
           <div className="form-control">
@@ -121,11 +124,16 @@ const Login = () => {
                 className="form-input"
                 placeholder={t('login.passwordPlaceholder')}
                 required
+                aria-required="true"
+                aria-invalid={!!error}
+                autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+                aria-label={showPassword ? t('login.hidePassword') : t('login.showPassword')}
+                tabIndex={0}
               >
                 {showPassword ? (
                   <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -159,6 +167,8 @@ const Login = () => {
             type="submit"
             disabled={isLoading}
             className="w-full py-3 px-4 bg-agenda-purple text-white rounded-md hover:bg-agenda-light-purple focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+            aria-busy={isLoading}
+            aria-disabled={isLoading}
           >
             {isLoading ? (
               <span className="flex items-center justify-center">

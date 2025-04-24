@@ -13,11 +13,13 @@ import { useTranslation } from 'react-i18next';
 
 const UserProfile = () => {
   const { accessToken, isAuthLoading } = useAuth();
-  if (isAuthLoading || !accessToken) return <div>Chargement sécurisé…</div>;
   const { t } = useTranslation();
+  const [editing, setEditing] = useState(false);
+
+  if (isAuthLoading || !accessToken) return <div>Chargement sécurisé…</div>;
+
   const { data, isLoading, error } = useProfile(); // ce hook ne sera monté que si le token est prêt
   const { mutateAsync: updateProfile } = useUpdateProfile();
-  const [editing, setEditing] = useState(false);
 
   // Debug pour vérifier le fetch
   // (debug log supprimé)

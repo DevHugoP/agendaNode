@@ -16,9 +16,13 @@ import { Toaster } from "sonner";
 const queryClient = new QueryClient();
 
 import type { ReactElement } from "react";
-
+import { useAutoRefreshToken } from "./hooks/useAutoRefreshToken";
 
 function App(): ReactElement {
+  useAutoRefreshToken(); // Auth ready avant routage
+  // (plus de blocage global sur isAuthLoading)
+
+  useAutoRefreshToken();
 
   return (
     <QueryClientProvider client={queryClient}>

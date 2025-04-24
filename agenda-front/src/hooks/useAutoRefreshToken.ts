@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
+import { toast } from "sonner";
 
 /**
  * Hook qui tente automatiquement de rafraîchir le accessToken au chargement de l'app
@@ -17,10 +18,11 @@ export function useAutoRefreshToken() {
   const navigate = useNavigate();
 
   const handleLogout = (message: string) => {
-    window.alert(message);
+    toast.error(message);
     setAccessToken(null);
     navigate("/login", { replace: true });
   };
+
 
   useEffect(() => {
     let cancelled = false;
@@ -38,13 +40,14 @@ export function useAutoRefreshToken() {
       }
     }, 3000);
 
-    if (accessToken) {
+    // Si le token est déjà présent (non null, non vide), on ne tente pas de refresh
+    if (accessToken && typeof accessToken === 'string' && accessToken.trim() !== '') {
       setIsAuthLoading(false);
       clearTimeout(timeout);
       return;
     }
 
-    // Tenter le refresh si pas de token
+    // Tenter le refresh uniquement si accessToken est strictement null ou vide
     if (!isRefreshing) {
       setIsRefreshing(true);
       import("../services/api").then(({ globalRefreshAccessToken }) => {

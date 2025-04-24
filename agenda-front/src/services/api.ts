@@ -14,12 +14,34 @@ declare global {
 }
 
 API.interceptors.request.use(
-  (config) => {
-    // On accède au token en mémoire Zustand
+  async (config) => {
     const accessToken = useAuth.getState().accessToken;
-    if (accessToken) {
+    const isAuthLoading = useAuth.getState().isAuthLoading;
+    // Bloquer toute requête API (hors refresh) tant que l'auth est en cours
+    if (
+      isAuthLoading &&
+      !(config.url && config.url.includes("/auth/refresh-token"))
+    ) {
+      // Attendre que l'auth soit terminée avant de continuer
+      await new Promise((resolve) => {
+        const interval = setInterval(() => {
+          if (!useAuth.getState().isAuthLoading) {
+            clearInterval(interval);
+            resolve(true);
+          }
+        }, 10);
+      });
+    }
+    if (accessToken && config.url && config.url.startsWith("/protected")) {
       config.headers = config.headers || {};
       config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    if (
+      config.url &&
+      config.url.includes("/auth/refresh-token") &&
+      import.meta.env.DEV
+    ) {
+      
     }
     return config;
   },
@@ -35,6 +57,7 @@ API.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
     // Si 401, on tente un refresh automatique
     if (
       error.response &&
@@ -42,7 +65,9 @@ API.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      // Pour éviter les refresh multiples simultanés
+      if (import.meta.env.DEV)
+        
+      // Mutex global partagé avec le hook
       if (!window.refreshPromise) {
         window.refreshPromise = API.post<{ accessToken: string }>(
           "/auth/refresh-token"
@@ -63,15 +88,31 @@ API.interceptors.response.use(
       if (newToken) {
         originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
         return API(originalRequest);
-      } else {
-        // Échec du refresh : on force la déconnexion
-        useAuth.getState().setAccessToken(null);
-        window.location.href = "/login";
-        return Promise.reject(error);
       }
     }
     return Promise.reject(error);
   }
 );
+
+// Mutex global accessible pour le hook useAutoRefreshToken
+export async function globalRefreshAccessToken() {
+  if (!window.refreshPromise) {
+    window.refreshPromise = API.post<{ accessToken: string }>(
+      "/auth/refresh-token"
+    )
+      .then((res) => {
+        useAuth.getState().setAccessToken(res.data.accessToken);
+        return res.data.accessToken;
+      })
+      .catch(() => {
+        useAuth.getState().setAccessToken(null);
+        return null;
+      })
+      .finally(() => {
+        window.refreshPromise = undefined;
+      });
+  }
+  return window.refreshPromise;
+}
 
 export default API;

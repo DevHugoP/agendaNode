@@ -15,6 +15,9 @@ import { Toaster } from "sonner";
 // Création du queryClient
 const queryClient = new QueryClient();
 
+import type { ReactElement } from "react";
+
+
 function App(): ReactElement {
 
   return (

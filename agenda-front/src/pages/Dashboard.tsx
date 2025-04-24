@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../store/auth';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Home } from "lucide-react";
@@ -21,7 +22,10 @@ const Dashboard = (): ReactElement => {
   const [isLoading, setIsLoading] = useState(true);
   const [upcomingAppointments, setUpcomingAppointments] = useState<AppointmentType[]>([]);
 
+  const { accessToken, isAuthLoading } = useAuth();
+
   useEffect(() => {
+    if (isAuthLoading || !accessToken) return;
     // Définir le message de salutation en fonction de l'heure
     const getGreeting = () => {
       const hour = new Date().getHours();

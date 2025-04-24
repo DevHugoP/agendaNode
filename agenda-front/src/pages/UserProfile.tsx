@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from '../store/auth';
 import { Pencil, Mail, Phone, MapPin, Building2, CalendarDays, CreditCard, ShieldCheck, Link2, UserRound } from "lucide-react";
 import MainLayout from "../layouts/MainLayout";
 import EditProfileForm from '../features/user/EditProfileForm';
@@ -11,8 +12,10 @@ import { useTranslation } from 'react-i18next';
 
 
 const UserProfile = () => {
+  const { accessToken, isAuthLoading } = useAuth();
+  if (isAuthLoading || !accessToken) return <div>Chargement sécurisé…</div>;
   const { t } = useTranslation();
-  const { data, isLoading, error } = useProfile();
+  const { data, isLoading, error } = useProfile(); // ce hook ne sera monté que si le token est prêt
   const { mutateAsync: updateProfile } = useUpdateProfile();
   const [editing, setEditing] = useState(false);
 

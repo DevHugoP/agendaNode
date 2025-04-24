@@ -4,10 +4,10 @@ import {
   deleteAppointment,
   getAllAppointments,
   getAppointmentById,
-} from "../controllers/appointements.controller";
+} from "../controllers/appointments.controller";
 import { authenticate } from "../middlewares/auth";
 import validate from "../middlewares/validate";
-import { createAppointmentSchema } from "../schemas/appointement.schema";
+import { createAppointmentSchema } from "../schemas/appointment.schema";
 
 const router = express.Router();
 

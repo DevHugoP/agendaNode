@@ -5,7 +5,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middlewares/errorHandler";
 import { setCurrentUser } from "./middlewares/setCurrentUser";
-import appointmentsRouter from "./routes/appointement";
+import appointmentsRouter from "./routes/appointment";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/users";
 import profileRouter from "./routes/profile";
@@ -24,9 +24,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(setCurrentUser);
 
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
-app.use("/appointments", appointmentsRouter);
+app.use("/api/appointments", appointmentsRouter);
 app.use("/api", profileRouter);
 
 app.use(errorHandler);

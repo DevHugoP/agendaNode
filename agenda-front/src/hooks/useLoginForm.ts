@@ -24,7 +24,7 @@ export interface UseLoginForm {
 export function useLoginForm(): UseLoginForm {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setToken } = useAuth();
+  const { setAccessToken } = useAuth();
   const [values, setValues] = useState<LoginFormValues>({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -49,8 +49,12 @@ export function useLoginForm(): UseLoginForm {
     }
     try {
       const res = await loginUser({ email, password });
-      localStorage.setItem('token', res.token);
-      setToken(res.token);
+      if (!res.accessToken || typeof res.accessToken !== 'string') {
+        setError('invalidToken'); // clé de traduction à ajouter
+        setIsLoading(false);
+        return;
+      }
+      setAccessToken(res.accessToken);
       navigate('/dashboard');
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

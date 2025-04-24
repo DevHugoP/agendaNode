@@ -151,7 +151,7 @@ export const login = async (
     // Cookie sécurisé
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production", // true en prod, false en dev
       sameSite: "strict",
       expires: refreshTokenExpires,
       path: "/",

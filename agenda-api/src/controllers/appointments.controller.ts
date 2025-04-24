@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma";
-import { CreateAppointmentInput } from "../schemas/appointement.schema";
+import { CreateAppointmentInput } from "../schemas/appointment.schema";
 import "../types/express-ext";
 
 export const getAllAppointments = async (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuth } from '../store/auth';
 import { HelpCircle, PlusCircle, Calendar as CalendarIc, CheckCircle2, XCircle } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { CalendarEvent } from "../types/Calendar";
@@ -138,7 +139,10 @@ function Calendar(): ReactElement {
   const [newModalKey, setNewModalKey] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { accessToken, isAuthLoading } = useAuth();
+
   useEffect(() => {
+    if (isAuthLoading || !accessToken) return;
     setIsLoading(true);
 
     // Simuler une requête API

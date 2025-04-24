@@ -2,6 +2,7 @@ import "./types/express-ext";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import cookieParser from "cookie-parser";
 import errorHandler from "./middlewares/errorHandler";
 import { setCurrentUser } from "./middlewares/setCurrentUser";
 import appointmentsRouter from "./routes/appointement";
@@ -20,6 +21,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(setCurrentUser);
 
 app.use("/auth", authRouter);

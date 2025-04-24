@@ -1,18 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import ClientsList from "./pages/ClientsList";
 import ClientDetails from "./pages/ClientDetails";
-import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Index from "./pages/Index";
-import { useAuth } from "./store/auth";
-
-function IndexRedirect(): ReactElement {
-  const { token } = useAuth();
-  if (token) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  return <Index />;
-}
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Calendar from "./pages/Calendar";
@@ -24,130 +15,37 @@ import { Toaster } from "sonner";
 // Création du queryClient
 const queryClient = new QueryClient();
 
-// Composant pour protéger les routes
-import { PropsWithChildren, ReactElement } from "react";
-
-const ProtectedRoute = ({ children }: PropsWithChildren): ReactElement | null => {
-  const { token } = useAuth();
-  
-  if (!token) {
-    return <Navigate to="/" replace />;
-  }
-  
-  return children;
-};
-
 function App(): ReactElement {
-  const { setToken } = useAuth();
-  
-  // Récupérer le token du localStorage au démarrage
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, [setToken]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster richColors position="top-right" />
       <Routes>
         {/* Routes publiques */}
-        <Route path="/" element={<IndexRedirect />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        
-        {/* Routes protégées */}
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/new-appointment" 
-          element={
-            <ProtectedRoute>
-              <NewAppointment />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/calendar" 
-          element={
-            <ProtectedRoute>
-              <Calendar />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/settings" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/sms-history" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/vouchers" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/profile" 
-          element={
-            <ProtectedRoute>
-              <UserProfile />
-            </ProtectedRoute>
-          } 
-        />
-        <Route
-          path="/sms"
-          element={
-            <ProtectedRoute>
-              <SmsHistory />
-            </ProtectedRoute>
-          }
-        />
-        <Route 
-          path="/help" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-        
 
-        <Route path="/clients" element={<ClientsList />} />
-        <Route path="/clients/:id" element={<ClientDetails />} />
-        {/* Catch-all: si connecté → dashboard, sinon → accueil */}
-        <Route path="*" element={<AuthRedirect />} />
+        {/* Routes privées */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/appointments/new" element={<NewAppointment />} />
+          <Route path="/sms-history" element={<SmsHistory />} />
+          <Route path="/clients" element={<ClientsList />} />
+          <Route path="/clients/:id" element={<ClientDetails />} />
+          <Route path="/settings" element={<Dashboard />} />
+          <Route path="/vouchers" element={<Dashboard />} />
+          <Route path="/help" element={<Dashboard />} />
+          <Route path="/sms" element={<SmsHistory />} />
+          {/* autres routes privées ici */}
+        </Route>
+        {/* Catch-all: toute route non trouvée redirige vers /login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </QueryClientProvider>
   );
-}
-
-
-// Redirige vers dashboard si connecté, sinon vers accueil
-function AuthRedirect(): ReactElement {
-  const { token } = useAuth();
-  if (token) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  return <Navigate to="/" replace />;
 }
 
 export default App;

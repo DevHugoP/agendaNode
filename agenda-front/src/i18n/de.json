@@ -47,7 +47,7 @@
     "phone": "Telefon"
   },
   "sidebar": {
-    "brand": "agenda.ch",
+    "brand": "Agenda.ch",
     "dashboard": "Dashboard",
     "calendar": "Kalender",
     "clients": "Kunden",
@@ -270,7 +270,7 @@
   "alreadyAccount": "Schon ein Konto?"
 },
 "index": {
-  "title": "agenda.ch",
+  "title": "Agenda.ch",
   "subtitle": "Terminverwaltung für Fachkräfte",
   "calendarTitle": "Kalenderverwaltung",
   "calendarDesc": "Verwalten Sie Ihre Termine einfach mit einem intuitiven und anpassbaren Kalender.",

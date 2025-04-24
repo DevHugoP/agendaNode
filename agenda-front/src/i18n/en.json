@@ -47,7 +47,7 @@
     "phone": "Phone"
   },
   "sidebar": {
-    "brand": "agenda.ch",
+    "brand": "Agenda.ch",
     "dashboard": "Dashboard",
     "calendar": "Calendar",
     "clients": "Clients",
@@ -270,7 +270,7 @@
     "alreadyAccount": "Already have an account?"
   },
   "index": {
-    "title": "agenda.ch",
+    "title": "Agenda.ch",
     "subtitle": "Appointment management for professionals",
     "calendarTitle": "Calendar management",
     "calendarDesc": "Easily manage your appointments with an intuitive and customizable calendar.",

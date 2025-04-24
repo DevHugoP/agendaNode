@@ -15,7 +15,6 @@ export function EditProfileForm() {
   const { register, handleSubmit, formState: { errors } } = useForm<UserProfile>({
     resolver: zodResolver(schema),
     defaultValues: data,
-    values: data, // pour garder le form synchro si data change
   });
 
   function onSubmit(values: UserProfile) {

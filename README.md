@@ -25,7 +25,7 @@ Plateforme SaaS de gestion de rendez-vous pour professionnels, inspirée d’age
   - React Hook Form + Zod (validation)
   - Radix UI / Shadcn (UI)
 - **Backend** :
-  - Node.js + NestJS (API REST)
+  - Node.js (API REST)
   - Prisma ORM + PostgreSQL
   - Authentification JWT
   - Stripe API (paiement)
@@ -58,7 +58,7 @@ agendaNode/
 ## 🔗 Liens internes
 
 - [Frontend (React)](./frontend/README.md)
-- [Backend (NestJS)](./backend/README.md)
+- [Backend Node](./backend/README.md)
 - [Prisma Schema](./prisma/schema.prisma)
 
 ## ✨ Fonctionnalités principales

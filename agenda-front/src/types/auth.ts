@@ -11,7 +11,13 @@ export interface RegisterFormValues {
 }
 
 export interface LoginResponse {
-  token: string;
+  accessToken: string;
+  user: {
+    id: number;
+    email: string;
+    name: string;
+    phone?: string;
+  };
 }
 
 export interface RegisterResponse {

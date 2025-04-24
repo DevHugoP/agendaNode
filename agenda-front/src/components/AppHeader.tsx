@@ -5,9 +5,10 @@ import { Bell, Search, Menu, X, User, LogOut } from "lucide-react";
 import { useAuth } from '../store/auth';
 import { useNavigate } from 'react-router-dom';
 import LanguageSelector from './LanguageSelector';
+import LogoutButton from './LogoutButton';
 
 const AppHeader = () => {
-  const { setToken } = useAuth();
+  const { setAccessToken } = useAuth();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -63,6 +64,10 @@ const AppHeader = () => {
           <div className="ml-2">
             <LanguageSelector />
           </div>
+        {/* Bouton de déconnexion */}
+        <div className="ml-2">
+          <LogoutButton />
+        </div>
         </div>
       </div>
 

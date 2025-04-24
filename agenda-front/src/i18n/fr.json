@@ -47,7 +47,7 @@
     "phone": "Téléphone"
   },
   "sidebar": {
-    "brand": "agenda.ch",
+    "brand": "Agenda.ch",
     "dashboard": "Tableau de bord",
     "calendar": "Calendrier",
     "clients": "Clients",
@@ -262,7 +262,7 @@
     "alreadyAccount": "Déjà un compte ?"
   },
   "index": {
-    "title": "agenda.ch",
+    "title": "Agenda.ch",
     "subtitle": "Gestion de rendez-vous pour professionnels",
     "calendarTitle": "Gestion de calendrier",
     "calendarDesc": "Gérez facilement vos rendez-vous avec un calendrier intuitif et personnalisable.",

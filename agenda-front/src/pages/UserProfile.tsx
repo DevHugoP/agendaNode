@@ -17,7 +17,7 @@ const UserProfile = () => {
   const [editing, setEditing] = useState(false);
 
   // Debug pour vérifier le fetch
-  console.log('PROFILE HOOK', { data, isLoading, error });
+  // (debug log supprimé)
 
   if (isLoading) return <div>Chargement…</div>;
   if (error) return <div>Erreur lors du chargement du profil</div>;

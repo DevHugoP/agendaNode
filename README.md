@@ -48,17 +48,17 @@ agendaNode/
 
 1. **Cloner le repo**
 2. Installer les dépendances :
-   - Frontend : `cd frontend && npm install`
-   - Backend : `cd backend && npm install`
+   - Frontend : `cd agenda-front && npm install`
+   - Backend : `cd agenda-api && npm install`
 3. Configurer les variables d’environnement (voir `.env.example` dans chaque dossier)
 4. Lancer la base de données (PostgreSQL)
-5. Démarrer le backend : `npm run start:dev` (dans `backend/`)
-6. Démarrer le frontend : `npm run dev` (dans `frontend/`)
+5. Démarrer le backend : `npm run dev` (dans `agenda-api/`)
+6. Démarrer le frontend : `npm run dev` (dans `agenda-front/`)
 
 ## 🔗 Liens internes
 
-- [Frontend (React)](./frontend/README.md)
-- [Backend Node](./backend/README.md)
+- [Frontend (React)](./agenda-front/README.md)
+- [Backend Node](./agenda-api/README.md)
 - [Prisma Schema](./prisma/schema.prisma)
 
 ## ✨ Fonctionnalités principales

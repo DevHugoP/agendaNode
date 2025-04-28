@@ -294,7 +294,7 @@ function Calendar(): ReactElement {
 
   return (
     <MainLayout>
-      <div className='max-w-7xl mx-auto pb-8'>
+      <div className='w-full mx-auto pb-8'>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -315,9 +315,9 @@ function Calendar(): ReactElement {
           </div>
         </motion.div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-5 gap-6'>
+        <div className='flex flex-col lg:flex-row gap-6'>
           {/* Filtres et actions */}
-          <div className='lg:col-span-1'>
+          <div className='w-full lg:w-64 shrink-0 mb-6 lg:mb-0'>
             <motion.div
               className='bg-white rounded-xl shadow-lg p-6 sticky top-0 lg:top-6 h-fit'
               initial={{ opacity: 0, x: -20 }}
@@ -433,7 +433,7 @@ function Calendar(): ReactElement {
           </div>
 
           {/* Calendrier principal */}
-          <div className='lg:col-span-4'>
+          <div className='flex-1 min-w-0'>
             <CalendarComponent
               events={filteredEvents}
               onEventClick={handleEventClick}

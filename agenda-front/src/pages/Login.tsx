@@ -42,7 +42,8 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || t('login.error'));
+const apiErrorKey = err.response?.data?.message || 'generic';
+setError(apiErrorKey);
       } else if (err instanceof Error) {
         setError(err.message);
       } else {

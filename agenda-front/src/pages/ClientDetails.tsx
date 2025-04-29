@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, CalendarDays, X, FilePlus, FileText, Download, Eye, CheckCircle, Clock } from 'lucide-react';
 
 import { useState } from 'react';
+import { PdfModal } from '../components/PdfModal';
 
 function formatDateFr(dateStr: string): string {
   if (!dateStr) return '';
@@ -37,10 +38,10 @@ export default function ClientDetails(): ReactElement {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
 
-  const handleOpenModal = (doc: Document) => {
-    setSelectedDoc(doc);
-    setOpenModal(true);
-  };
+  const handleOpenModal = (doc: { url?: string }) => {
+  setSelectedDoc(doc);
+  setOpenModal(true);
+};
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -50,6 +51,14 @@ export default function ClientDetails(): ReactElement {
   const { id } = useParams();
   const client = mockClients.find((c) => c.id === id);
   const documents = id ? mockDocuments[id] || [] : [];
+
+  // Ajout d'un bouton "Voir PDF" sur chaque document
+  // (à placer dans le tableau/liste des documents, exemple ci-dessous)
+  //
+  // <button onClick={() => handleOpenModal(doc)} className="btn btn-outline-primary">
+  //   Voir PDF
+  // </button>
+
   const invoices: Invoice[] = id ? mockInvoices[id] || [] : [];
   const pastConsults: PastConsult[] = id ? mockPastConsults[id] || [] : [];
 const upcomingConsults: UpcomingConsult[] = id ? mockUpcomingConsults[id] || [] : [];
@@ -347,14 +356,14 @@ const upcomingConsults: UpcomingConsult[] = id ? mockUpcomingConsults[id] || [] 
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
-              {/* Fausse preview PDF (iframe) */}
-              <div className="w-full h-[500px] bg-gray-100 flex items-center justify-center">
-                <iframe
-                  title={selectedDoc?.name || t('clientDetails.pdfPreview')}
-                  src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-                  className="w-full h-full border-0 rounded-b-xl"
+              {/* Nouvelle preview PDF avec react-pdf */}
+              {selectedDoc && (
+                <PdfModal
+                  isOpen={openModal}
+                  onClose={handleCloseModal}
+                  pdfUrl={selectedDoc.url && selectedDoc.url.endsWith('.pdf') ? selectedDoc.url : '/mocks/fake-client.pdf'}
                 />
-              </div>
+              )}
             </motion.div>
           </motion.div>
         )}
@@ -362,4 +371,3 @@ const upcomingConsults: UpcomingConsult[] = id ? mockUpcomingConsults[id] || [] 
     </MainLayout>
   );
 }
-

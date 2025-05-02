@@ -44,28 +44,25 @@ npm run build
 - Variables principales :
   - `VITE_API_URL` (URL de l’API backend, ex : http://localhost:3000/api)
   - `VITE_AUTH_API_URL` (URL racine pour l’authentification, ex : http://localhost:3000)
-  - `VITE_STRIPE_PUBLIC_KEY` (clé Stripe publique Stripe, ex : pk_test_...)
+  - `VITE_STRIPE_PUBLIC_KEY` (clé Stripe publique Stripe, ex : pk*test*...)
 
 **Exemple de configuration pour la production :**
-```env
+
 VITE_API_URL="https://mon-saas-backend.com/api"
 VITE_AUTH_API_URL="https://mon-saas-backend.com"
 VITE_STRIPE_PUBLIC_KEY="pk_live_XXXXXXXXXXXXXXXXXXXXXXXX"
-```
 
 ## 📁 Structure du dossier
 
-```
 agenda-front/
 ├── src/
-│   ├── pages/        # Pages principales (Dashboard, Login, etc.)
-│   ├── features/     # Fonctionnalités (auth, booking, calendar...)
-│   ├── components/   # Composants réutilisables
-│   ├── services/     # Appels API (axios)
-│   ├── hooks/        # Custom hooks
-│   ├── store/        # Zustand (état global)
-│   └── utils/        # Fonctions utilitaires
-```
+│ ├── pages/ # Pages principales (Dashboard, Login, etc.)
+│ ├── features/ # Fonctionnalités (auth, booking, calendar...)
+│ ├── components/ # Composants réutilisables
+│ ├── services/ # Appels API (axios)
+│ ├── hooks/ # Custom hooks
+│ ├── store/ # Zustand (état global)
+│ └── utils/ # Fonctions utilitaires
 
 ## ✨ Fonctionnalités principales
 

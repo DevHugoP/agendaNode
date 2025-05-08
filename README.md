@@ -5,7 +5,7 @@
  
 Plateforme SaaS de gestion de rendez-vous pour professionnels, inspirée d’agenda.ch. Permet la prise de rendez-vous en ligne, la gestion d’agenda, les paiements et rappels automatisés, avec une expérience fluide pour les clients comme pour les pros.
 
-## 🚀 Fonctionnalités principales
+## 🚀 Fonctionnalités principales prévues
 
 - Authentification des professionnels (inscription, connexion, gestion du profil)
 - Configuration des services proposés (nom, durée, prix, description, lieu)
@@ -76,15 +76,7 @@ agendaNode/
 2. Crée une branche (`feat/ma-feature`)
 3. PR bienvenue !
 
-## 📄 Licence
-
-MIT
-
-## 📞 Contact
-
-Pour toute question, ouvre une issue ou contacte le mainteneur du projet.
-
-## 🚀 Fonctionnalités
+## 🚀 Fonctionnalités prévues
 
 - 📅 Calendrier interactif avec vue jour/semaine/mois
 - 👤 Gestion des utilisateurs (médecins et patients)
@@ -179,18 +171,4 @@ agenda/
     └── .env             # Variables d'environnement
 ```
 
-## 🤝 Contribution
 
-1. Fork le projet
-2. Créer une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
-3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 📞 Contact
-
-Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue sur GitHub.

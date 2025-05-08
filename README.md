@@ -106,48 +106,6 @@ agendaNode/
 - Node.js (v18 ou supérieur)
 - npm ou yarn
 
-## 🔧 Installation
-
-1. Cloner le repository
-
-```bash
-git clone [URL_DU_REPO]
-```
-
-2. Installer les dépendances du frontend
-
-```bash
-cd agenda-front
-npm install
-```
-
-3. Installer les dépendances du backend
-
-```bash
-cd agenda-api
-npm install
-```
-
-4. Créer un fichier `.env` dans le dossier backend avec les variables suivantes :
-
-```
-PORT=3000
-JWT_SECRET=votre_secret_jwt
-```
-
-5. Lancer le backend
-
-```bash
-cd agenda-api
-npm run dev
-```
-
-6. Lancer le frontend
-
-```bash
-cd agenda-front
-npm run dev
-```
 
 ## 📝 Structure du Projet
 

@@ -64,48 +64,6 @@ agendaNode/
 - [Backend Node](./agenda-api/README.md)
 - [Prisma Schema](./prisma/schema.prisma)
 
-## ✨ Fonctionnalités principales
-
-- Auth pro, config de services, dispos récurrentes
-- Réservation publique, paiement Stripe
-- Dashboard agenda, rappels email, sync Google Calendar
-
-## 🤝 Contribution
-
-1. Fork/clone le repo
-2. Crée une branche (`feat/ma-feature`)
-3. PR bienvenue !
-
-## 🚀 Fonctionnalités prévues
-
-- 📅 Calendrier interactif avec vue jour/semaine/mois
-- 👤 Gestion des utilisateurs (médecins et patients)
-- 🔐 Authentification sécurisée
-- 📱 Interface responsive
-- 🎨 Design moderne avec Tailwind CSS
-- 📊 Tableau de bord avec statistiques
-
-## 🛠️ Technologies
-
-- Frontend:
-
-  - React
-  - TypeScript
-  - Tailwind CSS
-  - FullCalendar
-  - React Router
-  - Zustand (gestion d'état)
-
-- Backend:
-  - Node.js
-  - Express
-  - JWT (authentification)
-
-## 📋 Prérequis
-
-- Node.js (v18 ou supérieur)
-- npm ou yarn
-
 
 ## 📝 Structure du Projet
 

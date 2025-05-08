@@ -1,5 +1,7 @@
 # AgendaNode
 
+(ce projet est un projet personnel ayant pour but unique de m'entrainer sur certaines technos)
+ 
 Plateforme SaaS de gestion de rendez-vous pour professionnels, inspirée d’agenda.ch. Permet la prise de rendez-vous en ligne, la gestion d’agenda, les paiements et rappels automatisés, avec une expérience fluide pour les clients comme pour les pros.
 
 ## 🚀 Fonctionnalités principales
